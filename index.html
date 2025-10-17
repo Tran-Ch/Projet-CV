@@ -1,0 +1,75 @@
++72
+-0
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chuong Tran · Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="signature" aria-hidden="true">
+        <span class="signature__line">
+            <span class="signature__segment signature__segment--left">
+                <span class="signature__bracket">&lt;</span>
+                <span class="signature__name">ChuongTran</span>
+            </span>
+            <span class="signature__middle">
+                <span class="signature__attr"> onClick</span>
+                <span class="signature__equals">=</span>
+                <span class="signature__brace">{</span>
+                <span class="signature__handler" role="button" tabindex="0">reload</span>
+                <span class="signature__brace">}</span>
+            </span>
+            <span class="signature__segment signature__segment--right">
+                <span class="signature__slash">/</span>
+                <span class="signature__bracket">&gt;</span>
+            </span>
+        </span>
+    </div>
+
+    <div class="background">
+        <canvas id="starfield"></canvas>
+        <div class="bg-gradient bg-gradient--one" style="--parallax-depth: 0.45;"></div>
+        <div class="bg-gradient bg-gradient--two" style="--parallax-depth: -0.25;"></div>
+        <div class="bg-gradient bg-gradient--three" style="--parallax-depth: 0.15;"></div>
+        <div class="bg-rings" aria-hidden="true">
+            <div class="ring ring--one"></div>
+            <div class="ring ring--two"></div>
+            <div class="ring ring--three"></div>
+        </div>
+        <div class="grain"></div>
+    </div>
+
+    <main class="hero">
+        <header class="hero__content">
+            <h1 class="hero__title">
+                <span class="hero__title-primary">CHUONG</span>
+                <span class="hero__title-highlight">TRAN</span>
+            </h1>
+            <p class="hero__lead">Web Application Developer junior</p>
+            <div class="hero__actions">
+                <a href="#" class="button button--primary">Xem dự án</a>
+                <a href="#" class="button button--ghost">Liên hệ</a>
+            </div>
+        </header>
+
+        <div class="hero__meta">
+            <div class="hero__divider" aria-hidden="true"></div>
+            <p class="hero__location">Montréal, Canada · Sẵn sàng hợp tác tự do</p>
+        </div>
+
+        <div class="scroll-indicator" aria-hidden="true">
+            <span class="scroll-indicator__label">Scroll</span>
+            <div class="scroll-indicator__wheel"></div>
+        </div>
+    </main>
+
+    <script src="main.js" defer></script>
+</body>
+</html>
