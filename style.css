@@ -131,7 +131,7 @@ body {
 /* Hero container chứa logo và text */
 .hero__logos {
     position: relative;
-    width: clamp(480px, 45vw, 680px);
+    width: 100vw;
     height: clamp(320px, 38vw, 560px);
     margin: 0 auto;
     display: flex;
@@ -154,10 +154,10 @@ body {
 
 /* Khi logo tách ra hai bên */
 .logo-container-left.move-left {
-    transform: translate(calc(-50% - 13vw), -50%);
+    transform: translate(calc(-50% - 32vw), -50%);
 }
 .logo-container-right.move-right {
-    transform: translate(calc(-50% + 13vw), -50%);
+    transform: translate(calc(-50% + 32vw), -50%);
 }
 
 /* SVG logo */
@@ -177,15 +177,35 @@ body {
 /* TEXT INSIDE LOGO */
 .hero__text-inside {
     position: absolute;
-    top: 50%;
+    top: 60%;
     left: 50%;
-    transform: translate(-50%, -40%);
+    transform: translate(-50%, -60%);
     text-align: center;
     width: 70%;
     max-width: 380px;
     opacity: 0;
     transition: opacity 1.2s ease-in-out, transform 1.2s ease-out;
     pointer-events: none; /* tránh cản logo */
+}
+
+.hero__text-inside *{
+    font-size: 1.7em;
+}
+
+@media screen and (max-width: 600px) {
+    .hero__text-inside {
+        top: 55%;
+    }
+
+    .hero__text-inside * {
+        font-size: 1.4em;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .hero__text-inside * {
+        font-size: 1em;
+    }
 }
 
 /* Khi hiển thị */

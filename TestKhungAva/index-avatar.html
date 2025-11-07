@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chỉnh tam giác bo cong</title>
+  <style>
+    body {
+      background: #0a1635;
+      color: #f2f6ff;
+      font-family: sans-serif;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    svg {
+      border: 1px solid #5CC6FF;
+      background: #030513;
+      margin-bottom: 1rem;
+    }
+
+    .handle { 
+      fill: #C07BFF; 
+      cursor: move;
+      transition: r 0.2s, fill 0.2s;
+    }
+    .handle:hover { 
+      r: 8;
+      fill: #FF6B6B;
+    }
+    .curve { 
+      fill: #5CC6FF; 
+      cursor: pointer;
+      transition: r 0.2s, fill 0.2s;
+    }
+    .curve:hover { 
+      r: 8;
+      fill: #4ECDC4;
+    }
+    .corner { 
+      fill: #FFD700; 
+      cursor: ns-resize;
+      transition: r 0.2s, fill 0.2s;
+    }
+    .corner:hover { 
+      r: 8;
+      fill: #FFA500;
+    }
+    
+    /* Add labels for better identification */
+    .control-label {
+      font-size: 12px;
+      fill: white;
+      text-anchor: middle;
+      pointer-events: none;
+      font-weight: bold;
+      text-shadow: 0 0 3px #000;
+    }
+
+    textarea {
+      width: 100%;
+      max-width: 600px;
+      height: 80px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      padding: 0.5rem;
+      border-radius: 6px;
+      border: 1px solid #5CC6FF;
+      background: #030513;
+      color: #f2f6ff;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Chỉnh tam giác bo cong trực tiếp</h2>
+
+<svg id="svgCanvas" width="400" height="400">
+  <!-- Main triangle path -->
+  <path id="trianglePath" fill="rgba(92, 198, 255, 0.2)" stroke="#5CC6FF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- Triangle vertices -->
+  <circle id="p1" class="handle" r="6" />
+  <circle id="p2" class="handle" r="6" />
+  <circle id="p3" class="handle" r="6" />
+
+  <!-- Curve control points -->
+  <line id="c1-line" stroke="#5CC6FF" stroke-width="1" stroke-dasharray="3,3" />
+  <line id="c2-line" stroke="#5CC6FF" stroke-width="1" stroke-dasharray="3,3" />
+  <line id="c3-line" stroke="#5CC6FF" stroke-width="1" stroke-dasharray="3,3" />
+  
+  <circle id="c12" class="curve" r="6" />
+  <circle id="c23" class="curve" r="6" />
+  <circle id="c31" class="curve" r="6" />
+
+  <!-- Corner radius controls -->
+  <circle id="r1" class="corner" r="6" />
+  <circle id="r2" class="corner" r="6" />
+  <circle id="r3" class="corner" r="6" />
+</svg>
+
+<textarea id="pathOutput" readonly></textarea>
+
+<script>
+  const svg = document.getElementById("svgCanvas");
+  const path = document.getElementById("trianglePath");
+  const output = document.getElementById("pathOutput");
+
+  // Initialize with dynamic positions based on window size
+  const svgRect = svg.getBoundingClientRect();
+  const centerX = svgRect.width / 2;
+  const centerY = svgRect.height / 2;
+  const radius = Math.min(centerX, centerY) * 0.8;
+  
+  const points = {
+    p1: { x: centerX, y: centerY - radius * 0.8 },
+    p2: { x: centerX + radius * 0.9, y: centerY + radius * 0.5 },
+    p3: { x: centerX - radius * 0.9, y: centerY + radius * 0.5 }
+  };
+  
+  // Initialize curve control points
+  const curves = {
+    c12: { 
+      x: (points.p1.x + points.p2.x) / 2 + (points.p3.y - points.p1.y) * 0.3,
+      y: (points.p1.y + points.p2.y) / 2 - (points.p3.x - points.p1.x) * 0.3 
+    },
+    c23: { 
+      x: (points.p2.x + points.p3.x) / 2 - (points.p2.y - points.p1.y) * 0.3,
+      y: (points.p2.y + points.p3.y) / 2 + (points.p2.x - points.p1.x) * 0.3 
+    },
+    c31: { 
+      x: (points.p3.x + points.p1.x) / 2 + (points.p2.y - points.p1.y) * 0.3,
+      y: (points.p3.y + points.p1.y) / 2 - (points.p2.x - points.p1.x) * 0.3 
+    }
+  };
+  
+  // Initialize corner radius
+  const corners = {
+    r1: 30,
+    r2: 30,
+    r3: 30
+  };
+  
+  // Update control point positions
+  function updateControlPoints() {
+    // Update curve control lines
+    document.getElementById('c1-line').setAttribute('x1', points.p1.x);
+    document.getElementById('c1-line').setAttribute('y1', points.p1.y);
+    document.getElementById('c1-line').setAttribute('x2', curves.c12.x);
+    document.getElementById('c1-line').setAttribute('y2', curves.c12.y);
+    
+    document.getElementById('c2-line').setAttribute('x1', points.p2.x);
+    document.getElementById('c2-line').setAttribute('y1', points.p2.y);
+    document.getElementById('c2-line').setAttribute('x2', curves.c23.x);
+    document.getElementById('c2-line').setAttribute('y2', curves.c23.y);
+    
+    document.getElementById('c3-line').setAttribute('x1', points.p3.x);
+    document.getElementById('c3-line').setAttribute('y1', points.p3.y);
+    document.getElementById('c3-line').setAttribute('x2', curves.c31.x);
+    document.getElementById('c3-line').setAttribute('y2', curves.c31.y);
+    
+    }
+
+  function update() {
+    // Update control points and labels
+    updateControlPoints();
+    const { p1, p2, p3 } = points;
+    const { c12, c23, c31 } = curves;
+
+    const r1 = corners.r1;
+    const r2 = corners.r2;
+    const r3 = corners.r3;
+
+    function rounded(pA, pB, pC, r) {
+      const v1 = { x: pA.x - pB.x, y: pA.y - pB.y };
+      const v2 = { x: pC.x - pB.x, y: pC.y - pB.y };
+      const len1 = Math.hypot(v1.x, v1.y);
+      const len2 = Math.hypot(v2.x, v2.y);
+      const v1n = { x: v1.x / len1, y: v1.y / len1 };
+      const v2n = { x: v2.x / len2, y: v2.y / len2 };
+      const angle = Math.acos(v1n.x * v2n.x + v1n.y * v2n.y) / 2;
+      const tan = Math.tan(angle);
+      const segment = Math.min(r / tan, len1 / 2, len2 / 2);
+      const p1 = { x: pB.x + v1n.x * segment, y: pB.y + v1n.y * segment };
+      const p2 = { x: pB.x + v2n.x * segment, y: pB.y + v2n.y * segment };
+      return { p1, p2, arc: `A ${r} ${r} 0 0 1 ${p2.x} ${p2.y}` };
+    }
+
+    const g1 = rounded(p3, p1, p2, r1);
+    const g2 = rounded(p1, p2, p3, r2);
+    const g3 = rounded(p2, p3, p1, r3);
+
+    const d = `
+      M ${g1.p1.x} ${g1.p1.y}
+      ${g1.arc}
+      C ${c12.x} ${c12.y} ${c12.x} ${c12.y} ${g2.p1.x} ${g2.p1.y}
+      ${g2.arc}
+      C ${c23.x} ${c23.y} ${c23.x} ${c23.y} ${g3.p1.x} ${g3.p1.y}
+      ${g3.arc}
+      C ${c31.x} ${c31.y} ${c31.x} ${c31.y} ${g1.p1.x} ${g1.p1.y}
+      Z`;
+
+    path.setAttribute("d", d.trim());
+    output.value = d.trim();
+
+    // Cập nhật điểm
+    for (let id in points) {
+      const el = document.getElementById(id);
+      el.setAttribute("cx", points[id].x);
+      el.setAttribute("cy", points[id].y);
+    }
+
+    for (let id in curves) {
+      const el = document.getElementById(id);
+      el.setAttribute("cx", curves[id].x);
+      el.setAttribute("cy", curves[id].y);
+    }
+
+    for (let id in corners) {
+      const pid = "p" + id[1];
+      const el = document.getElementById(id);
+      el.setAttribute("cx", points[pid].x);
+      el.setAttribute("cy", points[pid].y - corners[id]);
+    }
+  }
+
+  let dragging = null;
+  svg.addEventListener("mousedown", e => {
+    if (e.target.classList.contains("handle") || e.target.classList.contains("curve") || e.target.classList.contains("corner")) {
+      dragging = e.target.id;
+    }
+  });
+
+  svg.addEventListener("mousemove", e => {
+    if (dragging) {
+      const rect = svg.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      if (points[dragging]) {
+        points[dragging].x = x;
+        points[dragging].y = y;
+      } else if (curves[dragging]) {
+        curves[dragging].x = x;
+        curves[dragging].y = y;
+      } else if (corners[dragging]) {
+        const pid = "p" + dragging[1];
+        const dy = points[pid].y - y;
+        corners[dragging] = Math.max(5, Math.min(80, dy));
+      }
+
+      update();
+    }
+  });
+
+  svg.addEventListener("mouseup", () => dragging = null);
+  svg.addEventListener("mouseleave", () => dragging = null);
+
+  update();
+</script>
+
+</body>
+</html>
+
+M 207.9746583722198 125.18620555580382
+      A 36.020835876464844 36.020835876464844 0 0 1 261.174165527136 136.36223585779288
+      C 298.33331298828125 187.16666412353516 298.33331298828125 187.16666412353516 330.2292489321012 260.1864108132516
+      A 30 30 0 0 1 299.29899488655866 304.4232338241638
+      C 208.33331298828125 296.16666412353516 208.33331298828125 296.16666412353516 127.89889836809878 277.0611702233253
+      A 43 43 0 0 1 108.72516301165925 200.31363161076143
+      C 147.33331298828125 165.16666412353516 147.33331298828125 165.16666412353516 207.9746583722198 125.18620555580382
+      Z

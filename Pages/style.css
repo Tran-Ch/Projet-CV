@@ -1,0 +1,349 @@
+/* ========================
+   FIXED NAVBAR VÀ NÚT LUÔN Ở ĐẦU TRANG
+   ======================== */
+
+/* Navbar cố định trên cùng, sát mép trên */
+.top-nav {
+    position: fixed;
+    top: 0; /* sát trên */
+    left: 0;
+    width: 100%;
+    padding: 0 2rem; /* padding trên/bottom = 0 để sát mép, giữ left/right */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    backdrop-filter: blur(12px);
+    background: rgba(10, 15, 30, 0.45);
+
+    z-index: 999; /* luôn nổi trên các phần khác */
+}
+
+/* Menu trong navbar luôn nổi trên nội dung */
+.navbar-collapse {
+    z-index: 1000;
+}
+
+/* Xoá khoảng cách mặc định để navbar sát trên */
+body, main {
+    padding-top: 0; /* không tạo khoảng trống phía trên */
+}
+
+/* Nút và menu trong navbar luôn hiển thị */
+.nav-bordered, .nav-btn {
+    position: relative;
+    z-index: 1001; /* luôn nổi trên các hiệu ứng background */
+}
+
+/* ========================
+   PHẦN CSS GỐC CỦA BẠN
+   ======================== */
+
+:root {
+    --bg-base: #030513;
+    --bg-secondary: #0a1635;
+    --accent: #6dd5ff;
+    --accent-secondary: #e674ff;
+    --text-primary: #f2f6ff;
+    --text-muted: rgba(242, 246, 255, 0.65);
+    --button-bg: rgba(18, 28, 60, 0.65);
+    --button-border: rgba(255, 255, 255, 0.22);
+    --pointer-x: 0px;
+    --pointer-y: 0px;
+
+    /* Capsule timings */
+    --outline-duration: 2.6s;
+    --inner-duration: 1.8s;
+    --ease: cubic-bezier(.66,.03,.23,.99);
+    --arrow-delay: calc(var(--outline-duration) + var(--inner-duration) + .05s);
+}
+
+/* Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+
+/* ✅ HIỆU ỨNG NỀN (GIỮ NGUYÊN GHI CHÚ, KHÔNG ĐỤNG VÀO BẤT CỨ HỆ THỐNG KHÁC) */
+body {
+    font-family: "Inter", "Segoe UI", sans-serif;
+    color: var(--text-primary);
+
+    /* ✅ NỀN LẤY TỪ ĐOẠN CODE ĐẦU - GIỮ Y NGUYÊN */
+    background: radial-gradient(circle at 18% 20%, rgba(26,123,255,0.25), transparent 55%),
+                radial-gradient(circle at 82% 10%, rgba(142,81,255,0.3), transparent 60%),
+                linear-gradient(160deg, var(--bg-base), var(--bg-secondary) 45%, #020410 100%);
+    overflow: hidden;
+}
+
+/* ✅ LỚP NỀN SAO LẤY NGUYÊN BẢN GỐC (KHÔNG SỜ VÀO LOGIC KHÁC) */
+.background { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
+#starfield { 
+    position: absolute; 
+    inset: 0; 
+    width: 100%; 
+    height: 100%; 
+    mix-blend-mode: screen; 
+    opacity: 0.4; 
+}
+
+/* HERO */
+.hero {
+    min-height: 100vh;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center; 
+    text-align: center; 
+    gap: 3rem;
+}
+.hero__content { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  gap: 1rem; 
+}
+
+/* Buttons */
+.button {
+    display: inline-block; 
+    padding: 0.6rem 1.4rem;
+    border-radius: 4px; 
+    text-decoration: none; 
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.button--primary {
+    background: linear-gradient(90deg, var(--accent), var(--accent-secondary)); color: #fff;
+}
+
+.button--primary:hover { 
+  opacity: 0.9; 
+  transform: scale(1.05); 
+}
+
+.button--ghost {
+    border: 1px solid var(--button-border);
+    background: var(--button-bg); 
+    color: var(--text-primary);
+}
+
+.button--ghost:hover { 
+  border-color: var(--accent); 
+  color: var(--accent); 
+}
+
+/* ===== Capsule Button Animation (scoped) ===== */
+.capsule-demo {
+  position: fixed;
+  bottom: -250px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.17);  
+  transform-origin: top center;
+
+  width: 220px;
+  height: 360px;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.capsule-demo .capsule-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transform: rotate(0deg);
+  transform-origin: 50% 50%;
+  transform-box: fill-box;
+}
+
+/* Vòng trắng */
+.capsule-demo .capsule {
+  fill: none;
+  stroke: #e9eef2;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: var(--cap-len, 1);
+  stroke-dashoffset: var(--cap-len, 1);
+  animation: capsule_draw-outline var(--outline-duration) var(--ease) forwards;
+  filter: drop-shadow(0 2px 10px rgba(0,0,0,.25));
+}
+
+/* Đường xanh */
+.capsule-demo .inner {
+  fill: none;
+  stroke: #1fb6ff;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: var(--inner-len, 1);
+  stroke-dashoffset: var(--inner-len, 1);
+  opacity: 0;
+  animation:
+    capsule_fade-in .01s linear forwards var(--outline-duration),
+    capsule_draw-inner var(--inner-duration) var(--ease) forwards calc(var(--outline-duration) + .05s),
+    capsule_fade-out .25s ease forwards var(--arrow-delay);
+  filter: drop-shadow(0 2px 8px rgba(31,182,255,.3));
+}
+
+/* Mũi tên */
+.capsule-demo .arrow {
+  stroke: #1fb6ff;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 2px 8px rgba(31,182,255,.3));
+  opacity: 0;
+  transform-origin: center;
+}
+.capsule-demo .arrow line {
+  stroke-dasharray: var(--len, 1);
+  stroke-dashoffset: var(--len, 1);
+}
+
+/* Keyframes */
+@keyframes capsule_draw-outline { to { stroke-dashoffset: 0; } }
+@keyframes capsule_draw-inner   { to { stroke-dashoffset: 0; } }
+@keyframes capsule_fade-in      { to { opacity: 1; } }
+@keyframes capsule_fade-out     { to { opacity: 0; } }
+@keyframes capsule_line-draw    { to { stroke-dashoffset: 0; } }
+@keyframes capsule_bounce-twice {
+  0% { transform: translateY(0); }
+  25% { transform: translateY(-8px); }
+  50% { transform: translateY(0); }
+  75% { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+
+/* Dong nut dieu huong */
+.hero__actions--secondary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.hero__actions--secondary .button {
+  background: var(--button-bg);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.hero__actions--secondary .button:hover {
+  background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+  color: #fff;
+  transform: scale(1.08);
+}
+
+/* Menu căn giữa */
+.top-nav .nav-inner {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    z-index: 5;
+}
+
+/* Logo */
+.nav-logos {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    position: relative;
+    margin-left: 2rem;
+    margin-right: auto;
+    margin-top: 0; /* sát trên */
+}
+
+.logo-container-left {
+    width: 45px;
+    height: 45px;
+    position: relative;
+    z-index: 1;
+}
+
+.logo-container-right {
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+}
+
+/* Khi thu nhỏ màn hình */
+/* Khi thu nhỏ màn hình, navbar vẫn hiển thị */
+@media (max-width: 600px) {
+  .nav-logos {
+    display: flex; /* vẫn hiện logo */
+    margin-left: 1rem;
+  }
+
+  .navbar-nav {
+    flex-direction: column; /* menu xếp dọc nếu cần */
+    gap: 0.5rem;
+  }
+
+  .navbar-collapse {
+    background: rgba(10, 15, 30, 0.85); /* nền menu khi mở */
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  
+  .navbar-toggler {
+    display: block; /* nút bật menu vẫn hiện */
+  }
+}
+
+
+/* Nút điều hướng có khung bao quanh */
+.nav-bordered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.75rem;   /* nhỏ hơn */
+  border: 2px solid var(--accent);
+  border-radius: 6px;
+  background-color: var(--button-bg);
+  color: var(--accent);
+  font-weight: 500;
+  font-size: 0.8rem;           /* chữ nhỏ hơn */
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  min-width: 80px;             /* nút nhỏ lại */
+}
+
+.nav-bordered:hover {
+  background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* ✅ Style nút có khung bao */
+.nav-btn {
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    padding: 8px 18px;
+    border: 2px solid rgba(255,255,255,0.6);
+    border-radius: 12px;
+    color: white !important;
+    transition: 0.25s ease;
+}
+
+/* ✅ Hiệu ứng hover */
+.nav-btn:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: white;
+    backdrop-filter: blur(4px);
+}
