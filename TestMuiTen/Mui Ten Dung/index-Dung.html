@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Capsule Button Animation</title>
+<style>
+  :root {
+    --outline-duration: 2.6s;
+    --inner-duration: 1.8s;
+    --ease: cubic-bezier(.66,.03,.23,.99);
+    --arrow-delay: calc(var(--outline-duration) + var(--inner-duration) + .05s);
+    background: #0e1a21;
+  }
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  }
+  .wrap { position: relative; width: 220px; height: 360px; }
+  svg { display: block; width: 100%; height: 100%; overflow: visible; }
+
+  .capsule {
+    fill: none; stroke: #e9eef2; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: var(--cap-len, 1); stroke-dashoffset: var(--cap-len, 1);
+    animation: draw-outline var(--outline-duration) var(--ease) forwards;
+    filter: drop-shadow(0 2px 10px rgba(0,0,0,.25));
+  }
+
+  .inner {
+    fill: none; stroke: #1fb6ff; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: var(--inner-len, 1); stroke-dashoffset: var(--inner-len, 1);
+    opacity: 0;
+    animation:
+      fade-in .01s linear forwards var(--outline-duration),
+      draw-inner var(--inner-duration) var(--ease) forwards calc(var(--outline-duration) + .05s),
+      fade-out .25s ease forwards var(--arrow-delay);
+    filter: drop-shadow(0 2px 8px rgba(31,182,255,.3));
+  }
+
+  .arrow {
+    stroke: #1fb6ff; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round;
+    filter: drop-shadow(0 2px 8px rgba(31,182,255,.3));
+    opacity: 0;
+    transform-origin: center;
+  }
+  .arrow line {
+    stroke-dasharray: var(--len, 1);
+    stroke-dashoffset: var(--len, 1);
+  }
+
+  /* === Keyframes === */
+  @keyframes draw-outline { to { stroke-dashoffset: 0; } }
+  @keyframes draw-inner   { to { stroke-dashoffset: 0; } }
+  @keyframes fade-in      { to { opacity: 1; } }
+  @keyframes fade-out     { to { opacity: 0; } }
+  @keyframes line-draw    { to { stroke-dashoffset: 0; } }
+
+  /* Nhún 2 lần cho cả nhóm mũi tên (bạn đang có 2 bản trùng — nên giữ 1 bản thôi) */
+  @keyframes bounce-twice {
+    0%   { transform: translateY(0); }
+    25%  { transform: translateY(-8px); }
+    50%  { transform: translateY(0); }
+    75%  { transform: translateY(-4px); }
+    100% { transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <svg viewBox="0 0 200 340">
+      <path id="capsule" class="capsule"
+        d="M 100,10 A 70,70 0 0 1 170,80 L 170,260 A 70,70 0 0 1 100,330 A 70,70 0 0 1 30,260 L 30,80 A 70,70 0 0 1 100,10 Z" />
+
+      <path id="inner" class="inner" transform="translate(-14,0)"
+        d="M 77 20 
+           C 157 40 137 70 97 110 
+           C 114 113 120 111 113 137 
+           C 105 160 104 224 105 280" />
+
+      <g id="downArrow" class="arrow">
+        <line x1="100" y1="242" x2="100" y2="282" />
+        <line x1="80"  y1="266" x2="100" y2="286" />
+        <line x1="120" y1="266" x2="100" y2="286" />
+      </g>
+    </svg>
+    <!-- ĐÃ XÓA nút Replay -->
+  </div>
+
+<script>
+  const cap   = document.getElementById('capsule');
+  const inner = document.getElementById('inner');
+  const arrow = document.getElementById('downArrow');
+
+  function primeLengths() {
+    const capLen   = cap.getTotalLength();
+    const innerLen = inner.getTotalLength();
+    cap.style.setProperty('--cap-len', capLen);
+    inner.style.setProperty('--inner-len', innerLen);
+  }
+
+  // Vẽ mũi tên trái → giữa → phải, rồi NHÚN 2 lần và lặp lại toàn bộ
+  function prepArrowDraw() {
+    const lines = Array.from(arrow.querySelectorAll('line'));
+
+    // reset + chuẩn bị dash
+    for (const ln of lines) {
+      const len = ln.getTotalLength();
+      ln.style.setProperty('--len', len);
+      ln.style.strokeDasharray = String(len);
+      ln.style.strokeDashoffset = String(len);
+      ln.style.animation = 'none';
+    }
+
+    // Thứ tự trái -> giữa -> phải
+    lines.sort((a, b) => {
+      const ax = Math.min(a.x1.baseVal.value, a.x2.baseVal.value);
+      const bx = Math.min(b.x1.baseVal.value, b.x2.baseVal.value);
+      return ax - bx;
+    });
+
+    // Thời điểm bắt đầu (sau outline + inner)
+    const rs = getComputedStyle(document.documentElement);
+    const tOutline = parseFloat(rs.getPropertyValue('--outline-duration')) || 0;
+    const tInner   = parseFloat(rs.getPropertyValue('--inner-duration')) || 0;
+    const baseDelay = tOutline + tInner + 0.05;
+
+    arrow.style.opacity = 1;
+    arrow.style.animation = 'none'; // reset nhún
+
+    // Vẽ các nét với stagger
+    const segDur = 0.28;       // thời gian vẽ mỗi nét
+    const stagger = 0.08;      // trễ giữa các nét
+    lines.forEach((ln, i) => {
+      const delay = baseDelay + i * stagger;
+      ln.style.animation = `line-draw ${segDur}s ease-out forwards ${delay}s`;
+    });
+
+    // Tính chính xác thời điểm các nét vẽ xong → bắt đầu nhún
+    const lastFinish = baseDelay + (lines.length - 1) * stagger + segDur;
+    const bounceDur  = 0.8; // tổng thời gian nhún 2 lần
+
+    // Gán animation nhún cho cả nhóm
+    arrow.style.animation = `bounce-twice ${bounceDur}s ease-in-out ${lastFinish}s 1 forwards`;
+
+    // Khi nhún xong → gọi replay() để LẶP
+    arrow.onanimationend = (e) => {
+      if (e.animationName === 'bounce-twice') {
+        setTimeout(replay, 60);
+      }
+    };
+  }
+
+  function alignInnerToArrow(targetX = 100, targetY = 284, fine = {dx:0, dy:0}) {
+    inner.removeAttribute('transform'); // đo chính xác trước khi dịch
+
+    const L   = inner.getTotalLength();
+    const P1  = inner.getPointAtLength(Math.max(0, L - 0.01));
+    const P2  = inner.getPointAtLength(L);
+
+    let ux = P2.x - P1.x, uy = P2.y - P1.y;
+    const norm = Math.hypot(ux, uy) || 1;
+    ux /= norm; uy /= norm;
+
+    const sw  = parseFloat(getComputedStyle(inner).strokeWidth) || 6;
+    const capComp = sw / 2;
+
+    const visualEndX = P2.x + ux * capComp;
+    const visualEndY = P2.y + uy * capComp;
+
+    const dx = (targetX - visualEndX) + (fine.dx || 0);
+    const dy = (targetY - visualEndY) + (fine.dy || 0);
+
+    inner.setAttribute('transform', `translate(${dx}, ${dy})`);
+    primeLengths();
+  }
+
+  function replay() {
+    // Reset outline + inner CSS animations
+    cap.style.animation = 'none';
+    inner.style.animation = 'none';
+
+    // Reset dash/opacity
+    cap.style.strokeDashoffset   = cap.style.getPropertyValue('--cap-len');
+    inner.style.strokeDashoffset = inner.style.getPropertyValue('--inner-len');
+    inner.style.opacity = 0;
+
+    // Reset arrow (ẩn, bỏ mọi animation)
+    arrow.style.opacity = 0;
+    arrow.style.animation = 'none';
+    for (const ln of arrow.querySelectorAll('line')) ln.style.animation = 'none';
+
+    // Reflow để reset thực sự
+    void cap.getBoundingClientRect();
+
+    // Chạy lại viền + đường xanh như bạn đang dùng
+    cap.style.animation = `draw-outline var(--outline-duration) var(--ease) forwards`;
+    inner.style.animation =
+      `fade-in .01s linear forwards var(--outline-duration),
+       draw-inner var(--inner-duration) var(--ease) forwards calc(var(--outline-duration) + .05s),
+       fade-out .25s ease forwards calc(var(--outline-duration) + var(--inner-duration) + .05s)`;
+
+    // Vẽ mũi tên + nhún + tự lặp
+    prepArrowDraw();
+  }
+
+  // Khởi tạo
+  primeLengths();
+  alignInnerToArrow(100, 284);
+  // ĐÃ GỠ listener của nút Replay vì không còn nút
+  replay(); // vẫn tự chạy vòng đầu tiên
+</script>
+
+</body>
+</html>

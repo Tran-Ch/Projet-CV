@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio">
+    <title>Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="background">
+        <canvas id="starfield"></canvas>
+        <div class="bg-gradient bg-gradient--one" style="--parallax-depth: 0.45;"></div>
+        <div class="bg-gradient bg-gradient--two" style="--parallax-depth: -0.25;"></div>
+        <div class="bg-gradient bg-gradient--three" style="--parallax-depth: 0.15;"></div>
+        <div class="bg-rings" aria-hidden="true">
+            <div class="ring ring--one"></div>
+            <div class="ring ring--two"></div>
+            <div class="ring ring--three"></div>
+        </div>
+        <div class="grain"></div>
+    </div>
+
+    <main class="hero">
+        <header class="hero__content">
+            <div class="hero__actions hero__actions--secondary">
+                <a href="#" class="button button--ghost">ACCUEIL</a>
+                <a href="#" class="button button--ghost">COMPÉTENCES</a>
+                <a href="#" class="button button--ghost">FORMATION</a>
+                <a href="#" class="button button--ghost">PORTFOLIO</a>
+                <a href="#" class="button button--ghost">CONTACT</a>
+            </div>
+
+
+            <!-- Capsule Button Animation -->
+            <div class="capsule-demo" aria-hidden="true">
+                <svg class="capsule-svg" viewBox="0 0 200 340" role="img" aria-label="Animated capsule with inner path">
+                    <path id="capsule" class="capsule"
+                          d="M 100,10
+                             A 70,70 0 0 1 170,80
+                             L 170,260
+                             A 70,70 0 0 1 100,330
+                             A 70,70 0 0 1 30,260
+                             L 30,80
+                             A 70,70 0 0 1 100,10
+                             Z" />
+                    <path id="inner" class="inner" transform="translate(-14,0)"
+                          d="M 77 20
+                             C 157 40 137 70 97 110
+                             C 114 113 120 111 113 137
+                             C 105 160 104 224 105 280" />
+                    <g id="downArrow" class="arrow">
+                        <line x1="100" y1="242" x2="100" y2="282" />
+                        <line x1="80"  y1="266" x2="100" y2="286" />
+                        <line x1="120" y1="266" x2="100" y2="286" />
+                    </g>
+                </svg>
+            </div>
+        </header>
+    </main>
+
+    <script src="main.js" defer></script>
+</body>
+</html>
