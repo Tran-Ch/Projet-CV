@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Portfolio"/>
+  <title>À propos</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"/>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+  <!-- Style chính -->
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- NAVBAR DÙNG BOOTSTRAP + GIỮ NGUYÊN HIỆU ỨNG + LOGO -->
+  <nav id="mainNav" class="navbar navbar-expand-lg top-nav fixed-top">
+    <div class="container-fluid">
+      <!-- Logo SVG giữ nguyên -->
+      <div class="nav-logos">
+        <div class="logo-container-left">
+          <svg class="logo-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 450" role="presentation">
+            <defs>
+              <linearGradient id="hero-logo-left-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#5CC6FF" />
+                <stop offset="100%" stop-color="#C07BFF" />
+              </linearGradient>
+            </defs>
+            <path d="M180 425
+                     C93 420, 82 349, 123 265
+                     L226 66
+                     C240 40, 260 40, 280 40
+                     L380 40
+                     C420 40, 430 70, 420 100
+                     L400 140
+                     M180 425
+                     H308"
+                  fill="none"
+                  stroke="url(#hero-logo-left-gradient)"
+                  stroke-width="35"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="logo-container-right">
+          <svg class="logo-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 450" role="presentation">
+            <defs>
+              <linearGradient id="hero-logo-right-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#5CC6FF" />
+                <stop offset="100%" stop-color="#C07BFF" />
+              </linearGradient>
+            </defs>
+            <path d="M60 80 
+                     H178 
+                     Q312 80 270 209 
+                     L120 580"
+                  fill="none"
+                  stroke="url(#hero-logo-right-gradient)"
+                  stroke-width="35"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Nút Toggle mobile -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavCollapse" aria-controls="mainNavCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Menu Bootstrap -->
+      <div class="collapse navbar-collapse justify-content-center" id="mainNavCollapse">
+        <ul class="navbar-nav gap-2">
+          <!-- ACCUEIL đi sang file khác -->
+          <li class="nav-item"><a class="nav-bordered nav-link" href="../accueil.html">ACCUEIL</a></li>
+          <!-- Trang hiện tại: A PROPOS ở trên cùng của page (id #apropos) -->
+          <li class="nav-item"><a class="nav-bordered nav-link" href="#apropos">A PROPOS</a></li>
+          <li class="nav-item"><a class="nav-bordered nav-link" href="#competences">COMPÉTENCES</a></li>
+          <li class="nav-item"><a class="nav-bordered nav-link" href="#formation">FORMATION</a></li>
+          <li class="nav-item"><a class="nav-bordered nav-link" href="#portfolio">PORTFOLIO</a></li>
+          <li class="nav-item"><a class="nav-bordered nav-link" href="#contact">CONTACT</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- NỀN (canvas sao, gradient, vòng) -->
+  <div class="background">
+    <canvas id="starfield"></canvas>
+    <div class="bg-gradient bg-gradient--one" style="--parallax-depth: 0.45;"></div>
+    <div class="bg-gradient bg-gradient--two" style="--parallax-depth: -0.25;"></div>
+    <div class="bg-gradient bg-gradient--three" style="--parallax-depth: 0.15;"></div>
+    <div class="bg-rings" aria-hidden="true">
+      <div class="ring ring--one"></div>
+      <div class="ring ring--two"></div>
+      <div class="ring ring--three"></div>
+    </div>
+    <div class="grain"></div>
+  </div>
+
+  <!-- SNAP CONTAINER + SCROLLSPY: lăn chuột sang section kế + tự active nav -->
+  <div class="snap-container"
+       data-bs-spy="scroll"
+       data-bs-target="#mainNav"
+       data-bs-offset="100"
+       tabindex="0">
+
+    <!-- PHẦN ĐẦU TRANG CHÍNH LÀ A PROPOS -->
+    <main id="apropos" class="panel hero">
+      <header class="hero__content">
+        <!-- Capsule Button Animation -->
+        <div class="capsule-demo" role="button" tabindex="0" aria-label="Aller à la section suivante">
+          <svg class="capsule-svg" viewBox="0 0 200 340" role="img" aria-label="Animated capsule with inner path">
+            <path id="capsule" class="capsule"
+                  d="M 100,10
+                     A 70,70 0 0 1 170,80
+                     L 170,260
+                     A 70,70 0 0 1 100,330
+                     A 70,70 0 0 1 30,260
+                     L 30,80
+                     A 70,70 0 0 1 100,10
+                     Z" />
+            <path id="inner" class="inner" transform="translate(-14,0)"
+                  d="M 77 20
+                     C 157 40 137 70 97 110
+                     C 114 113 120 111 113 137
+                     C 105 160 104 224 105 280" />
+            <g id="downArrow" class="arrow">
+              <line x1="100" y1="222" x2="100" y2="282" />
+              <line x1="80"  y1="266" x2="100" y2="286" />
+              <line x1="120" y1="266" x2="100" y2="286" />
+            </g>
+          </svg>
+        </div>
+
+        <!-- CERCLE AVATAR - Ảnh vòng phát sáng ở chính giữa -->
+        <img src="../Photos/cercle.png" alt="Gradient ring" class="hero-ring hero-ring--left" width="768" height="768"/>
+
+        <!-- Ảnh “Propos” nằm bên phải, đối xứng với vòng tròn -->
+        <img src="../Photos/Propos.png" alt="À propos" class="hero-photo hero-photo--right" width="768" height="768" loading="lazy"/>
+      </header>
+    </main>
+
+    <!-- ========================
+         CÁC SECTION TIẾP THEO (mỗi cái là 1 "trang")
+         ======================== -->
+    <section id="competences" class="panel competences">
+      <!-- Gói căn giữa tiêu đề + lưới icon -->
+      <div class="container competences__wrap">
+        <!-- ✅ Tiêu đề: giữ dấu < > tĩnh, chỉ gõ phần chữ bên trong -->
+        <h2 class="competences__title">
+          <span class="typing-wrap"><span class="typing-text">Compétences</span></span>
+        </h2>
+
+        <!-- Lưới 7 item (4 + 3) dùng Bootstrap; 2 cột ở mobile -->
+        <div class="row g-5 justify-content-center">
+
+          <!-- 1) Web -->
+          <div class="col-6 col-md-3">
+            <div class="skill">
+              <div class="skill__icon">
+                <img src="../Photos/web.png" alt="Web">
+              </div>
+              <div class="skill__note">
+                <h5>Web</h5>
+                <ul>
+                  <li>HTML5 / CSS3</li>
+                  <li>XML / XSLT</li>
+                  <li>Responsive Design</li>
+                  <li>jQuery</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2) Gestion -->
+          <div class="col-6 col-md-3">
+            <div class="skill">
+              <div class="skill__icon">
+                <img src="../Photos/gestion.png" alt="Gestion">
+              </div>
+              <div class="skill__note">
+                <h5>Gestion</h5>
+                <ul>
+                  <li>Organisation</li>
+                  <li>Planification</li>
+                  <li>Collaboration</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3) Code -->
+          <div class="col-6 col-md-3">
+            <div class="skill">
+              <div class="skill__icon">
+                <img src="../Photos/codeicon.png" alt="Code">
+              </div>
+              <div class="skill__note">
+                <h5>Programmation</h5>
+                <ul>
+                  <li>JavaScript / Python</li>
+                  <li>ASP.NET / C#</li>
+                  <li>PHP</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4) Base de données -->
+          <div class="col-6 col-md-3">
+            <div class="skill">
+              <div class="skill__icon">
+                <img src="../Photos/basedonnees.png" alt="Base de Données">
+              </div>
+              <div class="skill__note">
+                <h5>Base de Données</h5>
+                <ul>
+                  <li>SQL Server</li>
+                  <li>MySQL</li>
+                  <li>Oracle</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5) Framework -->
+          <div class="col-6 col-md-3">
+            <div class="skill">
+              <div class="skill__icon">
+                <img src="../Photos/framework.png" alt="Framework">
+              </div>
+              <div class="skill__note">
+                <h5>Framework</h5>
+                <ul>
+                  <li>Bootstrap</li>
+                  <li>React</li>
+                  <li>ASP.NET MVC</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6) Analyse -->
+          <div class="col-6 col-md-3">
+            <div class="skill">
+              <div class="skill__icon">
+                <img src="../Photos/analyse.png" alt="Analyse">
+              </div>
+              <div class="skill__note">
+                <h5>Analyse</h5>
+                <ul>
+                  <li>UML</li>
+                  <li>Analyse fonctionnelle</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 7) Design -->
+          <div class="col-6 col-md-3">
+            <div class="skill">
+              <div class="skill__icon">
+                <img src="../Photos/design.png" alt="Design">
+              </div>
+              <div class="skill__note">
+                <h5>Design</h5>
+                <ul>
+                  <li>Figma</li>
+                  <li>Adobe XD</li>
+                  <li>Canva</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="formation" class="panel">
+      <div class="container py-5">
+        <h2 class="mb-3">Formation</h2>
+      </div>
+    </section>
+
+    <section id="portfolio" class="panel">
+      <div class="container py-5">
+        <h2 class="mb-3">Portfolio</h2>
+      </div>
+    </section>
+
+    <section id="contact" class="panel">
+      <div class="container py-5">
+        <h2 class="mb-3">Contact</h2>
+      </div>
+    </section>
+  </div>
+
+  <!-- Bootstrap JS (Bundle) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JS chính -->
+  <script src="main.js"></script>
+</body>
+</html>
