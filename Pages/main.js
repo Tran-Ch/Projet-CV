@@ -379,6 +379,13 @@ document.addEventListener('DOMContentLoaded', () => {
     links.forEach(el => el.classList.remove('active'));
     // Gắn active mới
     if (links.has(id)) links.get(id).classList.add('active');
+
+    // Hiển thị/ẩn 3 nút chỉ ở A PROPOS và CONTACT
+    const social = document.querySelector('.social-buttons');
+    if (social) {
+      social.classList.toggle('is-visible', id === '#apropos' || id === '#contact');
+    }
+
   }, {
     root: scroller || null,          // dùng chính snap-container nếu có
     threshold: [0.5, 0.6, 0.7, 0.8]  // section chiếm ≥50% mới xem là "đang ở"
@@ -392,3 +399,4 @@ document.addEventListener('DOMContentLoaded', () => {
     links.get(location.hash).classList.add('active');
   }
 });
+

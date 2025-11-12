@@ -53,6 +53,20 @@ body, main { padding-top: 0; }
 
   /* Chiều cao navbar (JS sẽ cập nhật) */
   --nav-h: 80px;
+
+  /* Kích thước & vòng của icon kỹ năng (RESPONSIVE)
+     - clamp(min, viewport-based, max) để logo tự co giãn theo màn hình */
+  --skill-icon-size: clamp(120px, 18vw, 220px);
+  --skill-ring: clamp(18px, 2.2vw, 32px);
+
+  /* khoảng trống dành cho capsule ở đáy */
+  --capsule-gap: 140px;
+
+  /* (tuỳ chọn) tinh chỉnh vi dịch theo trục dọc của cụm logo:
+     âm = nhích lên, dương = nhích xuống */
+  --logo-shift-y: 0px;
+
+  --title-offset: -12px;   /* khoảng cách tiêu đề ↔ navbar */
 }
 
 /* Reset */
@@ -101,16 +115,16 @@ body {
 }
 .capsule-demo .capsule-svg { width: 100%; height: 100%; overflow: visible; transform: rotate(0deg); transform-origin: 50% 50%; transform-box: fill-box; }
 /* Vòng trắng */
-.capsule-demo .capsule { 
-  fill: none; stroke: #e9eef2; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; 
+.capsule-demo .capsule {
+  fill: none; stroke: #e9eef2; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round;
   stroke-dasharray: var(--cap-len, 1); stroke-dashoffset: var(--cap-len, 1);
-  animation: capsule_draw-outline var(--outline-duration) var(--ease) forwards; 
+  animation: capsule_draw-outline var(--outline-duration) var(--ease) forwards;
   filter: drop-shadow(0 2px 10px rgba(0,0,0,.25));
 }
 /* Đường xanh */
-.capsule-demo .inner { 
-  fill: none; stroke: #1fb6ff; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; 
-  stroke-dasharray: var(--inner-len, 1); stroke-dashoffset: var(--inner-len, 1); 
+.capsule-demo .inner {
+  fill: none; stroke: #1fb6ff; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: var(--inner-len, 1); stroke-dashoffset: var(--inner-len, 1);
   opacity: 0;
   animation:
     capsule_fade-in .01s linear forwards var(--outline-duration),
@@ -197,11 +211,94 @@ body {
 
 /* Ảnh bên phải (đối xứng) */
 .hero-photo{ position: absolute; z-index: 2; max-width: min(70vmin, 640px); height: auto; pointer-events: none; user-select: none; opacity: 0.95; }
-.hero-photo--right{ top: 37%; right: 6%; transform: translateY(-50%); }
+.hero-photo--right{ top: 37%; right: 18%; transform: translateY(-50%); }
 
 @media (max-width: 768px){
   .hero-photo{ width: clamp(180px, 58vmin, 420px); opacity: 0.9; }
   .hero-photo--right{ right: 8%; }
+}
+
+/* ===== NÚT MẠNG XÃ HỘI BÊN PHẢI ===== */
+.social-buttons {
+  position: fixed;
+  top: 50%;                  /* canh giữa theo chiều cao */
+  right: 1.5rem;             /* sát mép phải, có thể chỉnh ví dụ 2rem */
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;    /* xếp dọc */
+  align-items: center;
+  gap: 1rem;                 /* khoảng cách giữa các nút */
+  z-index: 1000;
+
+  /* Ẩn mặc định, chỉ hiện khi ở A PROPOS hoặc CONTACT */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s ease;
+}
+
+/* Khi JS gắn lớp này thì hiện */
+.social-buttons.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.social-buttons a {
+  position: relative;           /* để dùng ::after làm halo */
+  display: grid;
+  place-items: center;
+  isolation: isolate;           /* tách lớp glow khỏi nền */
+}
+
+/* Halo mờ phía sau icon */
+.social-buttons a::after{
+  content: "";
+  position: absolute;
+  inset: -14px;                 /* độ rộng vùng halo xung quanh icon */
+  border-radius: 18px;
+  background:
+    radial-gradient(35% 35% at 50% 50%, rgba(109,213,255,.55), rgba(109,213,255,0) 70%),
+    radial-gradient(60% 60% at 50% 50%, rgba(192,123,255,.28), rgba(192,123,255,0) 75%);
+  filter: blur(10px);
+  opacity: 0;
+  transition: opacity .28s ease, filter .28s ease;
+  z-index: -1;                  /* glow nằm dưới ảnh */
+}
+
+.social-buttons a img {
+  width: 75px;               /* kích thước logo */
+  height: 75px;
+  object-fit: contain;
+  transition: transform 0.25s ease, filter 0.25s ease;
+  filter: brightness(0) saturate(100%) invert(79%) sepia(64%) saturate(1587%) hue-rotate(168deg) brightness(104%) contrast(101%); /* filter này tạo màu #6dd5ff */
+  cursor: pointer;
+}
+
+/* Khi hover: icon đổi sang hồng tím + neon nhiều lớp */
+.social-buttons a:hover img{
+  transform: scale(1.15);
+  /* màu hồng tím như bạn đã dùng */
+  filter: brightness(0) saturate(100%) invert(71%) sepia(78%) saturate(733%) hue-rotate(243deg) brightness(104%) contrast(102%)
+          drop-shadow(0 0 6px rgba(192,123,255,.75))
+          drop-shadow(0 0 14px rgba(192,123,255,.55))
+          drop-shadow(0 0 28px rgba(109,213,255,.35));
+}
+
+/* Tăng halo khi hover */
+.social-buttons a:hover::after{
+  opacity: 1;
+  filter: blur(14px);
+}
+
+/* Mobile: thu nhỏ lại và đẩy sát góc hơn */
+@media (max-width: 768px) {
+  .social-buttons {
+    right: 0.8rem;
+    gap: 0.6rem;
+  }
+  .social-buttons a img {
+    width: 60px;
+    height: 60px;
+  }
 }
 
 /* ========================
@@ -215,6 +312,7 @@ body {
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
   padding-top: var(--nav-h); /* chừa chỗ cho navbar cố định */
+  position: relative;        /* --- FIX 3: ScrollSpy yêu cầu container có position: relative --- */
 }
 
 /* Mỗi "panel" là một trang chiếm full viewport */
@@ -222,7 +320,7 @@ body {
   min-height: 100vh;
   scroll-snap-align: start;
   display: block; position: relative;
-  scroll-margin-top: calc(var(--nav-h) + 8px);
+  scroll-margin-top: calc(var(--nav-h) + 8px);  /* --- Khuyến nghị: tránh che bởi navbar --- */
 }
 
 /* Mobile: menu cố định ngay dưới nav */
@@ -279,24 +377,25 @@ body {
 .panel{ position: relative; z-index: 1; }
 
 /* ========================
-   COMPÉTENCES: grid + icon vuông bo góc + hover reveal note
+   COMPÉTENCES: grid + icon tròn + hover reveal note
    ======================== */
 
-/* Bố cục từng thẻ kỹ năng */
+/* Bố cục từng thẻ kỹ năng
+   (BỎ chừa chỗ bên trái để cụm logo thật sự giữa) */
 .skill{
   position: relative;
-  height: 200px;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-left: 190px; /* chừa chỗ cho bảng note xuất hiện bên trái */
+  padding-left: 0 !important;
 }
 
 /* Bảng ghi chú (ẩn mặc định, hiện khi hover) */
 .skill__note{
   position: absolute;
   left: 0; top: 50%;
-  width: 180px; /* phải khớp với padding-left ở .skill */
+  width: 180px; /* chiều rộng note */
   transform: translateY(-50%) translateX(-12px);
   opacity: 0;
   background: rgba(10, 15, 30, 0.78); /* hơi mờ để lộ nền */
@@ -310,13 +409,15 @@ body {
 .skill__note h5{ margin:0 0 8px; color: var(--accent); font-weight: 700; }
 .skill__note ul{ margin:0; padding-left: 18px; font-size: .95rem; line-height: 1.4; }
 
-/* Ô icon HÌNH VUÔNG bo góc + viền gradient xanh → hồng tím, nền trong suốt */
-.skill__icon{
-  margin-left: auto; /* đẩy ô icon về bên phải */
-  width: 160px; height: 160px;
-  border-radius: 18px;
+/* Ô icon hình tròn có Khung tròn VỪA ĐỦ + có mép viền ổn định
+   (điều khiển bằng --skill-icon-size & --skill-ring) */
+#competences .skill__icon{
+  width: var(--skill-icon-size);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  padding: var(--skill-ring);
 
-  /* Viền gradient */
+  /* Viền gradient giữ nguyên */
   background-image:
     linear-gradient(rgba(3,5,19,0.35), rgba(3,5,19,0.35)),
     linear-gradient(135deg, var(--accent), var(--accent-secondary));
@@ -324,25 +425,28 @@ body {
   background-clip: content-box, border-box;
   border: 2px solid transparent;
 
-  display: grid; place-items: center;
+  display: grid;
+  place-items: center;
+
   box-shadow: 0 8px 20px rgba(0,0,0,.25);
-  transform: translateX(0);
   transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease;
 }
 
 /* Ảnh icon bên trong */
-.skill__icon img{
-  max-width: 80%;
-  max-height: 80%;
-  width: auto; height: auto;
+#competences .skill__icon img{
+  width: 90%;
+  height: 90%;
   object-fit: contain; display: block;
   filter: drop-shadow(0 2px 8px rgba(0,0,0,.25));
+  border-radius: 50%;
 }
 
 /* Hover: icon trượt sang phải, note hiện ra */
 .skill:hover .skill__icon{
   transform: translateX(60px);
-  box-shadow: 0 10px 30px rgba(230,116,255,.45);
+  box-shadow:
+    0 0 12px rgba(230,116,255,0.5),
+    0 0 28px rgba(109,213,255,0.35);
 }
 .skill:hover .skill__note{
   opacity: 1;
@@ -351,12 +455,11 @@ body {
 
 /* Mobile: xếp dọc, note nằm dưới icon cho dễ đọc */
 @media (max-width: 576px){
-  .skill{
-    padding-left: 0;
-    height: auto;
-    flex-direction: column;
+  .skill{ flex-direction: column; }
+  #competences .skill__icon{
+    width: calc(var(--skill-icon-size) * 0.66); /* tự co nhỏ xuống ~2/3 trên điện thoại */
+    transform: none !important;
   }
-  .skill__icon{ transform: none !important; width: 140px; height: 140px; }
   .skill__note{
     position: static;
     width: 100%;
@@ -380,49 +483,45 @@ body {
    COMPÉTENCES TITLE + WRAP
    ======================== */
 
-/* Chắc chắn section có chừa chỗ cho navbar + cuộn tới không bị che */
+/* Chắc chắn section có chừa chỗ cho navbar + cuộn tới không bị che
+   GIỮ NGUYÊN KHOẢNG CÁCH TIÊU ĐỀ ↔ NAVBAR NHƯ CŨ */
 #competences{
-  padding-top: calc(var(--nav-h) + 8px) !important;
-  scroll-margin-top: calc(var(--nav-h) + 8px);
+  position: relative;
+  min-height: 100vh;
+  padding-top: calc(var(--nav-h) + var(--title-offset)) !important;
+  padding-bottom: var(--capsule-gap);                /* chừa chỗ cho capsule */
+  scroll-margin-top: calc(var(--nav-h) + var(--title-offset));
+  text-align: center;
 }
 
-.competences__wrap{
-  /* căn theo top: luôn hiện sát phía trên khi vào section */
-  min-height: calc(100vh - var(--nav-h));
+/* Bọc nội dung: tiêu đề ở trên, phần còn lại cho logo tự GIỮA THEO CHIỀU DỌC */
+#competences .competences__wrap{
+  min-height: calc(100vh - var(--nav-h) - var(--capsule-gap));
   display: flex;
   flex-direction: column;
   align-items: center;        /* giữa ngang */
-  justify-content: flex-start;/* đẩy nội dung bám phía trên */
-  gap: 2.5rem;                /* khoảng cách giữa tiêu đề và lưới icon */
 }
 
-/* Tiêu đề: giữ nguyên style — muốn đẩy cao hơn nữa, chỉnh margin-top âm */
+/* Tiêu đề — bỏ margin-top âm để đúng khoảng cách “như cũ” với navbar */
 .competences__title {
   font-family: "Space Grotesk", sans-serif;
   font-weight: 700;
   font-size: 2.8rem;
   color: var(--accent);
   text-align: center;
-  margin-top: -2.5rem;        /* ↑ tăng âm để đẩy cao hơn, ví dụ -3.5rem */
+  margin-top: 0;             /* ⬅️ trả về 0 để giữ đúng khoảng cách cũ */
+  margin-bottom: 2rem;       /* khoảng cách tiêu đề ↔ cụm logo */
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 /* Gói chữ để chèn <> và canh giữa tuyệt đối */
 .typing-wrap{
-  display: inline-flex;            /* giúp <> và text nằm cùng hàng, căn giữa theo trục dọc */
-  align-items: center;
-  line-height: 1;
-  font: inherit;
-  position: relative;
+  display: inline-flex; align-items: center; line-height: 1; font: inherit; position: relative;
 }
-
-/* Dấu < và > luôn bám sát chữ, căn giữa dọc */
 .typing-wrap::before,
 .typing-wrap::after{
-  color: var(--accent);
-  line-height: 1;
-  font: inherit;
+  color: var(--accent); line-height: 1; font: inherit;
 }
 .typing-wrap::before{ content:"<"; margin-right: .25ch; }
 .typing-wrap::after{  content:">"; margin-left:  .25ch; }
@@ -435,15 +534,12 @@ body {
   border-right: 2px solid var(--accent);
   animation: caret-blink 1s step-end infinite;
 }
-
-/* Nháy caret */
 @keyframes caret-blink {
   0%, 49% { border-right-color: var(--accent); }
   50%, 100% { border-right-color: transparent; }
 }
 
 /* --- FIX 1: Bật hiệu ứng hover sáng (gradient) --- */
-/* Ghi đè rule cũ "hover: trong suốt" bằng selector mạnh hơn và đặt ở CUỐI file */
 #mainNav .nav-link.nav-bordered:hover,
 #mainNav .nav-link.nav-bordered:focus {
   background: linear-gradient(90deg, var(--accent), var(--accent-secondary)) !important;
@@ -461,12 +557,41 @@ body {
   box-shadow: 0 0 0 1px rgba(255,255,255,0.12) inset, 0 6px 18px rgba(230,116,255,.25);
 }
 
-/* --- FIX 3: ScrollSpy yêu cầu container có position: relative --- */
-.snap-container {
-  position: relative;
+/* === LƯỚI LOGO: luôn GIỮA THEO CẢ DỌC & NGANG giữa tiêu đề và capsule === */
+#competences .competences__grid{
+  /* CHÌA KHOÁ: đặt cụm logo chính giữa theo chiều dọc trong phần còn lại */
+  margin-block: auto;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;     /* giữa ngang */
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+
+  /* đảm bảo không còn transform/position cũ gây lệch */
+  position: static !important;
+  transform: translateY(var(--logo-shift-y)) !important; /* tinh chỉnh nhẹ dọc nếu cần */
 }
 
-/* --- Khuyến nghị: tất cả section cuộn tới đều chừa khoảng tránh che bởi navbar --- */
-.panel {
-  scroll-margin-top: calc(var(--nav-h) + 8px);
+/* Nút capsule (ở đáy section) */
+#competences .capsule-demo {
+  position: absolute;
+  bottom: 2rem;  /* cách mép dưới */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Responsive: vẫn giữa, chỉ giảm khoảng cách */
+@media (max-width: 768px) {
+  #competences { padding: 4rem 1rem; }
+  #competences .competences__grid { gap: 1.6rem; }
+}
+
+/* Safe-area cho thiết bị có tai thỏ */
+@supports (padding: max(0px)) {
+  #competences { 
+    padding-bottom: max(var(--capsule-gap), env(safe-area-inset-bottom));
+  }
 }
