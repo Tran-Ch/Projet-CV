@@ -200,22 +200,22 @@ body {
 
 /* CERCLE AVATAR */
 .hero-ring { position: absolute; z-index: 2; max-width: min(70vmin, 640px); height: auto; pointer-events: none; user-select: none; opacity: 0.95; }
-.hero-ring--left { top: 37%; left: 6%; transform: translateY(-50%); }
+.hero-ring--left { top: 42%; left: 6%; transform: translateY(-50%); } /* ⬅️ đẩy xuống một chút cho A PROPOS */
 
 /* Responsive nhỏ */
 @media (max-width: 768px) {
   :root { --ring-rise: 12vh; }
   .hero-ring { width: clamp(180px, 58vmin, 420px); opacity: 0.9; }
-  .hero-ring--left { left: 8%; }
+  .hero-ring--left { left: 8%; top: 45%; } /* ⬅️ mobile: đẩy xuống thêm */
 }
 
 /* Ảnh bên phải (đối xứng) */
 .hero-photo{ position: absolute; z-index: 2; max-width: min(70vmin, 640px); height: auto; pointer-events: none; user-select: none; opacity: 0.95; }
-.hero-photo--right{ top: 37%; right: 18%; transform: translateY(-50%); }
+.hero-photo--right{ top: 42%; right: 18%; transform: translateY(-50%); }
 
 @media (max-width: 768px){
   .hero-photo{ width: clamp(180px, 58vmin, 420px); opacity: 0.9; }
-  .hero-photo--right{ right: 8%; }
+  .hero-photo--right{ right: 8%; top: 45%; } /* ⬅️ mobile: đẩy xuống thêm */
 }
 
 /* ===== NÚT MẠNG XÃ HỘI BÊN PHẢI ===== */
@@ -515,6 +515,32 @@ body {
   letter-spacing: 1px;
 }
 
+/* Tiêu đề chung cho FORMATION / PORTFOLIO / CONTACT */
+.section-title {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 2.8rem;
+  color: var(--accent);
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Tiêu đề A PROPOS */
+.apropos__title {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 2.8rem;
+  color: var(--accent);
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
 /* Gói chữ để chèn <> và canh giữa tuyệt đối */
 .typing-wrap{
   display: inline-flex; align-items: center; line-height: 1; font: inherit; position: relative;
@@ -526,8 +552,9 @@ body {
 .typing-wrap::before{ content:"<"; margin-right: .25ch; }
 .typing-wrap::after{  content:">"; margin-left:  .25ch; }
 
-/* ✅ Caret chỉ ở phần chữ được gõ (không áp dụng cho dấu < >) */
-.typing-text{
+/* Caret chỉ ở phần chữ được gõ (không áp dụng cho dấu < >) */
+.typing-text,
+.typing-text-static {
   display: inline-block;
   white-space: nowrap;
   overflow: hidden;
@@ -594,4 +621,20 @@ body {
   #competences { 
     padding-bottom: max(var(--capsule-gap), env(safe-area-inset-bottom));
   }
+}
+
+/* Làm cho Formation / Portfolio / Contact có khoảng cách giống Compétences */
+.section-with-title {
+  position: relative;
+  scroll-margin-top: calc(var(--nav-h) + var(--title-offset));
+}
+.section-with-title .container {
+  padding-top: calc(var(--nav-h) + var(--title-offset)); /* đúng hệt Compétences */
+}
+
+/* A PROPOS: đảm bảo khoảng cách tiêu đề ↔ navbar giống các section khác */
+#apropos.hero {
+  padding-top: calc(var(--nav-h) + var(--title-offset));
+  scroll-margin-top: calc(var(--nav-h) + var(--title-offset));
+  justify-content: flex-start; /* đẩy nội dung xuống, tiêu đề nằm ngay sau navbar */
 }

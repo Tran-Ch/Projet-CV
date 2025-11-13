@@ -201,44 +201,56 @@ window.addEventListener('load', () => {
   }
 });
 
-// === Tiêu đề Compétences/Skills: gõ chữ, giữ dấu <> cố định ===
+// === Tiêu đề: gõ chữ cho A PROPOS / COMPÉTENCES / FORMATION / PORTFOLIO / CONTACT, giữ dấu <> cố định ===
 document.addEventListener('DOMContentLoaded', () => {
-  const el = document.querySelector('.typing-text');
-  if (!el) return;
-
-  const texts = ["Compétences", "Skills"]; // chỉ gõ phần chữ, <> do CSS ::before/::after
-  let i = 0, pos = 0, typing = true;
+  // Mỗi section có 1 typing-text riêng, với danh sách text riêng
+  const configs = [
+    { selector: '#apropos .typing-text',     texts: ['À propos', 'Profil'] },   // ⬅️ A PROPOS: À propos ↔ Profil
+    { selector: '#competences .typing-text', texts: ['Compétences', 'Skills'] },
+    { selector: '#formation .typing-text',   texts: ['Formation'] },
+    { selector: '#portfolio .typing-text',   texts: ['Portfolio'] },
+    { selector: '#contact .typing-text',     texts: ['Contact'] }
+  ];
 
   const typeDelay = 70;   // tốc độ gõ
   const holdDelay = 1400; // dừng khi gõ xong
   const eraseDelay = 45;  // tốc độ xoá
 
-  function tick() {
-    const t = texts[i];
-    if (typing) {
-      pos++;
-      el.textContent = t.slice(0, pos);
-      if (pos >= t.length) {
-        typing = false;
-        setTimeout(tick, holdDelay);
-        return;
-      }
-      setTimeout(tick, typeDelay);
-    } else {
-      pos--;
-      el.textContent = t.slice(0, pos);
-      if (pos <= 0) {
-        typing = true;
-        i = (i + 1) % texts.length;
-      }
-      setTimeout(tick, eraseDelay);
-    }
-  }
+  configs.forEach(cfg => {
+    const el = document.querySelector(cfg.selector);
+    if (!el) return;
 
-  // bắt đầu gõ
-  el.textContent = "";
-  pos = 0; typing = true; i = 0;
-  tick();
+    let i = 0;      // index của text trong mảng
+    let pos = 0;    // vị trí ký tự
+    let typing = true; // đang gõ hay đang xoá
+
+    function tick() {
+      const t = cfg.texts[i];
+      if (typing) {
+        pos++;
+        el.textContent = t.slice(0, pos);
+        if (pos >= t.length) {
+          typing = false;
+          setTimeout(tick, holdDelay);
+          return;
+        }
+        setTimeout(tick, typeDelay);
+      } else {
+        pos--;
+        el.textContent = t.slice(0, pos);
+        if (pos <= 0) {
+          typing = true;
+          i = (i + 1) % cfg.texts.length; // chuyển qua text tiếp theo (nếu có)
+        }
+        setTimeout(tick, eraseDelay);
+      }
+    }
+
+    // Bắt đầu gõ
+    el.textContent = '';
+    pos = 0; typing = true; i = 0;
+    tick();
+  });
 });
 
 // Fonction pour gérer les liens actifs et le défilement
@@ -399,4 +411,3 @@ document.addEventListener('DOMContentLoaded', () => {
     links.get(location.hash).classList.add('active');
   }
 });
-
