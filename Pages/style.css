@@ -727,9 +727,308 @@ body {
   }
 }
 
-/* =======================
-   PORTFOLIO (từ index.html)
+/* ========================
+   PORTFOLIO SECTION
    ======================= */
+#portfolio {
+  position: relative;
+  min-height: 100vh;
+  scroll-margin-top: calc(var(--nav-h) + var(--title-offset));
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+#portfolio .container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: calc(var(--nav-h) + var(--title-offset)) 1.5rem var(--capsule-gap);
+}
+
+/* Section title styles to match other sections */
+#portfolio .section-title {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 2.8rem;
+  color: var(--accent);
+  text-align: center;
+  margin: 0 auto 2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+
+#portfolio .section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: var(--accent-color);
+  border-radius: 2px;
+}
+
+/* Portfolio intro text */
+#portfolio .intro-text {
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 auto 3rem;
+  text-align: center;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  padding: 0 2rem;
+  word-break: break-word;
+}
+
+/* Responsive adjustments */
+@media (max-width: 2000px) {
+  #portfolio .intro-text {
+    max-width: 1600px;
+  }
+}
+
+@media (max-width: 1800px) {
+  #portfolio .intro-text {
+    max-width: 1400px;
+  }
+}
+
+@media (max-width: 1500px) {
+  #portfolio .intro-text {
+    font-size: 1.1rem;
+    max-width: 1200px;
+  }
+}
+
+@media (max-width: 1200px) {
+  #portfolio .intro-text {
+    max-width: 1000px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  #portfolio .intro-text {
+    padding: 0 1.5rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Filter buttons container */
+.portfolio-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin: 2rem auto 3rem;
+  max-width: 1000px;
+  padding: 0 1rem;
+}
+
+/* Individual filter buttons with gradient border */
+.filter-btn {
+  position: relative;
+  padding: 0.6rem 2rem;
+  min-width: 120px;
+  text-align: center;
+  background: transparent;
+  color: var(--accent-color);
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1;
+  overflow: visible;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+/* Gradient border for each button */
+.filter-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50px;
+  padding: 2px;
+  background: linear-gradient(135deg, #5CC6FF, #C07BFF);
+  -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+  mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Hover and active states */
+.filter-btn:hover {
+  background: linear-gradient(135deg, rgba(92, 198, 255, 0.1), rgba(192, 123, 255, 0.1));
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(92, 198, 255, 0.3);
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, #5CC6FF, #C07BFF);
+  color: white;
+  box-shadow: 0 0 15px rgba(92, 198, 255, 0.5);
+}
+
+/* Remove the old button styles */
+.filter-btn span {
+  position: static;
+  display: inline;
+}
+
+/* Portfolio grid */
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.portfolio-item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  aspect-ratio: 4/3;
+  margin: 0.25rem;
+}
+
+.portfolio-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.portfolio-item:hover img {
+  transform: scale(1.05);
+}
+
+.project-overlay {
+  position: absolute;
+  left: 0;
+  bottom: -100%;
+  width: 100%;
+  height: 100%;
+  background: #f1f1f1;
+  padding: 40px 32px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  transition: bottom 0.6s ease;
+}
+
+.portfolio-item:hover .project-overlay {
+  bottom: 0;
+}
+
+.overlay-category {
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-color, #26b6a5);
+}
+
+.overlay-title {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #222;
+  margin: 0.5rem 0;
+}
+
+.overlay-desc {
+  font-size: 16px;
+  color: #666;
+  max-width: 420px;
+  line-height: 1.6;
+  margin: 0.5rem 0;
+}
+
+.overlay-link {
+  display: inline-flex;
+  align-items: center;
+  color: #26b6a5;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  transition: color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.overlay-link:hover {
+  color: #1e9c8c;
+}
+
+.overlay-link span {
+  margin-left: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.overlay-link:hover span {
+  transform: translateX(5px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .portfolio-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .portfolio-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  #portfolio .intro-text {
+    max-width: 100%;
+    padding: 0 2rem;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  
+  .filter-btn {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+  
+  .portfolio-buttons {
+    gap: 0.5rem;
+  }
+  
+  .filter-btn {
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+  }
+}
 
 /* đoạn giới thiệu trên các nút */
 .intro-text {
@@ -761,60 +1060,6 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 2;
-}
-.filter-btn::before,
-.filter-btn::after,
-.filter-btn span::before,
-.filter-btn span::after {
-  content: "";
-  position: absolute;
-  width: var(--corner-size);
-  height: var(--corner-size);
-  border: 1px solid var(--border-color);
-  opacity: 0;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: all var(--anim-time) ease;
-}
-.filter-btn::before { border-width: 1px 0 0 1px; }
-.filter-btn::after  { border-width: 1px 1px 0 0; }
-.filter-btn span::before { border-width: 0 0 1px 1px; }
-.filter-btn span::after  { border-width: 0 1px 1px 0; }
-.filter-btn:hover {
-  border-color: transparent;
-}
-.filter-btn:hover::before {
-  top: 0;
-  left: 0;
-  opacity: 1;
-  transform: none;
-}
-.filter-btn:hover::after {
-  top: 0;
-  right: 0;
-  left: auto;
-  opacity: 1;
-  transform: none;
-}
-.filter-btn:hover span::before {
-  bottom: 0;
-  left: 0;
-  top: auto;
-  opacity: 1;
-  transform: none;
-}
-.filter-btn:hover span::after {
-  bottom: 0;
-  right: 0;
-  left: auto;
-  top: auto;
-  opacity: 1;
-  transform: none;
-}
-.filter-btn:hover {
-    background: transparent;    /* Giữ trong suốt khi hover */
-    border-color: transparent;
 }
 
 /* GRID HÌNH + OVERLAY TRƯỢT LÊN */
@@ -1037,11 +1282,11 @@ body {
 }
 
 .contact-intro {
-  max-width: 850px;
-  margin: 0 auto 30px auto;
+  max-width: 1000px;
+  margin: 0 auto 30px;
   text-align: center;
   line-height: 1.6;
-  font-size: 1rem;
-  color: var(--accent);   /* xanh sáng */
+  font-size: 0.95rem;
+  color: var(--accent);
   padding: 0 20px;
 }
