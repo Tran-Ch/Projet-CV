@@ -942,7 +942,7 @@ body {
 
 .contact-input,
 .contact-textarea {
-  background: #f1f1f1;
+  background: #b8b7b7;
   border: none;
   border-radius: 6px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
@@ -968,7 +968,7 @@ body {
   display: block;
   width: 100%;
   border-radius: 6px;
-  background: #d3d4d7;
+  background: #61868b;
   border: none;
   padding: 12px 18px;
   font-size: 0.9rem;
@@ -976,19 +976,21 @@ body {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: #333;
-  box-shadow: 0 4px 0 #4fb1c1;
+  box-shadow: 0 4px 0 #1d646e;
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 
 .btn-contact-submit:hover {
-  background: #e0e1e4;
+  background:     
+    radial-gradient(35% 35% at 50% 50%, rgba(109,213,255,.55), rgba(109,213,255,0) 70%),
+    radial-gradient(60% 60% at 50% 50%, rgba(192,123,255,.28), rgba(192,123,255,0) 75%);;
   transform: translateY(1px);
   box-shadow: 0 2px 0 #4fb1c1;
 }
 
 .btn-contact-submit:active {
   transform: translateY(2px);
-  box-shadow: 0 1px 0 #4fb1c1;
+  box-shadow: 0 1px 0 #1d646e;
 }
 
 /* Khối thông tin bên phải */
