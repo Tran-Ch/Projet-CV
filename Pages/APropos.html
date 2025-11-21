@@ -77,7 +77,7 @@
       <div class="collapse navbar-collapse justify-content-center" id="mainNavCollapse">
         <ul class="navbar-nav gap-2">
           <!-- ACCUEIL đi sang file khác -->
-          <li class="nav-item"><a class="nav-bordered nav-link" href="../accueil.html">ACCUEIL</a></li>
+          <li class="nav-item"><a class="nav-bordered nav-link" href="../index.html">ACCUEIL</a></li>
           <!-- Trang hiện tại: A PROPOS ở trên cùng của page (id #apropos) -->
           <li class="nav-item"><a class="nav-bordered nav-link" href="#apropos">A PROPOS</a></li>
           <li class="nav-item"><a class="nav-bordered nav-link" href="#competences">COMPÉTENCES</a></li>
@@ -103,23 +103,7 @@
     <div class="grain"></div>
   </div>
 
-  <!-- SNAP CONTAINER + SCROLLSPY: lăn chuột sang section kế + tự active nav -->
-  <div class="snap-container"
-       data-bs-spy="scroll"
-       data-bs-target="#mainNav"
-       data-bs-offset="100"
-       tabindex="0">
-
-    <!-- PHẦN ĐẦU TRANG CHÍNH LÀ A PROPOS -->
-    <main id="apropos" class="panel hero">
-      <header class="hero__content">
-
-        <!-- Tiêu đề A PROPOS: giữ dấu < > tĩnh, chỉ gõ phần chữ bên trong -->
-        <h1 class="apropos__title">
-          <span class="typing-wrap"><span class="typing-text">À propos</span></span>
-        </h1>
-
-        <!-- Capsule Button Animation -->
+    <!-- Capsule Button Animation -->
         <div class="capsule-demo" role="button" tabindex="0" aria-label="Aller à la section suivante">
           <svg class="capsule-svg" viewBox="0 0 200 340" role="img" aria-label="Animated capsule with inner path">
             <path id="capsule" class="capsule"
@@ -144,11 +128,31 @@
           </svg>
         </div>
 
-        <!-- CERCLE AVATAR - Ảnh vòng phát sáng ở chính giữa -->
-        <img src="../Photos/cercle.png" alt="Gradient ring" class="hero-ring hero-ring--left" width="768" height="768"/>
+  <!-- SNAP CONTAINER + SCROLLSPY: lăn chuột sang section kế + tự active nav -->
+  <div class="snap-container"
+       data-bs-spy="scroll"
+       data-bs-target="#mainNav"
+       data-bs-offset="100"
+       tabindex="0">
 
-        <!-- Ảnh “Propos” nằm bên phải, đối xứng với vòng tròn -->
-        <img src="../Photos/Propos.png" alt="À propos" class="hero-photo hero-photo--right" width="768" height="768" loading="lazy"/>
+    <!-- PHẦN ĐẦU TRANG CHÍNH LÀ A PROPOS -->
+    <main id="apropos" class="panel hero">
+      <header class="hero__content">
+
+        <!-- Tiêu đề A PROPOS: giữ dấu < > tĩnh, chỉ gõ phần chữ bên trong -->
+        <h1 class="apropos__title">
+          <span class="typing-wrap"><span class="typing-text">À propos</span></span>
+        </h1>
+
+        
+
+        <div id="main-content">
+          <!-- CERCLE AVATAR - Ảnh vòng phát sáng ở chính giữa -->
+          <img src="../Photos/cercle.png" alt="Gradient ring" class="hero-ring hero-ring--left" width="768" height="768"/>
+  
+          <!-- Ảnh “Propos” nằm bên phải, đối xứng với vòng tròn -->
+          <img src="../Photos/Propos.png" alt="À propos" class="hero-photo hero-photo--right" width="768" height="768" loading="lazy"/>
+        </div>
       </header>
     </main>
 
@@ -156,13 +160,13 @@
          CÁC SECTION TIẾP THEO
          ======================== -->
     <section id="competences" class="panel competences">
-      <div class="container competences__wrap">
-        <h2 class="competences__title">
-          <span class="typing-wrap"><span class="typing-text">Compétences</span></span>
-        </h2>
+    <h2 class="competences__title">
+      <span class="typing-wrap"><span class="typing-text">Compétences</span></span>
+    </h2>
 
-        <div class="competences__grid">
-          <div class="row g-5 justify-content-center skills-grid">
+    <div class="container competences__wrap">
+      <div class="competences__grid">
+        <div class="row g-5 justify-content-center skills-grid">
 
             <!-- 1) Web -->
             <div class="col-6 col-md-3">
@@ -478,12 +482,15 @@
 
               </div><!-- /.timeline -->
             </div><!-- /.col-lg-7 -->
+          </div>
+        </div>
+    </section>
+    
     <section id="portfolio" class="panel section-with-title">
-      <div class="container">
         <h2 class="section-title">
           <span class="typing-wrap"><span class="typing-text">Portfolio</span></span>
         </h2>
-
+        <div class="container">
         <!-- Introduction text -->
         <p class="intro-text">
           Au cours de l'année écoulée, j'ai franchi mes premières étapes vers le métier de développeur
@@ -601,11 +608,11 @@
 
     <!-- ===== CONTACT ===== -->
     <section id="contact" class="panel section-with-title">
-      <div class="container py-5">
+      
         <h2 class="section-title">
           <span class="typing-wrap"><span class="typing-text">Contact</span></span>
         </h2>
-
+        <div class="container py-5">
         <p class="contact-intro">
           Merci d’avoir visité ma page personnelle. Vous pouvez télécharger mon CV pour découvrir en détail mon parcours et mes expériences. 
           Si vous souhaitez échanger ou obtenir davantage d’informations à mon sujet, n’hésitez pas à m’envoyer un e-mail ou à me contacter 
@@ -693,6 +700,7 @@
       <img src="../Photos/logoCV.png" alt="CV">
     </a>
   </div>
+
 
 </body>
 </html>
