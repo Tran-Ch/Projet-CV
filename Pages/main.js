@@ -203,26 +203,25 @@ window.addEventListener('load', () => {
 
 // === Tiêu đề: gõ chữ cho A PROPOS / COMPÉTENCES / FORMATION / PORTFOLIO / CONTACT, giữ dấu <> cố định ===
 document.addEventListener('DOMContentLoaded', () => {
-  // Mỗi section có 1 typing-text riêng, với danh sách text riêng
   const configs = [
-    { selector: '#apropos .typing-text',     texts: ['À propos', 'Profil'] },   // ⬅️ A PROPOS: À propos ↔ Profil
+    { selector: '#apropos .typing-text',     texts: ['À propos', 'Profil'] },
     { selector: '#competences .typing-text', texts: ['Compétences', 'Skills'] },
     { selector: '#formation .typing-text',   texts: ['Formation'] },
     { selector: '#portfolio .typing-text',   texts: ['Portfolio'] },
     { selector: '#contact .typing-text',     texts: ['Contact'] }
   ];
 
-  const typeDelay = 70;   // tốc độ gõ
-  const holdDelay = 1400; // dừng khi gõ xong
-  const eraseDelay = 45;  // tốc độ xoá
+  const typeDelay = 70;
+  const holdDelay = 1400;
+  const eraseDelay = 45;
 
   configs.forEach(cfg => {
     const el = document.querySelector(cfg.selector);
     if (!el) return;
 
-    let i = 0;      // index của text trong mảng
-    let pos = 0;    // vị trí ký tự
-    let typing = true; // đang gõ hay đang xoá
+    let i = 0;
+    let pos = 0;
+    let typing = true;
 
     function tick() {
       const t = cfg.texts[i];
@@ -240,13 +239,12 @@ document.addEventListener('DOMContentLoaded', () => {
         el.textContent = t.slice(0, pos);
         if (pos <= 0) {
           typing = true;
-          i = (i + 1) % cfg.texts.length; // chuyển qua text tiếp theo (nếu có)
+          i = (i + 1) % cfg.texts.length;
         }
         setTimeout(tick, eraseDelay);
       }
     }
 
-    // Bắt đầu gõ
     el.textContent = '';
     pos = 0; typing = true; i = 0;
     tick();
@@ -257,7 +255,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function setupNavigation() {
   const currentPath = window.location.pathname.split("/").pop().toLowerCase();
 
-  // Mettre à jour les liens actifs basés sur l'URL actuelle
   document.querySelectorAll(".navbar .nav-link.nav-bordered").forEach(link => {
     const href = link.getAttribute("href")?.toLowerCase() || "";
     if (href.includes(currentPath) && currentPath !== "") {
@@ -270,7 +267,6 @@ function setupNavigation() {
     }
   });
 
-  // Gestion du défilement et mise à jour des liens actifs
   const sections = document.querySelectorAll("section[id]");
   const navLinks = document.querySelectorAll(".navbar .nav-link.nav-bordered");
 
@@ -291,7 +287,7 @@ function setupNavigation() {
   }
 
   window.addEventListener("scroll", updateActiveSection);
-  updateActiveSection(); // Appel initial pour définir l'état actif
+  updateActiveSection();
 }
 
 // Initialiser la navigation lorsque le DOM est chargé
@@ -349,12 +345,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const navHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 80;
   const scroller  = document.querySelector('.snap-container');
 
-  // 1) Khởi tạo ScrollSpy trên container cuộn (không phải body)
   if (scroller && window.bootstrap?.ScrollSpy) {
-    // Đảm bảo container đáp ứng yêu cầu
     scroller.style.position = scroller.style.position || 'relative';
     try {
-      // Destroy cũ nếu có (tránh init 2 lần khi HMR)
       const oldSpy = bootstrap.ScrollSpy.getInstance(scroller);
       if (oldSpy) oldSpy.dispose();
       new bootstrap.ScrollSpy(scroller, {
@@ -366,7 +359,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 2) Tự đóng menu khi click link (trên mobile)
   document.querySelectorAll('#mainNav .nav-link').forEach(a => {
     a.addEventListener('click', () => {
       const col = document.getElementById('mainNavCollapse');
@@ -376,38 +368,60 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 3) Fallback: IntersectionObserver để set .active khi Snap/ScrollSpy “khó ở”
   const links = new Map([...document.querySelectorAll('#mainNav .nav-link')].map(l => [l.getAttribute('href'), l]));
   const sections = document.querySelectorAll('main.panel[id], section.panel[id]');
   const io = new IntersectionObserver((entries) => {
-    // Lấy entry nổi bật nhất trong viewport
     const visible = entries
       .filter(en => en.isIntersecting)
       .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
     if (!visible) return;
 
     const id = '#' + visible.target.id;
-    // Xóa active cũ
     links.forEach(el => el.classList.remove('active'));
-    // Gắn active mới
     if (links.has(id)) links.get(id).classList.add('active');
 
-    // Hiển thị/ẩn 3 nút chỉ ở A PROPOS và CONTACT
     const social = document.querySelector('.social-buttons');
     if (social) {
       social.classList.toggle('is-visible', id === '#apropos' || id === '#contact');
     }
 
   }, {
-    root: scroller || null,          // dùng chính snap-container nếu có
-    threshold: [0.5, 0.6, 0.7, 0.8]  // section chiếm ≥50% mới xem là "đang ở"
+    root: scroller || null,
+    threshold: [0.5, 0.6, 0.7, 0.8]
   });
 
   sections.forEach(sec => io.observe(sec));
 
-  // 4) Khi load với hash, set active tức thì
   if (location.hash && links.has(location.hash)) {
     links.forEach(el => el.classList.remove('active'));
     links.get(location.hash).classList.add('active');
   }
+});
+
+// === JS: đo front/back, thay đổi chiều cao thẻ để đẩy các item dưới xuống ===
+window.addEventListener('load', function () {
+  document.querySelectorAll('.flip-card').forEach(function(card){
+    const front = card.querySelector('.flip-front');
+    const back  = card.querySelector('.flip-back');
+    const inner = card.querySelector('.flip-inner');
+    if (!front || !back || !inner) return;
+
+    const frontH = front.scrollHeight;
+    const backH  = back.scrollHeight;
+    const maxH   = Math.max(frontH, backH);
+
+    card.style.height = frontH + 'px';
+    inner.style.height = maxH + 'px';
+
+    card.dataset.frontHeight = frontH;
+    card.dataset.maxHeight   = maxH;
+
+    card.addEventListener('mouseenter', function(){
+      card.style.height = card.dataset.maxHeight + 'px';
+    });
+
+    card.addEventListener('mouseleave', function(){
+      card.style.height = card.dataset.frontHeight + 'px';
+    });
+  });
 });

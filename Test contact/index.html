@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
+
+        .contact-box {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .contact-info p {
+            font-size: 18px;
+            margin-bottom: 18px;
+        }
+        .contact-info p img {
+            width: 20px;
+            margin-right: 10px;
+        }
+        button {
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container py-5">
+        <div class="row gx-5">
+
+            <!-- LEFT: FORM -->
+            <div class="col-md-6">
+                <div class="contact-box">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Nom</label>
+                            <input type="text" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Message</label>
+                            <textarea class="form-control" rows="6"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-secondary w-100">
+                            Envoyer
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- RIGHT: CONTACT INFO -->
+            <div class="col-md-6">
+                <div class="contact-box contact-info">
+
+                    <p>
+                        <img src="https://img.icons8.com/fluency-systems-regular/48/marker.png">
+                        Bruxelles | Belgique
+                    </p>
+
+                    <p>
+                        <img src="https://img.icons8.com/fluency-systems-regular/48/phone.png">
+                        (+32) 0485.83.07.29
+                    </p>
+
+                    <p>
+                        <img src="https://img.icons8.com/fluency-systems-regular/48/new-post.png">
+                        debay.aurelie@gmail.com
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

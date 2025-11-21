@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head> 
+  <meta charset="UTF-8"> 
+  <title>Timeline Formation</title> 
+
+  <!-- Bootstrap MINIFIED --> 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+         
+  <style> 
+    body{ 
+      background:#f6f8ff; 
+      font-family:system-ui, -apple-system, "Segoe UI", sans-serif; 
+    } 
+
+    .formation-wrapper{ 
+      min-height:100vh; 
+      display:flex; 
+      align-items:center; 
+    } 
+
+    .formation-image{ 
+      max-width:100%; 
+      height:auto; 
+      display:block; 
+      margin:0 auto; 
+    } 
+            
+    /* --------- TIMELINE --------- */            
+    .timeline{ 
+      position:relative; 
+      padding:40px 0; 
+    } 
+
+    /* ĐƯỜNG DỌC LIỀN MẠCH – nằm giữa cột năm & cột card */
+    .timeline::before{
+      content:"";
+      position:absolute;
+      top:0;
+      bottom:0;
+      left:calc(45% + 20px);    /* 45% (cột năm) + 20px (nửa cột giữa 40px) */
+      width:3px;
+      background:#d0d0d0;
+      z-index:1;
+    }
+
+    /* Mỗi item = 3 cột: [Year] [Dot] [Content] */
+    .timeline-item{ 
+      position:relative; 
+      margin-bottom:3rem; 
+      display:grid;
+      grid-template-columns:45% 40px 45%;
+      align-items:center;
+      z-index:2;               /* nằm trên đường dọc */
+    } 
+            
+    .timeline-item::after{ 
+      content:""; 
+      display:block; 
+      clear:both; 
+    } 
+            
+    /* Cột năm */ 
+    .timeline-year{ 
+      grid-column:1;
+      text-align:right; 
+      padding-right:2rem; 
+      font-weight:700; 
+      color:#fff; 
+      display:flex;
+      align-items:center;       /* năm nằm giữa chiều cao hàng */
+      justify-content:flex-end; /* đẩy box sát về bên phải */
+    } 
+
+    .timeline-year-box{
+      display:inline-block;
+      padding:4px 10px;
+      border-radius:6px;
+      background: linear-gradient(135deg, #25d2a4, #b347ff); /* xanh → hồng tím */
+      color:#fff;
+      font-size:0.95rem;
+      box-shadow:0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    /* Cột giữa: chỉ dùng để căn dot */
+    .timeline-center{
+      grid-column:2;
+      position:relative;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    /* Nút tròn trên thanh dọc */
+    .timeline-dot{
+      width:18px; 
+      height:18px; 
+      border-radius:50%; 
+      background:linear-gradient(135deg,#ff6ec4,#8e7cff); 
+      border:3px solid #fff; 
+      box-shadow:0 0 0 3px rgba(255,110,196,.25); 
+      z-index:2; 
+    } 
+            
+    /* Cột nội dung (chứa thẻ lật) */ 
+    .timeline-content{ 
+      grid-column: 3;
+      padding-left: 0.5rem;   /* giảm từ 2rem xuống 0.5rem hoặc 0 */
+      margin-left: 0px;     /* kéo sát hơn về phía thanh dọc, chỉnh số tuỳ ý */
+      display: flex;
+      align-items: center;    /* card thẳng hàng với năm & dot */
+    } 
+            
+    /* Toàn bộ card sẽ lật */
+    .flip-card{ 
+      perspective:1000px; 
+      width:100%;
+      position:relative;
+      transition:height .3s ease;  /* chiều cao sẽ được JS đổi khi hover */
+      overflow:visible;
+    } 
+            
+    .flip-inner{ 
+      position:relative; 
+      width:100%; 
+      transform-style:preserve-3d; 
+      transition:transform .6s; 
+    } 
+            
+    /* Hover card thì lật */
+    .flip-card:hover .flip-inner{ 
+      transform:rotateY(180deg); 
+    } 
+            
+    .flip-front, 
+    .flip-back{ 
+      backface-visibility:hidden; 
+      border-radius:1rem;
+      box-shadow:0 10px 25px rgba(0,0,0,.06);
+      padding:0.7rem 1.4rem;
+    } 
+
+    /* MẶT A: card trắng với TIÊU ĐỀ */
+    .flip-front{
+      background:#fff;
+      display:flex;
+      align-items:center;      /* tiêu đề nằm giữa chiều cao card */
+      opacity:1;
+      transition:opacity .3s ease;
+    }
+
+    /* Khi hover card: ẩn mặt A đi để không đè lên nội dung */
+    .flip-card:hover .flip-front{
+      opacity:0;
+      pointer-events:none;
+    }
+            
+    /* MẶT B: nội dung, trong khung gradient, nền trong suốt */
+    .flip-back{ 
+      position:absolute; 
+      inset:0; 
+      transform:rotateY(180deg); 
+      background:transparent;
+      box-shadow:none; /* để chỉ thấy viền gradient */
+    } 
+
+    /* KHUNG VIỀN GRADIENT XANH → HỒNG TÍM cho mặt sau */
+    .gradient-border {
+      position: relative;
+      padding: 1.2rem 1.4rem;
+      border-radius: 1rem;
+      background: transparent;
+    }
+
+    .gradient-border::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 2px; /* Độ dày viền */
+      background: linear-gradient(135deg, #25d2a4, #b347ff);
+      -webkit-mask:
+          linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .timeline-title{ 
+      font-weight:700; 
+      font-size:1.1rem; 
+      color:#6c3cff; 
+      margin:0; 
+      cursor:pointer; 
+    } 
+
+    @media (max-width:992px){ 
+      /* Mobile: cho năm bên trên, thẻ bên dưới, line+dot nằm bên trái */
+      .timeline{
+        padding-left:10px;
+      }
+
+      .timeline::before{
+        left:20px;              /* đường dọc sát bên trái */
+      }
+
+      .timeline-item{
+        grid-template-columns:30px 1fr;
+        grid-template-rows:auto auto;
+        column-gap:10px;
+      }
+
+      .timeline-year{
+        grid-column:2;
+        grid-row:1;
+        text-align:left;
+        padding-right:0;
+        padding-left:0.5rem;
+        justify-content:flex-start;
+      }
+
+      .timeline-center{
+        grid-column:1;
+        grid-row:1 / span 2;
+      }
+
+      .timeline-content{
+        grid-column:2;
+        grid-row:2;
+        padding-left:0.5rem;
+      }
+    }
+  </style> 
+</head> 
+    
+    
+<body> 
+  <div class="container formation-wrapper"> 
+    <div class="row g-5"> 
+      <!-- CỘT TRÁI: HÌNH --> 
+      <div class="col-lg-5 text-center"> 
+        <img src="../Photos/formation.png" alt="Formation" class="formation-image"> 
+      </div> 
+                
+      <!-- CỘT PHẢI: TIMELINE --> 
+      <div class="col-lg-7"> 
+        <div class="timeline"> 
+                        
+          <!-- ITEM 1 --> 
+          <div class="timeline-item"> 
+            <div class="timeline-year">
+              <span class="timeline-year-box">2025–2026</span>
+            </div>
+
+            <div class="timeline-center">
+              <span class="timeline-dot"></span>
+            </div>
+
+            <div class="timeline-content"> 
+              <div class="flip-card"> 
+                <div class="flip-inner">
+
+                  <!-- MẶT A: TIÊU ĐỀ, ngang hàng với năm & nút -->
+                  <div class="flip-front"> 
+                    <h4 class="timeline-title mb-0">WEB APPLICATION DEVELOPER </h4> 
+                  </div> 
+
+                  <!-- MẶT B: NỘI DUNG trong khung gradient -->
+                  <div class="flip-back">
+                    <div class="gradient-border">
+                      <h5 class="mb-2">Web Application Developer</h5> 
+                      <p class="mb-1">
+                        Formation de 13 mois à <a href="#">Interface3</a> (dont 2 mois de stage).
+                      </p> 
+                      <p class="mb-0">
+                        Participation au Hackaton 2020 du centre durant 3 jours sur le thème « decode&code ».
+                      </p> 
+                    </div>
+                  </div> 
+
+                </div> 
+              </div> 
+            </div> 
+          </div> 
+                        
+          <!-- ITEM 2 --> 
+          <div class="timeline-item"> 
+            <div class="timeline-year">
+              <span class="timeline-year-box">2024–2025</span>
+            </div>
+
+            <div class="timeline-center">
+              <span class="timeline-dot"></span>
+            </div>
+
+            <div class="timeline-content"> 
+              <div class="flip-card"> 
+                <div class="flip-inner"> 
+
+                  <div class="flip-front"> 
+                    <h4 class="timeline-title mb-0">IEPSCF, Braine-l'Alleud</h4> 
+                  </div> 
+
+                  <div class="flip-back">
+                    <div class="gradient-border">
+                      <h5 class="mb-2">IEPSCF, Braine-l'Alleud</h5> 
+                      <p class="mb-1">
+                        Bachelier en Arts plastiques, visuels et de l’espace à
+                        <a href="#">Ecole supérieure des Arts de l’image Le75</a>.
+                      </p> 
+                      <p class="mb-0">
+                        Sujet de fin d’étude : « Mieux connaître le réseau internet ».
+                      </p> 
+                    </div>
+                  </div> 
+
+                </div> 
+              </div> 
+            </div> 
+          </div> 
+                        
+          <!-- ITEM 3 --> 
+          <div class="timeline-item"> 
+            <div class="timeline-year">
+              <span class="timeline-year-box">2021</span>
+            </div>
+
+            <div class="timeline-center">
+              <span class="timeline-dot"></span>
+            </div>
+
+            <div class="timeline-content"> 
+              <div class="flip-card"> 
+                <div class="flip-inner">
+
+                  <div class="flip-front"> 
+                    <h4 class="timeline-title mb-0">BIM ARCHITECT</h4> 
+                  </div> 
+
+                  <div class="flip-back">
+                    <div class="gradient-border">
+                      <h5 class="mb-2">BIM ARCHITECT</h5> 
+                      <p class="mb-0">Mô tả ngắn về BIM ARCHITECT của bạn…</p> 
+                    </div>
+                  </div> 
+
+                </div> 
+              </div> 
+            </div> 
+          </div> 
+                        
+          <!-- ITEM 4 --> 
+          <div class="timeline-item"> 
+            <div class="timeline-year">
+              <span class="timeline-year-box">2019–2020</span>
+            </div>
+
+            <div class="timeline-center">
+              <span class="timeline-dot"></span>
+            </div>
+
+            <div class="timeline-content"> 
+              <div class="flip-card"> 
+                <div class="flip-inner"> 
+
+                  <div class="flip-front"> 
+                    <h4 class="timeline-title mb-0">I.E.P.S.C.F – Uccle, Bruxelles</h4> 
+                  </div> 
+
+                  <div class="flip-back">
+                    <div class="gradient-border">
+                      <h5 class="mb-2">I.E.P.S.C.F – Uccle, Bruxelles</h5> 
+                      <p class="mb-0">
+                        Création et gestion d’une réelle mini-entreprise
+                        durant une année scolaire (groupe de 3 pers.).
+                      </p> 
+                    </div>
+                  </div> 
+
+                </div> 
+              </div> 
+            </div> 
+          </div> 
+
+          <!-- ITEM 5 --> 
+          <div class="timeline-item"> 
+            <div class="timeline-year">
+              <span class="timeline-year-box">2004–2009</span>
+            </div>
+
+            <div class="timeline-center">
+              <span class="timeline-dot"></span>
+            </div>
+
+            <div class="timeline-content"> 
+              <div class="flip-card"> 
+                <div class="flip-inner">
+
+                  <div class="flip-front"> 
+                    <h4 class="timeline-title mb-0">UNIVERSITÉ D’ARCHITECTURE DE HÔ CHI MINH, VietNam</h4> 
+                  </div> 
+
+                  <div class="flip-back">
+                    <div class="gradient-border">
+                      <h5 class="mb-2">ARCHITECTURE UNIVERSITY OF HO-CHI-MINH, VietNam</h5> 
+                      <p class="mb-0">
+                        Création et gestion d’une réelle mini-entreprise
+                        durant một année scolaire (groupe de 3 pers.).
+                      </p> 
+                    </div>
+                  </div> 
+
+                </div> 
+              </div> 
+            </div> 
+          </div>
+
+        </div><!-- /.timeline --> 
+      </div><!-- /.col --> 
+
+    </div>
+  </div> 
+                
+  <!-- Bootstrap MIN JS --> 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script> 
+
+  <!-- JS: đo front/back, thay đổi chiều cao thẻ để đẩy các item dưới xuống -->
+  <script>
+    window.addEventListener('load', function () {
+      document.querySelectorAll('.flip-card').forEach(function(card){
+        const front = card.querySelector('.flip-front');
+        const back  = card.querySelector('.flip-back');
+        const inner = card.querySelector('.flip-inner');
+        if (!front || !back || !inner) return;
+
+        // Lấy chiều cao thực của 2 mặt
+        const frontH = front.scrollHeight;
+        const backH  = back.scrollHeight;
+        const maxH   = Math.max(frontH, backH);
+
+        // Card bình thường chỉ cao bằng mặt A
+        card.style.height = frontH + 'px';
+
+        // Nội dung bên trong luôn đủ cao cho mặt lớn nhất để flip không bị cắt
+        inner.style.height = maxH + 'px';
+
+        // Lưu lại để dùng khi hover
+        card.dataset.frontHeight = frontH;
+        card.dataset.maxHeight   = maxH;
+
+        card.addEventListener('mouseenter', function(){
+          card.style.height = card.dataset.maxHeight + 'px';   // đẩy item dưới xuống
+        });
+
+        card.addEventListener('mouseleave', function(){
+          card.style.height = card.dataset.frontHeight + 'px'; // co lại như cũ
+        });
+      });
+    });
+  </script>
+</body> 
+</html>
