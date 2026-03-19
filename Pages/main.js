@@ -425,3 +425,20 @@ window.addEventListener('load', function () {
     });
   });
 });
+
+// === Auto close navbar mobile when clicking outside ===
+document.addEventListener("click", function (e) {
+  const navCollapse = document.getElementById("mainNavCollapse");
+  const nav = document.getElementById("mainNav");
+
+  if (!navCollapse || !nav) return;
+
+  const isMenuOpen = navCollapse.classList.contains("show");
+  const clickedInsideNav = nav.contains(e.target);
+
+  if (isMenuOpen && !clickedInsideNav) {
+    const bsCollapse = bootstrap.Collapse.getInstance(navCollapse)
+      || new bootstrap.Collapse(navCollapse, { toggle: false });
+    bsCollapse.hide();
+  }
+});

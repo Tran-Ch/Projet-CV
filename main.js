@@ -72,12 +72,17 @@ window.addEventListener('load', () => {
 });
 
 // === RELOAD HANDLER ===
-const reloadHandler = document.querySelector('.signature__handler');
+const reloadHandler = document.querySelector('.signature__reload-all');
 if (reloadHandler) {
     const reload = () => window.location.reload();
+
     reloadHandler.addEventListener('click', reload);
+
     reloadHandler.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); reload(); }
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            reload();
+        }
     });
 }
 

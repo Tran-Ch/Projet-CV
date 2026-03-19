@@ -114,8 +114,19 @@ body {
     padding-inline: 4px;
 }
 
+.signature__reload-all {
+    cursor: pointer;
+}
 
+.signature__reload-all:focus-visible {
+    outline: 2px solid #5CC6FF;
+    outline-offset: 4px;
+    border-radius: 6px;
+}
 
+.signature__reload-all:hover {
+    filter: brightness(1.15);
+}
 
 /* Background */
 .background { position: fixed; inset: 0; z-index: -1; overflow: hidden; }

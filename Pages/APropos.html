@@ -77,13 +77,13 @@
       <div class="collapse navbar-collapse justify-content-center" id="mainNavCollapse">
         <ul class="navbar-nav gap-2">
           <!-- ACCUEIL đi sang file khác -->
-          <li class="nav-item"><a class="nav-bordered nav-link" href="../index.html">ACCUEIL</a></li>
+          <li class="nav-item"><a class="nav-bordered nav-link" href="../index.html">accueil</a></li>
           <!-- Trang hiện tại: A PROPOS ở trên cùng của page (id #apropos) -->
-          <li class="nav-item"><a class="nav-bordered nav-link" href="#apropos">A PROPOS</a></li>
-          <li class="nav-item"><a class="nav-bordered nav-link" href="#competences">COMPÉTENCES</a></li>
-          <li class="nav-item"><a class="nav-bordered nav-link" href="#formation">FORMATION</a></li>
-          <li class="nav-item"><a class="nav-bordered nav-link" href="#portfolio">PORTFOLIO</a></li>
-          <li class="nav-item"><a class="nav-bordered nav-link" href="#contact">CONTACT</a></li>
+          <li class="nav-item"><a class="nav-bordered nav-link" href="#apropos">à propos</a></li>
+          <li class="nav-item"><a class="nav-bordered nav-link" href="#competences">compétences</a></li>
+          <li class="nav-item"><a class="nav-bordered nav-link" href="#formation">formation</a></li>
+          <li class="nav-item"><a class="nav-bordered nav-link" href="#portfolio">portfolio</a></li>
+          <li class="nav-item"><a class="nav-bordered nav-link" href="#contact">contact</a></li>
         </ul>
       </div>
     </div>
@@ -148,10 +148,34 @@
 
         <div id="main-content">
           <!-- CERCLE AVATAR - Ảnh vòng phát sáng ở chính giữa -->
-          <img src="../Photos/cercle.png" alt="Gradient ring" class="hero-ring hero-ring--left" width="768" height="768"/>
+          <div class="hero-visual">
+            <img src="../photos/cercle.png" alt="Gradient ring" class="hero-ring" width="768" height="768"/>
+            <img src="../photos/photo site cv.png" alt="Chuong Tran" class="hero-avatar" width="420" height="420"/>
+          </div>
   
           <!-- Ảnh “Propos” nằm bên phải, đối xứng với vòng tròn -->
-          <img src="../Photos/Propos.png" alt="À propos" class="hero-photo hero-photo--right" width="768" height="768" loading="lazy"/>
+          <!-- <img src="../photos/Propos.png" alt="À propos" class="hero-photo hero-photo--right" width="768" height="768" loading="lazy"/> -->
+           
+           <!-- Khối texte bên phải, đối xứng với vòng tròn -->
+          <div class="hero-text hero-text--right">
+            <div class="hero-intro-visual">
+              <h2 class="hero-code-title">
+                <span class="hero-code-tag">&lt;b&gt;</span><span class="hero-code-word">Hello</span><span class="hero-code-tag">&lt;/b&gt;</span>
+              </h2>
+
+              <h3 class="hero-name-line">Je m’appelle Chuong Tran</h3>
+            </div>
+
+            <div class="hero-description">
+              <p>
+                Je suis architecte de formation, avec plus de 10 ans d’expérience professionnelle. Au fil de mon parcours, j’ai évolué dans le domaine de la conception architecturale, tout en me familiarisant avec des outils de programmation et des solutions numériques pour concrétiser les projets que j’imaginais. Cette expérience m’a permis de développer une approche à la fois créative, structurée et orientée vers la résolution de problèmes, et a progressivement fait naître chez moi un intérêt croissant pour le développement web.
+              </p>
+
+              <p>
+                Aujourd’hui, grâce à la formation professionnelle à temps plein Web Application Developer (Full-Stack) d’Interface3, je m’engage dans une nouvelle étape de mon parcours. Pour moi, il ne s’agit pas d’une rupture, mais d’une continuité naturelle : passer de la conception d’espaces fonctionnels à la création de produits numériques pensés avec la même logique, la même rigueur et la même attention portée à l’utilisateur. Conscient des exigences du métier et du chemin qu’il reste à parcourir en tant que développeur junior, j’aborde cette transition avec motivation, capacité d’adaptation et envie d’apprendre, afin d’évoluer pas à pas dans ce nouveau domaine professionnel.
+              </p>
+            </div>
+          </div>
         </div>
       </header>
     </main>
@@ -161,7 +185,7 @@
          ======================== -->
     <section id="competences" class="panel competences">
     <h2 class="competences__title">
-      <span class="typing-wrap"><span class="typing-text">Compétences</span></span>
+        <span class="typing-wrap"><span class="typing-text">compétences</span></span>
     </h2>
 
     <div class="container competences__wrap">
@@ -172,7 +196,7 @@
             <div class="col-6 col-md-3">
               <div class="skill">
                 <div class="skill__icon">
-                  <img src="../Photos/web.png" alt="Web">
+                  <img src="../photos/web.png" alt="Web">
                 </div>
                 <div class="skill__note">
                   <h5>Web</h5>
@@ -190,7 +214,7 @@
             <div class="col-6 col-md-3">
               <div class="skill">
                 <div class="skill__icon">
-                  <img src="../Photos/gestion.png" alt="Gestion">
+                  <img src="../photos/gestion.png" alt="Gestion">
                 </div>
                 <div class="skill__note">
                   <h5>Gestion</h5>
@@ -207,7 +231,7 @@
             <div class="col-6 col-md-3">
               <div class="skill">
                 <div class="skill__icon">
-                  <img src="../Photos/codeicon.png" alt="Code">
+                  <img src="../photos/codeicon.png" alt="Code">
                 </div>
                 <div class="skill__note">
                   <h5>Programmation</h5>
@@ -224,7 +248,7 @@
             <div class="col-6 col-md-3">
               <div class="skill">
                 <div class="skill__icon">
-                  <img src="../Photos/basedonnees.png" alt="Base de Données">
+                  <img src="../photos/basedonnees.png" alt="Base de Données">
                 </div>
                 <div class="skill__note">
                   <h5>Base de Données</h5>
@@ -241,7 +265,7 @@
             <div class="col-6 col-md-3">
               <div class="skill">
                 <div class="skill__icon">
-                  <img src="../Photos/framework.png" alt="Framework">
+                  <img src="../photos/framework.png" alt="Framework">
                 </div>
                 <div class="skill__note">
                   <h5>Framework</h5>
@@ -258,7 +282,7 @@
             <div class="col-6 col-md-3">
               <div class="skill">
                 <div class="skill__icon">
-                  <img src="../Photos/analyse.png" alt="Analyse">
+                  <img src="../photos/analyse.png" alt="Analyse">
                 </div>
                 <div class="skill__note">
                   <h5>Analyse</h5>
@@ -274,7 +298,7 @@
             <div class="col-6 col-md-3">
               <div class="skill">
                 <div class="skill__icon">
-                  <img src="../Photos/design.png" alt="Design">
+                  <img src="../photos/design.png" alt="Design">
                 </div>
                 <div class="skill__note">
                   <h5>Design</h5>
@@ -296,7 +320,7 @@
     <section id="formation" class="panel section-with-title">
       <div class="container formation-section">
         <h2 class="section-title">
-          <span class="typing-wrap"><span class="typing-text">Formation</span></span>
+          <span class="typing-wrap"><span class="typing-text">formation</span></span>
         </h2>
 
         <div class="formation-wrapper">
@@ -304,7 +328,7 @@
 
             <!-- CỘT TRÁI: HÌNH -->
             <div class="col-lg-5 text-center">
-              <img src="../Photos/formation.png" alt="Formation" class="formation-image">
+              <img src="../photos/formation.png" alt="Formation" class="formation-image">
             </div>
 
             <!-- CỘT PHẢI: TIMELINE -->
@@ -327,13 +351,13 @@
 
                         <!-- MẶT A: TIÊU ĐỀ -->
                         <div class="flip-front">
-                          <h4 class="timeline-title mb-0">WEB APPLICATION DEVELOPER, </h4>
+                          <h4 class="timeline-title mb-0">web application developer, Bruxelles</h4>
                         </div>
 
                         <!-- MẶT B -->
                         <div class="flip-back">
                           <div class="gradient-border">
-                            <h5 class="mb-2">Web Application Developer</h5>
+                            <h5 class="mb-2">web application developer</h5>
                             <p class="mb-1">
                               Formation de 13 mois à <a href="#">Interface3</a> (dont 2 mois de stage).
                             </p>
@@ -399,12 +423,12 @@
                       <div class="flip-inner">
 
                         <div class="flip-front">
-                          <h4 class="timeline-title mb-0">BIM ARCHITECT, Bruxelles</h4>
+                          <h4 class="timeline-title mb-0">bim architect, Bruxelles</h4>
                         </div>
 
                         <div class="flip-back">
                           <div class="gradient-border">
-                            <h5 class="mb-2">BIM ARCHITECT</h5>
+                            <h5 class="mb-2">bim architect</h5>
                             <p class="mb-0">Mô tả ngắn về BIM ARCHITECT của bạn…</p>
                           </div>
                         </div>
@@ -462,12 +486,12 @@
                       <div class="flip-inner">
 
                         <div class="flip-front">
-                          <h4 class="timeline-title mb-0">UNIVERSITÉ D’ARCHITECTURE DE HO CHI MINH, VietNam</h4>
+                          <h4 class="timeline-title mb-0">université d'architecture de ho chi minh, vietnam</h4>
                         </div>
 
                         <div class="flip-back">
                           <div class="gradient-border">
-                            <h5 class="mb-2">ARCHITECTURE UNIVERSITY OF HO-CHI-MINH, VietNam</h5>
+                            <h5 class="mb-2">architecture university of ho-chi-minh, vietnam</h5>
                             <p class="mb-0">
                               Création et gestion d’une réelle mini-entreprise
                               durant một année scolaire (groupe de 3 pers.).
@@ -488,7 +512,7 @@
     
     <section id="portfolio" class="panel section-with-title">
         <h2 class="section-title">
-          <span class="typing-wrap"><span class="typing-text">Portfolio</span></span>
+          <span class="typing-wrap"><span class="typing-text">portfolio</span></span>
         </h2>
         <div class="container">
         <!-- Introduction text -->
@@ -502,12 +526,12 @@
 
         <!-- Filter buttons -->
         <div class="portfolio-buttons">
-          <button class="filter-btn"><span>TOUS</span></button>
-          <button class="filter-btn"><span>C# (.NET)</span></button>
-          <button class="filter-btn"><span>JAVASCRIPT</span></button>
-          <button class="filter-btn"><span>PHP</span></button>
-          <button class="filter-btn"><span>MOBILE</span></button>
-          <button class="filter-btn"><span>AUTRES</span></button>
+          <button class="filter-btn"><span>tous</span></button>
+          <button class="filter-btn"><span>c# (.net)</span></button>
+          <button class="filter-btn"><span>javascript</span></button>
+          <button class="filter-btn"><span>php</span></button>
+          <button class="filter-btn"><span>mobile</span></button>
+          <button class="filter-btn"><span>autres</span></button>
         </div>
 
         <!-- Portfolio grid -->
@@ -515,7 +539,7 @@
           <!-- Project 1 -->
           <div class="portfolio-item">
             <div class="project-card">
-              <img src="../Photos/photo1.png" alt="Projet 1">
+              <img src="../photos/photo1.png" alt="Projet 1">
               <div class="project-overlay">
                 <div class="overlay-category">ASP.NET</div>
                 <div class="overlay-title">UCANCRAFT</div>
@@ -530,7 +554,7 @@
           <!-- Project 2 -->
           <div class="portfolio-item">
             <div class="project-card">
-              <img src="../Photos/photo2.png" alt="Projet 2">
+              <img src="../photos/photo2.png" alt="Projet 2">
               <div class="project-overlay">
                 <div class="overlay-category">JavaScript</div>
                 <div class="overlay-title">Keyboard UI</div>
@@ -545,7 +569,7 @@
           <!-- Project 3 -->
           <div class="portfolio-item">
             <div class="project-card">
-              <img src="../Photos/photo3.png" alt="Projet 3">
+              <img src="../photos/photo3.png" alt="Projet 3">
               <div class="project-overlay">
                 <div class="overlay-category">Symfony / PHP</div>
                 <div class="overlay-title">Rental House</div>
@@ -560,7 +584,7 @@
           <!-- Project 4 -->
           <div class="portfolio-item">
             <div class="project-card">
-              <img src="../Photos/photo4.png" alt="Projet 4">
+              <img src="../photos/photo4.png" alt="Projet 4">
               <div class="project-overlay">
                 <div class="overlay-category">ASP.NET</div>
                 <div class="overlay-title">Kinder-Tracker</div>
@@ -575,7 +599,7 @@
           <!-- Project 5 -->
           <div class="portfolio-item">
             <div class="project-card">
-              <img src="../Photos/photo5.png" alt="Projet 5">
+              <img src="../photos/photo5.png" alt="Projet 5">
               <div class="project-overlay">
                 <div class="overlay-category">Angular / Ionic</div>
                 <div class="overlay-title">HackerFlix</div>
@@ -590,7 +614,7 @@
           <!-- Project 6 -->
           <div class="portfolio-item">
             <div class="project-card">
-              <img src="../Photos/photo6.png" alt="Projet 6">
+              <img src="../photos/photo6.png" alt="Projet 6">
               <div class="project-overlay">
                 <div class="overlay-category">Mobile</div>
                 <div class="overlay-title">Food Scanner</div>
@@ -610,7 +634,7 @@
     <section id="contact" class="panel section-with-title">
       
         <h2 class="section-title">
-          <span class="typing-wrap"><span class="typing-text">Contact</span></span>
+          <span class="typing-wrap"><span class="typing-text">contact</span></span>
         </h2>
         <div class="container py-5">
         <p class="contact-intro">
@@ -691,13 +715,13 @@
   <!-- ===== NÚT MẠNG XÃ HỘI BÊN PHẢI ===== -->
   <div class="social-buttons">
     <a href="https://www.linkedin.com/in/chuong-tran-3308ab146/?locale=fr_FR" target="_blank" aria-label="LinkedIn">
-      <img src="../Photos/logoLinkedIn.png" alt="LinkedIn">
+      <img src="../photos/logoLinkedIn.png" alt="LinkedIn">
     </a>
     <a href="https://github.com/Tran-Ch" target="_blank" aria-label="GitHub">
-      <img src="../Photos/logoGitHub.png" alt="GitHub">
+      <img src="../photos/logoGitHub.png" alt="GitHub">
     </a>
     <a href="../Documents/CV.pdf" target="_blank" aria-label="CV">
-      <img src="../Photos/logoCV.png" alt="CV">
+      <img src="../photos/logoCV.png" alt="CV">
     </a>
   </div>
 
