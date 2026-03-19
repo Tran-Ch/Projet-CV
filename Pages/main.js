@@ -442,3 +442,50 @@ document.addEventListener("click", function (e) {
     bsCollapse.hide();
   }
 });
+
+// === JS: mở/close modal chi tiết dự án ===
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById("projectModal");
+  const closeBtn = document.querySelector(".close-btn");
+
+  // Lấy tất cả các nút "See More"
+  const seeMoreButtons = document.querySelectorAll(".overlay-link");
+
+  seeMoreButtons.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+
+      // Tìm phần tử cha (project-card) để lấy dữ liệu
+      const card = this.closest('.project-card');
+      const title = card.querySelector('.overlay-title').innerText;
+      const desc = card.querySelector('.overlay-desc').innerText;
+      const imgPath = card.querySelector('img').src;
+
+      // Đổ dữ liệu vào Modal
+      document.getElementById("modal-title").innerText = title;
+      document.getElementById("modal-desc").innerText = desc;
+      document.getElementById("modal-img").src = imgPath;
+      
+      // Bạn có thể tùy chỉnh link demo/github ở đây nếu cần
+      // document.getElementById("modal-demo").href = "link_cua_ban";
+
+      // Hiện Modal
+      modal.style.display = "block";
+      document.body.style.overflow = "hidden"; // Ngăn cuộn trang chính khi đang xem modal
+    });
+  });
+
+  // Đóng Modal khi click nút X
+  closeBtn.onclick = function() {
+    modal.style.display = "none";
+    document.body.style.overflow = "auto";
+  }
+
+  // Đóng Modal khi click ra ngoài vùng đen
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+      document.body.style.overflow = "auto";
+    }
+  }
+});

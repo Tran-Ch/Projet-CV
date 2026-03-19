@@ -1546,6 +1546,102 @@ body {
   }
 }
 
+/* Bảng thông tin chính */
+.modal-content {
+  background-color: #1a1a1a;
+  padding: 40px;
+  width: 85%;
+  max-width: 700px; /* Thu hẹp chiều rộng một chút để nội dung dọc trông cân đối hơn */
+  min-height: 70vh; /* Tăng chiều cao tối thiểu để có không gian căn giữa */
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 20px;
+  
+  /* Căn giữa Modal trên màn hình chính */
+  position: absolute;
+  top: 55%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  color: white;
+  border: 1px solid #333;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.9);
+
+  /* CĂN GIỮA NỘI DUNG BÊN TRONG THEO CHIỀU DỌC */
+  display: flex;
+  flex-direction: column;   /* Xếp hàng dọc: Ảnh -> Chữ -> Nút */
+  justify-content: center;  /* Căn giữa toàn bộ nội dung theo trục dọc (quan trọng) */
+  align-items: center;      /* Căn giữa toàn bộ nội dung theo trục ngang */
+  gap: 25px;                /* Khoảng cách đều giữa các thành phần */
+}
+
+/* Tinh chỉnh hình ảnh */
+.modal-img-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end; /* Đẩy hình ảnh sang bên phải của bảng */
+  
+  /* Dùng transform để nhấc ảnh lên phía trên mà không làm lệch vị trí của chữ bên dưới */
+  transform: translateY(-20px);
+}
+
+#modal-img {
+  width: 80%;               /* Ảnh chiếm 80% chiều rộng bảng để không bị quá to */
+  max-height: 300px;        /* Giới hạn chiều cao ảnh để nhường chỗ cho chữ */
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+/* Tinh chỉnh phần chữ */
+.modal-info {
+  text-align: center;       /* Chữ luôn canh giữa */
+  width: 100%;
+}
+
+.modal-info h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.modal-info p {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: #ccc;
+  max-width: 500px;         /* Giới hạn độ rộng dòng chữ để dễ đọc */
+  margin: 0 auto 20px auto; /* Căn giữa khối văn bản */
+}
+
+/* Hàng nút bấm */
+.modal-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.modal-btn {
+  padding: 12px 25px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.modal-btn.demo { background: #007bff; color: white; }
+.modal-btn.github { background: #333; color: white; border: 1px solid #444; }
+.modal-btn:hover { opacity: 0.8; transform: translateY(-2px); }
+
+/* Nút đóng X */
+.close-btn {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  font-size: 30px;
+  cursor: pointer;
+  color: #888;
+}
+
 /* ========================
    CONTACT
    ======================== */
