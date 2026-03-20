@@ -76,9 +76,7 @@
       <!-- Menu Bootstrap -->
       <div class="collapse navbar-collapse justify-content-center" id="mainNavCollapse">
         <ul class="navbar-nav gap-2">
-          <!-- ACCUEIL đi sang file khác -->
           <li class="nav-item"><a class="nav-bordered nav-link" href="../index.html">accueil</a></li>
-          <!-- Trang hiện tại: A PROPOS ở trên cùng của page (id #apropos) -->
           <li class="nav-item"><a class="nav-bordered nav-link" href="#apropos">à propos</a></li>
           <li class="nav-item"><a class="nav-bordered nav-link" href="#competences">compétences</a></li>
           <li class="nav-item"><a class="nav-bordered nav-link" href="#formation">formation</a></li>
@@ -103,32 +101,32 @@
     <div class="grain"></div>
   </div>
 
-    <!-- Capsule Button Animation -->
-        <div class="capsule-demo" role="button" tabindex="0" aria-label="Aller à la section suivante">
-          <svg class="capsule-svg" viewBox="0 0 200 340" role="img" aria-label="Animated capsule with inner path">
-            <path id="capsule" class="capsule"
-                  d="M 100,10
-                     A 70,70 0 0 1 170,80
-                     L 170,260
-                     A 70,70 0 0 1 100,330
-                     A 70,70 0 0 1 30,260
-                     L 30,80
-                     A 70,70 0 0 1 100,10
-                     Z" />
-            <path id="inner" class="inner" transform="translate(-14,0)"
-                  d="M 77 20
-                     C 157 40 137 70 97 110
-                     C 114 113 120 111 113 137
-                     C 105 160 104 224 105 280" />
-            <g id="downArrow" class="arrow">
-              <line x1="100" y1="222" x2="100" y2="282" />
-              <line x1="80"  y1="266" x2="100" y2="286" />
-              <line x1="120" y1="266" x2="100" y2="286" />
-            </g>
-          </svg>
-        </div>
+  <!-- Capsule Button Animation -->
+  <div class="capsule-demo" role="button" tabindex="0" aria-label="Aller à la section suivante">
+    <svg class="capsule-svg" viewBox="0 0 200 340" role="img" aria-label="Animated capsule with inner path">
+      <path id="capsule" class="capsule"
+            d="M 100,10
+               A 70,70 0 0 1 170,80
+               L 170,260
+               A 70,70 0 0 1 100,330
+               A 70,70 0 0 1 30,260
+               L 30,80
+               A 70,70 0 0 1 100,10
+               Z" />
+      <path id="inner" class="inner" transform="translate(-14,0)"
+            d="M 77 20
+               C 157 40 137 70 97 110
+               C 114 113 120 111 113 137
+               C 105 160 104 224 105 280" />
+      <g id="downArrow" class="arrow">
+        <line x1="100" y1="222" x2="100" y2="282" />
+        <line x1="80"  y1="266" x2="100" y2="286" />
+        <line x1="120" y1="266" x2="100" y2="286" />
+      </g>
+    </svg>
+  </div>
 
-  <!-- SNAP CONTAINER + SCROLLSPY: lăn chuột sang section kế + tự active nav -->
+  <!-- SNAP CONTAINER + SCROLLSPY -->
   <div class="snap-container"
        data-bs-spy="scroll"
        data-bs-target="#mainNav"
@@ -144,19 +142,14 @@
           <span class="typing-wrap"><span class="typing-text">À propos</span></span>
         </h1>
 
-        
-
         <div id="main-content">
           <!-- CERCLE AVATAR - Ảnh vòng phát sáng ở chính giữa -->
           <div class="hero-visual">
             <img src="../photos/cercle.png" alt="Gradient ring" class="hero-ring" width="768" height="768"/>
             <img src="../photos/photo site cv.png" alt="Chuong Tran" class="hero-avatar" width="420" height="420"/>
           </div>
-  
-          <!-- Ảnh “Propos” nằm bên phải, đối xứng với vòng tròn -->
-          <!-- <img src="../photos/Propos.png" alt="À propos" class="hero-photo hero-photo--right" width="768" height="768" loading="lazy"/> -->
-           
-           <!-- Khối texte bên phải, đối xứng với vòng tròn -->
+
+          <!-- Khối texte bên phải, đối xứng với vòng tròn -->
           <div class="hero-text hero-text--right">
             <div class="hero-intro-visual">
               <h2 class="hero-code-title">
@@ -184,13 +177,13 @@
          CÁC SECTION TIẾP THEO
          ======================== -->
     <section id="competences" class="panel competences">
-    <h2 class="competences__title">
+      <h2 class="competences__title">
         <span class="typing-wrap"><span class="typing-text">compétences</span></span>
-    </h2>
+      </h2>
 
-    <div class="container competences__wrap">
-      <div class="competences__grid">
-        <div class="row g-5 justify-content-center skills-grid">
+      <div class="container competences__wrap">
+        <div class="competences__grid">
+          <div class="row g-5 justify-content-center skills-grid">
 
             <!-- 1) Web -->
             <div class="col-6 col-md-3">
@@ -348,13 +341,10 @@
                   <div class="timeline-content">
                     <div class="flip-card">
                       <div class="flip-inner">
-
-                        <!-- MẶT A: TIÊU ĐỀ -->
                         <div class="flip-front">
                           <h4 class="timeline-title mb-0">web application developer, Bruxelles</h4>
                         </div>
 
-                        <!-- MẶT B -->
                         <div class="flip-back">
                           <div class="gradient-border">
                             <h5 class="mb-2">web application developer</h5>
@@ -366,7 +356,6 @@
                             </p>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -385,7 +374,6 @@
                   <div class="timeline-content">
                     <div class="flip-card">
                       <div class="flip-inner">
-
                         <div class="flip-front">
                           <h4 class="timeline-title mb-0">IEPSCF, Braine-l'Alleud</h4>
                         </div>
@@ -402,7 +390,6 @@
                             </p>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -421,7 +408,6 @@
                   <div class="timeline-content">
                     <div class="flip-card">
                       <div class="flip-inner">
-
                         <div class="flip-front">
                           <h4 class="timeline-title mb-0">bim architect, Bruxelles</h4>
                         </div>
@@ -432,7 +418,6 @@
                             <p class="mb-0">Mô tả ngắn về BIM ARCHITECT của bạn…</p>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -451,7 +436,6 @@
                   <div class="timeline-content">
                     <div class="flip-card">
                       <div class="flip-inner">
-
                         <div class="flip-front">
                           <h4 class="timeline-title mb-0">I.E.P.S.C.F – Uccle, Bruxelles</h4>
                         </div>
@@ -460,12 +444,10 @@
                           <div class="gradient-border">
                             <h5 class="mb-2">I.E.P.S.C.F – Uccle, Bruxelles</h5>
                             <p class="mb-0">
-                              Création et gestion d’une réelle mini-entreprise
-                              durant une année scolaire (groupe de 3 pers.).
+                              Création et gestion d’une réelle mini-entreprise durant une année scolaire (groupe de 3 pers.).
                             </p>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -484,7 +466,6 @@
                   <div class="timeline-content">
                     <div class="flip-card">
                       <div class="flip-inner">
-
                         <div class="flip-front">
                           <h4 class="timeline-title mb-0">université d'architecture de ho chi minh, vietnam</h4>
                         </div>
@@ -493,12 +474,10 @@
                           <div class="gradient-border">
                             <h5 class="mb-2">architecture university of ho-chi-minh, vietnam</h5>
                             <p class="mb-0">
-                              Création et gestion d’une réelle mini-entreprise
-                              durant một année scolaire (groupe de 3 pers.).
+                              Création et gestion d’une réelle mini-entreprise durant une année scolaire (groupe de 3 pers.).
                             </p>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -508,13 +487,16 @@
             </div><!-- /.col-lg-7 -->
           </div>
         </div>
+      </div>
     </section>
-    
+
+    <!-- ===== PORTFOLIO ===== -->
     <section id="portfolio" class="panel section-with-title">
-        <h2 class="section-title">
-          <span class="typing-wrap"><span class="typing-text">portfolio</span></span>
-        </h2>
-        <div class="container">
+      <h2 class="section-title">
+        <span class="typing-wrap"><span class="typing-text">portfolio</span></span>
+      </h2>
+
+      <div class="container">
         <!-- Introduction text -->
         <p class="intro-text">
           Au cours de l'année écoulée, j'ai franchi mes premières étapes vers le métier de développeur
@@ -524,127 +506,124 @@
           expériences comme un journal de mon parcours à travers les projets sur lesquels j'ai travaillé.
         </p>
 
-        <!-- Filter buttons -->
-        <div class="portfolio-buttons">
-          <button class="filter-btn"><span>tous</span></button>
-          <button class="filter-btn"><span>c# (.net)</span></button>
-          <button class="filter-btn"><span>javascript</span></button>
-          <button class="filter-btn"><span>php</span></button>
-          <button class="filter-btn"><span>mobile</span></button>
-          <button class="filter-btn"><span>autres</span></button>
-        </div>
-
         <!-- Portfolio grid -->
-        <div class="portfolio-grid">
-          <!-- Project 1 -->
-          <div class="portfolio-item">
-            <div class="project-card">
-              <img src="../photos/photo1.png" alt="Projet 1">
-              <div class="project-overlay">
-                <div class="overlay-category">ASP.NET</div>
-                <div class="overlay-title">UCANCRAFT</div>
-                <div class="overlay-desc">
-                  Application for searching craft workshops, responsive on desktop, tablet and mobile.
+        <div class="portfolio-wrap">
+          <div class="portfolio-grid">
+
+            <!-- Project 1 -->
+            <div class="portfolio-item">
+              <div class="project-card">
+                <img src="../photos/photo1.png" alt="Projet 1">
+                <div class="project-overlay">
+                  <div class="overlay-category">ASP.NET</div>
+                  <div class="overlay-title">UCANCRAFT</div>
+                  <div class="overlay-desc">
+                    Application for searching craft workshops, responsive on desktop, tablet and mobile.
+                  </div>
+                  <a href="#" class="overlay-link">Voir plus <span>➜</span></a>
                 </div>
-                <a href="#" class="overlay-link">See More <span>➜</span></a>
               </div>
             </div>
-          </div>
 
-          <!-- Project 2 -->
-          <div class="portfolio-item">
-            <div class="project-card">
-              <img src="../photos/photo2.png" alt="Projet 2">
-              <div class="project-overlay">
-                <div class="overlay-category">JavaScript</div>
-                <div class="overlay-title">Keyboard UI</div>
-                <div class="overlay-desc">
-                  Interactive web keyboard with custom lighting and sound effects.
+            <!-- Project 2 -->
+            <div class="portfolio-item">
+              <div class="project-card">
+                <img src="../photos/photo2.png" alt="Projet 2">
+                <div class="project-overlay">
+                  <div class="overlay-category">JavaScript</div>
+                  <div class="overlay-title">Keyboard UI</div>
+                  <div class="overlay-desc">
+                    Interactive web keyboard with custom lighting and sound effects.
+                  </div>
+                  <a href="#" class="overlay-link">Voir plus <span>➜</span></a>
                 </div>
-                <a href="#" class="overlay-link">See More <span>➜</span></a>
               </div>
             </div>
-          </div>
 
-          <!-- Project 3 -->
-          <div class="portfolio-item">
-            <div class="project-card">
-              <img src="../photos/photo3.png" alt="Projet 3">
-              <div class="project-overlay">
-                <div class="overlay-category">Symfony / PHP</div>
-                <div class="overlay-title">Rental House</div>
-                <div class="overlay-desc">
-                  Real estate platform for searching and booking holiday homes.
+            <!-- Project 3 -->
+            <div class="portfolio-item">
+              <div class="project-card">
+                <img src="../photos/photo3.png" alt="Projet 3">
+                <div class="project-overlay">
+                  <div class="overlay-category">Symfony / PHP</div>
+                  <div class="overlay-title">Rental House</div>
+                  <div class="overlay-desc">
+                    Real estate platform for searching and booking holiday homes.
+                  </div>
+                  <a href="#" class="overlay-link">Voir plus <span>➜</span></a>
                 </div>
-                <a href="#" class="overlay-link">See More <span>➜</span></a>
               </div>
             </div>
-          </div>
 
-          <!-- Project 4 -->
-          <div class="portfolio-item">
-            <div class="project-card">
-              <img src="../photos/photo4.png" alt="Projet 4">
-              <div class="project-overlay">
-                <div class="overlay-category">ASP.NET</div>
-                <div class="overlay-title">Kinder-Tracker</div>
-                <div class="overlay-desc">
-                  Web app to track kids' daily activities and progress.
+            <!-- Project 4 -->
+            <div class="portfolio-item">
+              <div class="project-card">
+                <img src="../photos/photo4.png" alt="Projet 4">
+                <div class="project-overlay">
+                  <div class="overlay-category">ASP.NET</div>
+                  <div class="overlay-title">Kinder-Tracker</div>
+                  <div class="overlay-desc">
+                    Web app to track kids' daily activities and progress.
+                  </div>
+                  <a href="#" class="overlay-link">Voir plus <span>➜</span></a>
                 </div>
-                <a href="#" class="overlay-link">See More <span>➜</span></a>
               </div>
             </div>
-          </div>
 
-          <!-- Project 5 -->
-          <div class="portfolio-item">
-            <div class="project-card">
-              <img src="../photos/photo5.png" alt="Projet 5">
-              <div class="project-overlay">
-                <div class="overlay-category">Angular / Ionic</div>
-                <div class="overlay-title">HackerFlix</div>
-                <div class="overlay-desc">
-                  Movie recommendation app with responsive layout on all devices.
+            <!-- Project 5 -->
+            <div class="portfolio-item">
+              <div class="project-card">
+                <img src="../photos/photo5.png" alt="Projet 5">
+                <div class="project-overlay">
+                  <div class="overlay-category">Angular / Ionic</div>
+                  <div class="overlay-title">HackerFlix</div>
+                  <div class="overlay-desc">
+                    Movie recommendation app with responsive layout on all devices.
+                  </div>
+                  <a href="#" class="overlay-link">Voir plus <span>➜</span></a>
                 </div>
-                <a href="#" class="overlay-link">See More <span>➜</span></a>
               </div>
             </div>
-          </div>
 
-          <!-- Project 6 -->
-          <div class="portfolio-item">
-            <div class="project-card">
-              <img src="../photos/photo6.png" alt="Projet 6">
-              <div class="project-overlay">
-                <div class="overlay-category">Mobile</div>
-                <div class="overlay-title">Food Scanner</div>
-                <div class="overlay-desc">
-                  Mobile app to scan food labels and show nutrition information.
+            <!-- Project 6 -->
+            <div class="portfolio-item">
+              <div class="project-card">
+                <img src="../photos/photo6.png" alt="Projet 6">
+                <div class="project-overlay">
+                  <div class="overlay-category">Mobile</div>
+                  <div class="overlay-title">Food Scanner</div>
+                  <div class="overlay-desc">
+                    Mobile app to scan food labels and show nutrition information.
+                  </div>
+                  <a href="#" class="overlay-link">Voir plus <span>➜</span></a>
                 </div>
-                <a href="#" class="overlay-link">See More <span>➜</span></a>
               </div>
             </div>
-          </div>
 
+          </div>
         </div>
       </div>
     </section>
 
+    <!-- ===== MODAL PROJECT ===== -->
     <div id="projectModal" class="modal">
       <div class="modal-content">
         <span class="close-btn">&times;</span>
-        
+
         <div class="modal-body">
           <div class="modal-image-container">
             <img id="modal-img" src="" alt="Project Detail">
           </div>
-          
+
           <div class="modal-info">
             <h2 id="modal-title">Title</h2>
             <p id="modal-desc">Description goes here...</p>
-            
+
+            <!-- Tags công nghệ -->
+            <div id="modal-tags" class="modal-tags"></div>
+
             <div class="modal-actions">
-              <a href="#" id="modal-demo" class="modal-btn demo" target="_blank">View Demo</a>
+              <a href="#" id="modal-demo" class="modal-btn demo" target="_blank">Demo</a>
               <a href="#" id="modal-github" class="modal-btn github" target="_blank">GitHub</a>
             </div>
           </div>
@@ -654,11 +633,11 @@
 
     <!-- ===== CONTACT ===== -->
     <section id="contact" class="panel section-with-title">
-      
-        <h2 class="section-title">
-          <span class="typing-wrap"><span class="typing-text">contact</span></span>
-        </h2>
-        <div class="container py-5">
+      <h2 class="section-title">
+        <span class="typing-wrap"><span class="typing-text">contact</span></span>
+      </h2>
+
+      <div class="container py-5">
         <p class="contact-intro">
           Merci d’avoir visité ma page personnelle. Vous pouvez télécharger mon CV pour découvrir en détail mon parcours et mes expériences. 
           Si vous souhaitez échanger ou obtenir davantage d’informations à mon sujet, n’hésitez pas à m’envoyer un e-mail ou à me contacter 
@@ -737,16 +716,15 @@
   <!-- ===== NÚT MẠNG XÃ HỘI BÊN PHẢI ===== -->
   <div class="social-buttons">
     <a href="https://www.linkedin.com/in/chuong-tran-3308ab146/?locale=fr_FR" target="_blank" aria-label="LinkedIn">
-      <img src="../photos/logoLinkedIn.png" alt="LinkedIn">
+      <img src="../photos/logolinkedin.png" alt="LinkedIn">
     </a>
     <a href="https://github.com/Tran-Ch" target="_blank" aria-label="GitHub">
-      <img src="../photos/logoGitHub.png" alt="GitHub">
+      <img src="../photos/logogithub.png" alt="GitHub">
     </a>
     <a href="../Documents/CV.pdf" target="_blank" aria-label="CV">
-      <img src="../photos/logoCV.png" alt="CV">
+      <img src="../photos/logocv.png" alt="CV">
     </a>
   </div>
-
 
 </body>
 </html>
