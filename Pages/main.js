@@ -437,38 +437,48 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (!modal || !closeBtn) return;
 
-  // Dữ liệu link demo / github / tags cho từng project
+  // Dữ liệu link demo / github / tags / ảnh riêng cho từng project
   // Có thể thay bằng link thật của từng project sau này
   const projectData = {
-    UCANCRAFT: {
-      demo: '#',
-      github: '#',
-      tags: ['ASP.NET', 'C#', 'MVC']
+    'Découvrir le Vietnam': {
+      demo: 'http://wad09.interface3.be/',
+      github: 'https://github.com/Tran-Ch/SymfonyCours.git',
+      tags: ['Symfony', 'PHP#', 'Javascript', 'MySQL', 'Html', 'Css', 'Bootstrap', 'API', 'PHPmyAdmin'],
+      modalImage: '../photos/photo1-1.png',
+      description: "Ce projet touristique est né de ma profonde passion pour l’âme du Vietnam : la chaleur de son peuple, la richesse de sa culture millénaire et la vitalité de ses traditions. Chaque itinéraire, chaque expérience que je propose est conçu avec respect et admiration pour les valeurs locales, les savoir-faire artisanaux, la gastronomie authentique et les histoires humaines qui donnent à ce pays toute sa singularité. À travers mes suggestions de voyage, je souhaite offrir bien plus qu’un simple séjour, mais une immersion sincère dans la beauté, la générosité et la richesse culturelle du Vietnam."
     },
-    'Keyboard UI': {
-      demo: '#',
-      github: '#',
-      tags: ['PHP', 'JavaScript', 'MySQL']
+    'MyGouvernement.be': {
+      demo: 'https://mygouvernement.hackathon2025.interface3.be/',
+      github: 'https://github.com/Tran-Ch/HACKATHON-MyGouvernement.be.git',
+      tags: ['Html', 'CSS', 'Javascript', 'Flask', 'Python'],
+      modalImage: '../photos/photo2-1.png',
+      description: "Développé lors d'un Hackathon, ce simulateur interactif place l'utilisateur aux commandes des finances publiques du pays. Grâce à une interface dynamique en JavaScript et un backend Flask, il transforme la complexité budgétaire en une expérience pédagogique et immersive où chaque décision politique a un impact visible."
     },
-    'Rental House': {
+    'CV en Ligne': {
       demo: '#',
-      github: '#',
-      tags: ['Symfony', 'PHP', 'MySQL']
+      github: 'https://github.com/Tran-Ch/Projet-CV.git',
+      tags: ['Html', 'CSS', 'Javascript'],
+      modalImage: '../photos/photo3-1.png',
+      description: "J’ai imaginé ce CV interactif comme bien plus qu’une simple présentation professionnelle : une véritable expérience immersive. En combinant JavaScript vanilla et CSS3, avec des effets glitch, j’ai voulu créer une interface vivante, fluide et entièrement responsive, capable de capter l’attention et de marquer durablement les esprits."
     },
-    'Kinder-Tracker': {
+    'Project 4': {
       demo: '#',
       github: '#',
       tags: ['ASP.NET', 'C#', 'SQL']
     },
-    HackerFlix: {
-      demo: '#',
-      github: '#',
-      tags: ['Angular', 'Ionic', 'Mobile']
+    'Le Jeu du Seau d\'Eau': {
+      demo: 'https://tran-ch.github.io/Le-Jeu-du-Seau-d-Eau/',
+      github: 'https://github.com/Tran-Ch/Le-Jeu-du-Seau-d-Eau.git',
+      tags: ['Html', 'Css', 'Javascript'],
+      modalImage: '../photos/photo5-1.png',
+      description: "Ce mini-jeu interactif, développé en HTML, CSS et JavaScript, met en scène un seau vide chargé de trouver une source d’eau avant de venir arroser la plante au centre du plateau. Le joueur peut se déplacer dans toutes les directions, tout en s’adaptant à l’apparition aléatoire de cases bloquées. Ce projet illustre à la fois la logique de jeu, la gestion des interactions utilisateur et la manipulation dynamique du DOM."
     },
     'Food Scanner': {
       demo: '#',
       github: '#',
-      tags: ['Mobile', 'Scanner', 'App']
+      tags: ['Mobile', 'Scanner', 'App'],
+      modalImage: '',
+      description: "Comming soon..."
     }
   };
 
@@ -510,8 +520,8 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!card) return;
 
       const title = card.querySelector('.overlay-title')?.innerText || 'Project';
-      const desc = card.querySelector('.overlay-desc')?.innerText || '';
-      const imgPath = card.querySelector('img')?.src || '';
+      const defaultDesc = card.querySelector('.overlay-desc')?.innerText || '';
+      const defaultImgPath = card.querySelector('img')?.src || '';
 
       const project = projectData[title] || {
         demo: '#',
@@ -521,11 +531,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
       openModal({
         title,
-        desc,
-        imgPath,
+        desc: project.description || defaultDesc,
+        imgPath: project.modalImage || defaultImgPath,
         demoLink: project.demo,
         githubLink: project.github,
-        tags: project.tags
+        tags: project.tags || []
       });
     });
   });
@@ -544,6 +554,70 @@ document.addEventListener('DOMContentLoaded', function () {
   document.addEventListener('keydown', function (event) {
     if (event.key === 'Escape' && modal.classList.contains('show')) {
       closeModal();
+    }
+  });
+});
+
+// === CONTACT FORM: gửi bằng Formspree ===
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('contactForm');
+  const status = document.getElementById('formStatus');
+
+  if (!form) return;
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const name = document.getElementById('contactName')?.value.trim();
+    const email = document.getElementById('contactEmail')?.value.trim();
+    const message = document.getElementById('contactMessage')?.value.trim();
+
+    if (!name || !email || !message) {
+      if (status) {
+        status.textContent = 'Veuillez remplir tous les champs.';
+        status.style.color = '#ff6b6b';
+      }
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Envoi...';
+
+    if (status) {
+      status.textContent = '';
+    }
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {
+          Accept: 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        form.reset();
+
+        if (status) {
+          status.textContent = 'Message envoyé avec succès.';
+          status.style.color = '#55c0cf';
+        }
+      } else {
+        if (status) {
+          status.textContent = "Une erreur s'est produite. Veuillez réessayer.";
+          status.style.color = '#ff6b6b';
+        }
+      }
+    } catch (error) {
+      if (status) {
+        status.textContent = "Impossible d'envoyer le message.";
+        status.style.color = '#ff6b6b';
+      }
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Envoyer';
     }
   });
 });

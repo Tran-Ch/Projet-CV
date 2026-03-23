@@ -1067,17 +1067,45 @@ body {
   overflow: hidden;
   cursor: pointer;
   border-radius: 30px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  background:
-    linear-gradient(rgba(10, 15, 30, 0.18), rgba(10, 15, 30, 0.18)) padding-box,
-    linear-gradient(135deg, #5CC6FF, #C07BFF) border-box;
-  border: 3px solid transparent;
-  box-shadow:
-    0 12px 26px rgba(0, 0, 0, 0.24),
-    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+
+  /* Không có nền */
+  background: transparent;
+
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.14);
   transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.project-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 30px;
+  padding: 3px;
+  background: linear-gradient(135deg, #5CC6FF, #C07BFF);
+
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+
+  pointer-events: none;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 16px 32px rgba(0, 0, 0, 0.20),
+    0 0 18px rgba(92, 198, 255, 0.12),
+    0 0 24px rgba(192, 123, 255, 0.10);
 }
 
 .project-card:hover {
@@ -1107,7 +1135,10 @@ body {
 .project-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(241, 241, 241, 0.97);
+
+  /* Nền overlay xanh chuyển hồng */
+  background: linear-gradient(135deg, rgba(92, 198, 255, 0.95), rgba(192, 123, 255, 0.95));
+
   padding: 24px 22px;
   font-size: 0.95rem;
   text-align: left;
@@ -1135,7 +1166,7 @@ body {
 }
 
 .overlay-title {
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 700;
   letter-spacing: 0.04em;
   color: #000;
@@ -1150,6 +1181,12 @@ body {
   margin: 0.5rem 0;
 }
 
+/* Ẩn category và dòng giới thiệu trong thẻ hover của portfolio */
+.overlay-category,
+.overlay-desc {
+  display: none;
+}
+
 .overlay-link {
   display: inline-flex;
   align-items: center;
@@ -1162,7 +1199,7 @@ body {
 }
 
 .overlay-link:hover {
-  color: #1e9c8c;
+  color: #9a24b4;
 }
 
 .overlay-link span {
@@ -1246,7 +1283,14 @@ body {
 .modal-info h2 {
   font-size: 2rem;
   margin-bottom: 10px;
-  color: #fff;
+  font-weight: 900;
+  color: #45d7ff;
+  letter-spacing: 0.02em;
+  text-shadow:
+    0 0 3px #45d7ff,
+    0 0 8px rgba(69, 215, 255, 0.95),
+    0 0 16px rgba(69, 215, 255, 0.7),
+    0 0 26px rgba(69, 215, 255, 0.45);
 }
 
 .modal-info p {
@@ -1706,13 +1750,12 @@ body {
     gap: 1rem;
   }
 
-  .project-overlay {
-    padding: 24px 18px;
-  }
-
-  .overlay-title {
-    font-size: 24px;
-  }
+  /* Canh lại overlay khi chỉ còn title + nút */
+.project-overlay {
+  justify-content: center;
+  align-items: flex-start;
+  gap: 16px;
+}
 
   .modal-content {
     width: 92%;

@@ -161,12 +161,17 @@
 
             <div class="hero-description">
               <p>
-                Je suis architecte de formation, avec plus de 10 ans d’expérience professionnelle. Au fil de mon parcours, j’ai évolué dans le domaine de la conception architecturale, tout en me familiarisant avec des outils de programmation et des solutions numériques pour concrétiser les projets que j’imaginais. Cette expérience m’a permis de développer une approche à la fois créative, structurée et orientée vers la résolution de problèmes, et a progressivement fait naître chez moi un intérêt croissant pour le développement web.
+                Je suis architecte de formation, avec plus de 10 ans d’expérience professionnelle. Au fil de mon parcours, j’ai évolué dans le domaine de la conception architecturale, tout en me familiarisant avec des outils de programmation et des solutions numériques pour concrétiser les projets que j’imaginais. </p>
+              </p>
+
+              <p>Cette expérience m’a permis de développer une approche à la fois créative, structurée et orientée vers la résolution de problèmes, et a progressivement fait naître chez moi un intérêt croissant pour le développement web.</p>
+
+              <p>
+                Aujourd’hui, grâce à la formation professionnelle à temps plein Web Application Developer (Full-Stack) d’Interface3, je m’engage dans une nouvelle étape de mon parcours. Pour moi, il ne s’agit pas d’une rupture, mais d’une continuité naturelle : passer de la conception d’espaces fonctionnels à la création de produits numériques pensés avec la même logique, la même rigueur et la même attention portée à l’utilisateur.    
               </p>
 
               <p>
-                Aujourd’hui, grâce à la formation professionnelle à temps plein Web Application Developer (Full-Stack) d’Interface3, je m’engage dans une nouvelle étape de mon parcours. Pour moi, il ne s’agit pas d’une rupture, mais d’une continuité naturelle : passer de la conception d’espaces fonctionnels à la création de produits numériques pensés avec la même logique, la même rigueur et la même attention portée à l’utilisateur. Conscient des exigences du métier et du chemin qu’il reste à parcourir en tant que développeur junior, j’aborde cette transition avec motivation, capacité d’adaptation et envie d’apprendre, afin d’évoluer pas à pas dans ce nouveau domaine professionnel.
-              </p>
+                Consciente des exigences du métier et du chemin qu’il reste à parcourir en tant que développeur junior, j’aborde cette transition avec motivation, capacité d’adaptation et envie d’apprendre, afin d’évoluer pas à pas dans ce nouveau domaine professionnel.
             </div>
           </div>
         </div>
@@ -516,7 +521,7 @@
                 <img src="../photos/photo1.png" alt="Projet 1">
                 <div class="project-overlay">
                   <div class="overlay-category">ASP.NET</div>
-                  <div class="overlay-title">UCANCRAFT</div>
+                  <div class="overlay-title">Découvrir le Vietnam</div>
                   <div class="overlay-desc">
                     Application for searching craft workshops, responsive on desktop, tablet and mobile.
                   </div>
@@ -531,7 +536,7 @@
                 <img src="../photos/photo2.png" alt="Projet 2">
                 <div class="project-overlay">
                   <div class="overlay-category">JavaScript</div>
-                  <div class="overlay-title">Keyboard UI</div>
+                  <div class="overlay-title">MyGouvernement.be</div>
                   <div class="overlay-desc">
                     Interactive web keyboard with custom lighting and sound effects.
                   </div>
@@ -546,7 +551,7 @@
                 <img src="../photos/photo3.png" alt="Projet 3">
                 <div class="project-overlay">
                   <div class="overlay-category">Symfony / PHP</div>
-                  <div class="overlay-title">Rental House</div>
+                  <div class="overlay-title">CV en Ligne</div>
                   <div class="overlay-desc">
                     Real estate platform for searching and booking holiday homes.
                   </div>
@@ -561,7 +566,7 @@
                 <img src="../photos/photo4.png" alt="Projet 4">
                 <div class="project-overlay">
                   <div class="overlay-category">ASP.NET</div>
-                  <div class="overlay-title">Kinder-Tracker</div>
+                  <div class="overlay-title">Project 4</div>
                   <div class="overlay-desc">
                     Web app to track kids' daily activities and progress.
                   </div>
@@ -576,7 +581,7 @@
                 <img src="../photos/photo5.png" alt="Projet 5">
                 <div class="project-overlay">
                   <div class="overlay-category">Angular / Ionic</div>
-                  <div class="overlay-title">HackerFlix</div>
+                  <div class="overlay-title">Le Jeu du Seau d'Eau</div>
                   <div class="overlay-desc">
                     Movie recommendation app with responsive layout on all devices.
                   </div>
@@ -639,42 +644,68 @@
 
       <div class="container py-5">
         <p class="contact-intro">
-          Merci d’avoir visité ma page personnelle. Vous pouvez télécharger mon CV pour découvrir en détail mon parcours et mes expériences. 
-          Si vous souhaitez échanger ou obtenir davantage d’informations à mon sujet, n’hésitez pas à m’envoyer un e-mail ou à me contacter 
+          Merci d’avoir visité ma page personnelle. Vous pouvez télécharger mon CV pour découvrir en détail mon parcours et mes expériences.
+          Si vous souhaitez échanger ou obtenir davantage d’informations à mon sujet, n’hésitez pas à m’envoyer un message ou à me contacter
           via l’une des plateformes indiquées.
         </p>
 
-        <!-- Bố cục liên hệ: form bên trái, thông tin bên phải -->
         <div class="row justify-content-center">
           <div class="col-lg-10">
             <div class="row g-4 contact-wrapper">
-              <!-- LEFT: FORM -->
+
               <div class="col-md-6 order-md-1 order-2">
                 <div class="contact-panel contact-panel--form">
-                  <form class="contact-form" novalidate>
+                  <form
+                    class="contact-form"
+                    id="contactForm"
+                    action="https://formspree.io/f/xreywlpl"
+                    method="POST"
+                  >
                     <div class="mb-3">
-                      <label class="contact-label">Nom</label>
-                      <input type="text" class="form-control contact-input" placeholder="Votre nom">
+                      <label class="contact-label" for="contactName">Nom</label>
+                      <input
+                        type="text"
+                        id="contactName"
+                        name="name"
+                        class="form-control contact-input"
+                        placeholder="Votre nom"
+                        required
+                      >
                     </div>
 
                     <div class="mb-3">
-                      <label class="contact-label">Email</label>
-                      <input type="email" class="form-control contact-input" placeholder="Votre email">
+                      <label class="contact-label" for="contactEmail">Email</label>
+                      <input
+                        type="email"
+                        id="contactEmail"
+                        name="email"
+                        class="form-control contact-input"
+                        placeholder="Votre email"
+                        required
+                      >
                     </div>
 
                     <div class="mb-4">
-                      <label class="contact-label">Message</label>
-                      <textarea class="form-control contact-textarea" rows="6" placeholder="Votre message"></textarea>
+                      <label class="contact-label" for="contactMessage">Message</label>
+                      <textarea
+                        id="contactMessage"
+                        name="message"
+                        class="form-control contact-textarea"
+                        rows="6"
+                        placeholder="Votre message"
+                        required
+                      ></textarea>
                     </div>
 
                     <button type="submit" class="btn btn-contact-submit">
                       Envoyer
                     </button>
+
+                    <p id="formStatus" class="form-status mt-3" aria-live="polite"></p>
                   </form>
                 </div>
               </div>
 
-              <!-- RIGHT: CONTACT INFO -->
               <div class="col-md-6 order-md-2 order-1">
                 <div class="contact-panel contact-panel--info">
                   <div class="contact-info-item">
@@ -699,13 +730,12 @@
                   </div>
                 </div>
               </div>
-            </div><!-- /.row contact-wrapper -->
+
+            </div>
           </div>
         </div>
       </div>
     </section>
-
-  </div> <!-- đóng snap-container -->
 
   <!-- Bootstrap JS (Bundle) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -718,10 +748,12 @@
     <a href="https://www.linkedin.com/in/chuong-tran-3308ab146/?locale=fr_FR" target="_blank" aria-label="LinkedIn">
       <img src="../photos/logolinkedin.png" alt="LinkedIn">
     </a>
+
     <a href="https://github.com/Tran-Ch" target="_blank" aria-label="GitHub">
       <img src="../photos/logogithub.png" alt="GitHub">
     </a>
-    <a href="../Documents/CV.pdf" target="_blank" aria-label="CV">
+
+    <a href="../documents/ChuongTran.pdf" target="_blank" aria-label="CV"> <!-- Nếu muốn khi ấn vào biểu tượng và tự động download cv về thì thay = download aria-label="CV" -->
       <img src="../photos/logocv.png" alt="CV">
     </a>
   </div>
