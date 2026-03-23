@@ -461,10 +461,17 @@ document.addEventListener('DOMContentLoaded', function () {
       modalImage: '../photos/photo3-1.png',
       description: "J’ai imaginé ce CV interactif comme bien plus qu’une simple présentation professionnelle : une véritable expérience immersive. En combinant JavaScript vanilla et CSS3, avec des effets glitch, j’ai voulu créer une interface vivante, fluide et entièrement responsive, capable de capter l’attention et de marquer durablement les esprits."
     },
-    'Project 4': {
-      demo: '#',
-      github: '#',
-      tags: ['ASP.NET', 'C#', 'SQL']
+    'Digital Ecosystem': {
+      demo: ' https://tran-ch.github.io/Digital-Ecosystem/',
+      github: 'https://github.com/Tran-Ch/Digital-Ecosystem.git',
+      tags: ['Javascript', 'CSS', 'HTML5 Canvas', 'Responsive Design'],
+      modalImage: '../photos/photo4-1.png',
+      description: `Une simulation interactive de vie artificielle explorant l'intelligence collective et les comportements émergents. Ce projet transforme un algorithme mathématique en une expérience ludique et dynamique.
+
+Points Clés :
+• Intelligence Artificielle : Implémentation de l'algorithme de Reynolds (Séparation, Alignement, Cohésion) via des forces vectorielles.
+• Environnement Réactif : Interaction en temps réel pour créer des obstacles destructibles ou nourrir les entités.
+• Performance & UX : Rendu fluide à 60 FPS (Canvas API), interface responsive (Mobile/Tablette) et persistance des scores (LocalStorage).`,
     },
     'Le Jeu du Seau d\'Eau': {
       demo: 'https://tran-ch.github.io/Le-Jeu-du-Seau-d-Eau/',
