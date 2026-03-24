@@ -455,7 +455,7 @@ document.addEventListener('DOMContentLoaded', function () {
       description: "Développé lors d'un Hackathon, ce simulateur interactif place l'utilisateur aux commandes des finances publiques du pays. Grâce à une interface dynamique en JavaScript et un backend Flask, il transforme la complexité budgétaire en une expérience pédagogique et immersive où chaque décision politique a un impact visible."
     },
     'CV en Ligne': {
-      demo: '#',
+      demo: 'https://tran-ch.github.io/Projet-CV/',
       github: 'https://github.com/Tran-Ch/Projet-CV.git',
       tags: ['Html', 'CSS', 'Javascript'],
       modalImage: '../photos/photo3-1.png',
