@@ -90,98 +90,152 @@ window.addEventListener('pointerleave', () => {
 });
 
 // ===== Capsule Button Animation (scoped) =====
+// Áp dụng cho tất cả capsule trên trang, không chỉ capsule đầu tiên
 (() => {
-  const $wrap = document.querySelector('.capsule-demo');
-  if (!$wrap) return;
+  const wraps = document.querySelectorAll('.capsule-demo');
+  if (!wraps.length) return;
 
-  const $cap = $wrap.querySelector('#capsule');
-  const $inner = $wrap.querySelector('#inner');
-  const $arrow = $wrap.querySelector('#downArrow');
+  wraps.forEach(($wrap) => {
+    const $cap = $wrap.querySelector('.capsule');
+    const $inner = $wrap.querySelector('.inner');
+    const $arrow = $wrap.querySelector('.arrow');
 
-  function primeLengths() {
-    const capLen = $cap.getTotalLength();
-    const innerLen = $inner.getTotalLength();
-    $cap.style.setProperty('--cap-len', capLen);
-    $inner.style.setProperty('--inner-len', innerLen);
-  }
+    if (!$cap || !$inner || !$arrow) return;
 
-  function prepArrowDraw() {
-    const lines = Array.from($arrow.querySelectorAll('line'));
+    function primeLengths() {
+      const capLen = $cap.getTotalLength();
+      const innerLen = $inner.getTotalLength();
 
-    for (const ln of lines) {
-      const len = ln.getTotalLength();
-      ln.style.setProperty('--len', len);
-      ln.style.strokeDasharray = String(len);
-      ln.style.strokeDashoffset = String(len);
-      ln.style.animation = 'none';
+      $cap.style.setProperty('--cap-len', capLen);
+      $inner.style.setProperty('--inner-len', innerLen);
     }
 
-    lines.sort((a, b) => {
-      const ax = Math.min(a.x1.baseVal.value, a.x2.baseVal.value);
-      const bx = Math.min(b.x1.baseVal.value, b.x2.baseVal.value);
-      return ax - bx;
-    });
+    function prepArrowDraw() {
+      const lines = Array.from($arrow.querySelectorAll('line'));
 
-    const rs = getComputedStyle(root);
-    const tOutline = parseFloat(rs.getPropertyValue('--outline-duration')) || 0;
-    const tInner = parseFloat(rs.getPropertyValue('--inner-duration')) || 0;
-    const baseDelay = tOutline + tInner + 0.05;
-
-    $arrow.style.opacity = 1;
-    $arrow.style.animation = 'none';
-
-    const segDur = 0.28;
-    const stagger = 0.08;
-
-    lines.forEach((ln, i) => {
-      ln.style.animation = `capsule_line-draw ${segDur}s ease-out forwards ${baseDelay + i * stagger}s`;
-    });
-
-    const lastFinish = baseDelay + (lines.length - 1) * stagger + segDur;
-    const bounceDur = 0.8;
-
-    $arrow.style.animation = `capsule_bounce-twice ${bounceDur}s ease-in-out ${lastFinish}s 1 forwards`;
-
-    $arrow.onanimationend = (e) => {
-      if (e.animationName === 'capsule_bounce-twice') {
-        setTimeout(replay, 60);
+      for (const ln of lines) {
+        const len = ln.getTotalLength();
+        ln.style.setProperty('--len', len);
+        ln.style.strokeDasharray = String(len);
+        ln.style.strokeDashoffset = String(len);
+        ln.style.animation = 'none';
       }
-    };
-  }
 
-  function replay() {
-    $cap.style.animation = 'none';
-    $inner.style.animation = 'none';
-    $inner.style.opacity = 0;
+      lines.sort((a, b) => {
+        const ax = Math.min(a.x1.baseVal.value, a.x2.baseVal.value);
+        const bx = Math.min(b.x1.baseVal.value, b.x2.baseVal.value);
+        return ax - bx;
+      });
 
-    $arrow.style.opacity = 0;
-    $arrow.style.animation = 'none';
+      const rs = getComputedStyle(root);
+      const tOutline = parseFloat(rs.getPropertyValue('--outline-duration')) || 0;
+      const tInner = parseFloat(rs.getPropertyValue('--inner-duration')) || 0;
+      const baseDelay = tOutline + tInner + 0.05;
 
-    for (const ln of $arrow.querySelectorAll('line')) {
-      ln.style.animation = 'none';
+      $arrow.style.opacity = 1;
+      $arrow.style.animation = 'none';
+
+      const segDur = 0.28;
+      const stagger = 0.08;
+
+      lines.forEach((ln, i) => {
+        ln.style.animation = `capsule_line-draw ${segDur}s ease-out forwards ${baseDelay + i * stagger}s`;
+      });
+
+      const lastFinish = baseDelay + (lines.length - 1) * stagger + segDur;
+      const bounceDur = 0.8;
+
+      $arrow.style.animation = `capsule_bounce-twice ${bounceDur}s ease-in-out ${lastFinish}s 1 forwards`;
+
+      $arrow.onanimationend = (e) => {
+        if (e.animationName === 'capsule_bounce-twice') {
+          setTimeout(replay, 60);
+        }
+      };
     }
 
-    const capLen = $cap.getTotalLength();
-    const innerLen = $inner.getTotalLength();
+    function replay() {
+      $cap.style.animation = 'none';
+      $inner.style.animation = 'none';
+      $inner.style.opacity = 0;
 
-    $cap.style.strokeDashoffset = capLen;
-    $inner.style.strokeDashoffset = innerLen;
+      $arrow.style.opacity = 0;
+      $arrow.style.animation = 'none';
 
-    void $cap.getBoundingClientRect();
+      for (const ln of $arrow.querySelectorAll('line')) {
+        ln.style.animation = 'none';
+      }
 
-    $cap.style.animation = `capsule_draw-outline var(--outline-duration) var(--ease) forwards`;
-    $inner.style.animation =
-      `capsule_fade-in .01s linear forwards var(--outline-duration),
-       capsule_draw-inner var(--inner-duration) var(--ease) forwards calc(var(--outline-duration) + .05s),
-       capsule_fade-out .25s ease forwards calc(var(--outline-duration) + var(--inner-duration) + .05s)`;
+      const capLen = $cap.getTotalLength();
+      const innerLen = $inner.getTotalLength();
 
-    prepArrowDraw();
+      $cap.style.strokeDashoffset = capLen;
+      $inner.style.strokeDashoffset = innerLen;
+
+      void $cap.getBoundingClientRect();
+
+      $cap.style.animation = `capsule_draw-outline var(--outline-duration) var(--ease) forwards`;
+      $inner.style.animation =
+        `capsule_fade-in .01s linear forwards var(--outline-duration),
+         capsule_draw-inner var(--inner-duration) var(--ease) forwards calc(var(--outline-duration) + .05s),
+         capsule_fade-out .25s ease forwards calc(var(--outline-duration) + var(--inner-duration) + .05s)`;
+
+      prepArrowDraw();
+    }
+
+    primeLengths();
+    replay();
+    window.addEventListener('resize', primeLengths);
+  });
+})();
+
+// === Capsule ở contact: click để quay về À propos ===
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.querySelector('.snap-container');
+  const nav = document.getElementById('mainNav');
+  const upCapsule = document.querySelector('.capsule-demo--up');
+  const apropos = document.getElementById('apropos');
+  const contact = document.getElementById('contact');
+
+  if (!container || !nav || !upCapsule || !apropos || !contact) return;
+
+  function getNavHeight() {
+    return Math.ceil(nav.getBoundingClientRect().height) || 80;
   }
 
-  primeLengths();
-  replay();
-  window.addEventListener('resize', primeLengths);
-})();
+  function goToApropos() {
+    const targetTop = apropos.offsetTop - getNavHeight();
+
+    container.scrollTo({
+      top: Math.max(0, targetTop),
+      behavior: 'smooth'
+    });
+
+    history.replaceState(null, '', '#apropos');
+  }
+
+  function updateUpCapsuleVisibility() {
+    const currentTop = container.scrollTop;
+    const contactTop = contact.offsetTop - getNavHeight();
+    const isOnContact = Math.abs(currentTop - contactTop) < window.innerHeight * 0.5;
+
+    upCapsule.classList.toggle('is-hidden', !isOnContact);
+  }
+
+  upCapsule.addEventListener('click', goToApropos);
+
+  upCapsule.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      goToApropos();
+    }
+  });
+
+  container.addEventListener('scroll', updateUpCapsuleVisibility);
+  window.addEventListener('resize', updateUpCapsuleVisibility);
+
+  updateUpCapsuleVisibility();
+});
 
 // === Cập nhật biến --nav-h theo chiều cao thực tế của navbar ===
 function setNavHeightVar() {
@@ -251,156 +305,295 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// ===== NAV ACTIVE HIGHLIGHT: Bootstrap ScrollSpy + Fallback =====
+// ===== SECTION NAVIGATION + WHEEL LOCK =====
+// Mục tiêu:
+// - Không cho lăn chuột sang section khác
+// - Nếu section hiện tại dài, chỉ cuộn trong section đó
+// - Chuyển section chỉ bằng capsule hoặc navbar
+// - Giữ capsule cố định và chỉ ẩn ở section cuối
 document.addEventListener('DOMContentLoaded', () => {
-  const navHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 80;
-  const scroller = document.querySelector('.snap-container');
+  const container = document.querySelector('.snap-container');
+  const nav = document.getElementById('mainNav');
+  const capsule = document.querySelector('.capsule-demo');
 
-  if (scroller && window.bootstrap?.ScrollSpy) {
-    scroller.style.position = scroller.style.position || 'relative';
+  if (!container || !nav || !capsule) return;
 
-    try {
-      const oldSpy = bootstrap.ScrollSpy.getInstance(scroller);
-      if (oldSpy) oldSpy.dispose();
+  const panels = Array.from(document.querySelectorAll('.panel'));
+  const navLinks = Array.from(document.querySelectorAll('#mainNav .nav-link'));
 
-      new bootstrap.ScrollSpy(scroller, {
-        target: '#mainNav',
-        offset: navHeight + 8
-      });
-    } catch (e) {
-      console.warn('ScrollSpy init warning:', e);
-    }
-  }
-
-  document.querySelectorAll('#mainNav .nav-link').forEach(a => {
-    a.addEventListener('click', () => {
-      const col = document.getElementById('mainNavCollapse');
-      if (col && col.classList.contains('show')) {
-        new bootstrap.Collapse(col).hide();
-      }
-    });
+  const internalLinks = navLinks.filter(link => {
+    const href = link.getAttribute('href') || '';
+    return href.startsWith('#');
   });
 
-  const links = new Map(
-    [...document.querySelectorAll('#mainNav .nav-link')].map(l => [l.getAttribute('href'), l])
+  const linksMap = new Map(
+    internalLinks.map(link => [link.getAttribute('href'), link])
   );
 
-  const sections = document.querySelectorAll('main.panel[id], section.panel[id]');
+  // Lưu mức cuộn nội bộ cho từng section
+  const panelScrollState = new Map();
+  panels.forEach(panel => panelScrollState.set(panel.id, 0));
 
-  const io = new IntersectionObserver((entries) => {
-    const visible = entries
-      .filter(en => en.isIntersecting)
-      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+  function getNavHeight() {
+    return Math.ceil(nav.getBoundingClientRect().height) || 80;
+  }
 
-    if (!visible) return;
+  function getViewportHeightInsideContainer() {
+    return container.clientHeight - getNavHeight();
+  }
 
-    const id = '#' + visible.target.id;
+  // Tìm section hiện tại
+  function getCurrentPanelIndex() {
+    const currentY = container.scrollTop + getNavHeight() + 20;
 
-    links.forEach(el => el.classList.remove('active'));
-    if (links.has(id)) links.get(id).classList.add('active');
+    let bestIndex = 0;
+    let bestDistance = Infinity;
+
+    panels.forEach((panel, index) => {
+      const distance = Math.abs(panel.offsetTop - currentY);
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        bestIndex = index;
+      }
+    });
+
+    return bestIndex;
+  }
+
+  function getCurrentPanel() {
+    return panels[getCurrentPanelIndex()];
+  }
+
+  function setActiveNavByPanel(panel) {
+    if (!panel) return;
+
+    const hash = `#${panel.id}`;
+
+    linksMap.forEach(link => link.classList.remove('active'));
+    if (linksMap.has(hash)) {
+      linksMap.get(hash).classList.add('active');
+    }
 
     const social = document.querySelector('.social-buttons');
     if (social) {
-      social.classList.toggle('is-visible', id === '#apropos' || id === '#contact');
+      social.classList.toggle('is-visible', hash === '#apropos' || hash === '#contact');
     }
-  }, {
-    root: scroller || null,
-    threshold: [0.5, 0.6, 0.7, 0.8]
-  });
-
-  sections.forEach(sec => io.observe(sec));
-
-  if (location.hash && links.has(location.hash)) {
-    links.forEach(el => el.classList.remove('active'));
-    links.get(location.hash).classList.add('active');
-  }
-});
-
-// === Điều hướng: click capsule -> tới section kế tiếp ===
-(function enableCapsuleNext() {
-  const container = document.querySelector('.snap-container');
-  const capsule = document.querySelector('.capsule-demo');
-  if (!container || !capsule) return;
-
-  const panels = Array.from(document.querySelectorAll('.panel'));
-
-  function currentIndex() {
-    const y = container.scrollTop;
-    let best = 0;
-    let bestDist = Infinity;
-
-    panels.forEach((p, idx) => {
-      const dist = Math.abs(p.offsetTop - y);
-      if (dist < bestDist) {
-        bestDist = dist;
-        best = idx;
-      }
-    });
-
-    return best;
-  }
-
-  function scrollToIndex(i) {
-    const clamped = Math.max(0, Math.min(panels.length - 1, i));
-    panels[clamped].scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  function isOnLast() {
-    return currentIndex() >= panels.length - 1;
   }
 
   function updateCapsuleVisibility() {
-    capsule.classList.toggle('is-hidden', isOnLast());
+    const currentIndex = getCurrentPanelIndex();
+    capsule.classList.toggle('is-hidden', currentIndex >= panels.length - 1);
   }
 
-  capsule.addEventListener('click', () => {
-    if (!isOnLast()) scrollToIndex(currentIndex() + 1);
+  function resetPanelScroll(panel) {
+    if (!panel) return;
+    panelScrollState.set(panel.id, 0);
+  }
+
+  // Chuyển section bằng navbar hoặc capsule
+  function goToPanel(index, updateHash = true) {
+    const clampedIndex = Math.max(0, Math.min(index, panels.length - 1));
+    const target = panels[clampedIndex];
+    if (!target) return;
+
+    resetPanelScroll(target);
+
+    const targetTop = target.offsetTop - getNavHeight();
+
+    container.scrollTo({
+      top: Math.max(0, targetTop),
+      behavior: 'smooth'
+    });
+
+    if (updateHash) {
+      history.replaceState(null, '', `#${target.id}`);
+    }
+
+    setTimeout(() => {
+      setActiveNavByPanel(target);
+      updateCapsuleVisibility();
+    }, 300);
+  }
+
+  // Click navbar -> sang đúng section
+  internalLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      const targetId = link.getAttribute('href');
+      const targetIndex = panels.findIndex(panel => `#${panel.id}` === targetId);
+      if (targetIndex === -1) return;
+
+      goToPanel(targetIndex, true);
+
+      // Đóng menu mobile nếu đang mở
+      const col = document.getElementById('mainNavCollapse');
+      if (col && col.classList.contains('show')) {
+        const bsCollapse =
+          bootstrap.Collapse.getInstance(col) ||
+          new bootstrap.Collapse(col, { toggle: false });
+
+        bsCollapse.hide();
+      }
+    });
   });
 
-  capsule.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      if (!isOnLast()) scrollToIndex(currentIndex() + 1);
+  // Click capsule -> sang section kế tiếp
+  capsule.addEventListener('click', () => {
+    const currentIndex = getCurrentPanelIndex();
+    if (currentIndex < panels.length - 1) {
+      goToPanel(currentIndex + 1, true);
     }
   });
 
-  container.addEventListener('scroll', () => {
-    if (enableCapsuleNext._raf) cancelAnimationFrame(enableCapsuleNext._raf);
-    enableCapsuleNext._raf = requestAnimationFrame(updateCapsuleVisibility);
+  // Hỗ trợ bàn phím cho capsule
+  capsule.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      const currentIndex = getCurrentPanelIndex();
+      if (currentIndex < panels.length - 1) {
+        goToPanel(currentIndex + 1, true);
+      }
+    }
   });
 
-  window.addEventListener('resize', updateCapsuleVisibility);
-  document.addEventListener('activate.bs.scrollspy', updateCapsuleVisibility);
+  // Chặn wheel để không cuộn sang section khác
+  // Chỉ cho cuộn bên trong section hiện tại nếu section đó dài
+  container.addEventListener('wheel', (e) => {
+    const currentPanel = getCurrentPanel();
+    if (!currentPanel) return;
 
-  updateCapsuleVisibility();
-})();
+    e.preventDefault();
+
+    const panelId = currentPanel.id;
+    const viewportHeight = getViewportHeightInsideContainer();
+    const panelContentHeight = currentPanel.scrollHeight;
+    const maxInnerScroll = Math.max(0, panelContentHeight - viewportHeight);
+
+    // Section ngắn -> lăn chuột không có tác dụng
+    if (maxInnerScroll <= 0) {
+      return;
+    }
+
+    const currentInnerScroll = panelScrollState.get(panelId) || 0;
+    const nextInnerScroll = Math.max(
+      0,
+      Math.min(maxInnerScroll, currentInnerScroll + e.deltaY)
+    );
+
+    panelScrollState.set(panelId, nextInnerScroll);
+
+    const panelBaseTop = currentPanel.offsetTop - getNavHeight();
+    container.scrollTop = Math.max(0, panelBaseTop + nextInnerScroll);
+
+    setActiveNavByPanel(currentPanel);
+    updateCapsuleVisibility();
+  }, { passive: false });
+
+  // Nếu mở trang với hash sẵn, ví dụ apropos.html#portfolio
+  if (location.hash) {
+    const targetIndex = panels.findIndex(panel => `#${panel.id}` === location.hash);
+    if (targetIndex !== -1) {
+      goToPanel(targetIndex, false);
+    } else {
+      goToPanel(0, false);
+    }
+  } else {
+    goToPanel(0, false);
+  }
+
+  // Resize lại vẫn giữ đúng vị trí section hiện tại
+  window.addEventListener('resize', () => {
+    const currentPanel = getCurrentPanel();
+    if (!currentPanel) return;
+
+    const currentInnerScroll = panelScrollState.get(currentPanel.id) || 0;
+    const panelBaseTop = currentPanel.offsetTop - getNavHeight();
+
+    container.scrollTop = Math.max(0, panelBaseTop + currentInnerScroll);
+
+    setActiveNavByPanel(currentPanel);
+    updateCapsuleVisibility();
+  });
+
+  // Đồng bộ active state + capsule khi container thay đổi vị trí
+  container.addEventListener('scroll', () => {
+    const currentPanel = getCurrentPanel();
+    setActiveNavByPanel(currentPanel);
+    updateCapsuleVisibility();
+  });
+});
 
 // === JS: đo front/back, thay đổi chiều cao thẻ để đẩy các item dưới xuống ===
+// === FIX formation:
+// - tất cả card, kể cả card cuối, đều hover giống nhau
+// - riêng section formation được chừa sẵn khoảng trống ở đáy
+//   để card cuối nở ra không làm lộ portfolio
 window.addEventListener('load', function () {
+  const root = document.documentElement;
+  const formationPanel = document.getElementById('formation');
+
+  function updateFormationExtraSpace() {
+    if (!formationPanel) return;
+
+    const lastTimelineItem = formationPanel.querySelector('.timeline-item:last-child');
+    const lastCard = lastTimelineItem?.querySelector('.flip-card');
+    const lastFront = lastCard?.querySelector('.flip-front');
+    const lastBack = lastCard?.querySelector('.flip-back');
+
+    if (!lastCard || !lastFront || !lastBack) {
+      root.style.setProperty('--formation-last-extra-space', '0px');
+      return;
+    }
+
+    const frontH = lastFront.scrollHeight;
+    const backH = lastBack.scrollHeight;
+    const extra = Math.max(0, backH - frontH);
+
+    // Chừa thêm một chút đệm để an toàn
+    root.style.setProperty('--formation-last-extra-space', `${extra + 16}px`);
+  }
+
+  function measureAllCards() {
+    document.querySelectorAll('.flip-card').forEach(function (card) {
+      const front = card.querySelector('.flip-front');
+      const back = card.querySelector('.flip-back');
+      const inner = card.querySelector('.flip-inner');
+
+      if (!front || !back || !inner) return;
+
+      const frontH = front.scrollHeight;
+      const backH = back.scrollHeight;
+      const maxH = Math.max(frontH, backH);
+
+      card.style.height = frontH + 'px';
+      inner.style.height = maxH + 'px';
+
+      card.dataset.frontHeight = String(frontH);
+      card.dataset.maxHeight = String(maxH);
+    });
+
+    updateFormationExtraSpace();
+  }
+
+  measureAllCards();
+
   document.querySelectorAll('.flip-card').forEach(function (card) {
-    const front = card.querySelector('.flip-front');
-    const back = card.querySelector('.flip-back');
-    const inner = card.querySelector('.flip-inner');
-
-    if (!front || !back || !inner) return;
-
-    const frontH = front.scrollHeight;
-    const backH = back.scrollHeight;
-    const maxH = Math.max(frontH, backH);
-
-    card.style.height = frontH + 'px';
-    inner.style.height = maxH + 'px';
-
-    card.dataset.frontHeight = frontH;
-    card.dataset.maxHeight = maxH;
-
     card.addEventListener('mouseenter', function () {
-      card.style.height = card.dataset.maxHeight + 'px';
+      if (card.dataset.maxHeight) {
+        card.style.height = card.dataset.maxHeight + 'px';
+      }
     });
 
     card.addEventListener('mouseleave', function () {
-      card.style.height = card.dataset.frontHeight + 'px';
+      if (card.dataset.frontHeight) {
+        card.style.height = card.dataset.frontHeight + 'px';
+      }
     });
+  });
+
+  window.addEventListener('resize', function () {
+    measureAllCards();
   });
 });
 

@@ -120,6 +120,7 @@ main {
   --inner-duration: 1.8s;
   --ease: cubic-bezier(.66, .03, .23, .99);
   --arrow-delay: calc(var(--outline-duration) + var(--inner-duration) + .05s);
+  
 
   /* Chiều cao navbar (JS sẽ cập nhật) */
   --nav-h: 80px;
@@ -268,17 +269,24 @@ body {
 /* ===== Capsule Button Animation (scoped) ===== */
 .capsule-demo {
   position: fixed;
-  bottom: -250px;
   left: 50%;
+  bottom: 30px;
   transform: translateX(-50%) scale(0.22, 0.20);
-  transform-origin: top center;
+  transform-origin: center bottom;
   width: 220px;
   height: 360px;
   display: grid;
   place-items: center;
   pointer-events: auto;
   cursor: pointer;
-  z-index: 1000 !important;
+  z-index: 12000 !important;
+}
+
+/* chỉ ẩn khi ở section cuối */
+.capsule-demo.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
 }
 
 .capsule-demo .capsule-svg {
@@ -340,6 +348,12 @@ body {
 .capsule-demo:focus-visible {
   outline: 2px solid #9fe3ff;
   outline-offset: 6px;
+}
+
+/* Capsule ở contact: xoay ngược để mũi tên chỉ lên */
+.capsule-demo--up {
+  bottom: 100px;
+  transform: translateX(-50%) scale(0.22, 0.20) rotate(180deg);
 }
 
 @keyframes capsule_draw-outline {
@@ -534,24 +548,35 @@ body {
 }
 
 /* ========================
-   SCROLL-SNAP
+   SCROLL CONTAINER
+   - Bỏ snap để lăn chuột không tự nhảy section
+   - Vẫn giữ vùng scroll riêng cho trang này
+   - Navbar/capsule sẽ điều hướng bằng JS
    ======================== */
 .snap-container {
   height: 100vh;
   overflow-y: auto;
-  scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
   padding-top: var(--nav-h);
   position: relative;
+
+  /* QUAN TRỌNG: tắt cơ chế hút sang section kế tiếp */
+  scroll-snap-type: none;
 }
 
+/* Mỗi section vẫn chiếm ít nhất 1 màn hình,
+   nhưng nếu nội dung dài hơn thì section sẽ tự cao ra
+   và bạn có thể lăn chuột để xem hết nội dung */
 .panel {
   min-height: 100vh;
-  scroll-snap-align: start;
   display: block;
   position: relative;
   scroll-margin-top: calc(var(--nav-h) + 8px);
   z-index: 1;
+  scroll-snap-align: none;
+
+  /* thêm để JS có thể tính giới hạn cuộn của từng section rõ hơn */
+  overflow: hidden;
 }
 
 .snap-container::-webkit-scrollbar {
@@ -829,7 +854,7 @@ body {
   content: "";
   position: absolute;
   top: 0;
-  bottom: 0;
+  bottom: 450px;   /* cách mép dưới 450px */
   left: calc(45% + 20px);
   width: 3px;
   background: #d0d0d0;
@@ -898,6 +923,15 @@ body {
   margin-left: 25px;
   display: flex;
   align-items: center;
+}
+
+/* ===== FIX formation:
+   chừa sẵn khoảng trống ở đáy section bằng phần card cuối nở thêm khi hover,
+   để không lộ portfolio nhưng vẫn cho card cuối lật như các card khác
+*/
+#formation .formation-section,
+#formation .timeline {
+  padding-bottom: var(--formation-last-extra-space, 0px);
 }
 
 .flip-card {
@@ -1849,3 +1883,4 @@ body {
     padding-bottom: max(var(--capsule-gap), env(safe-area-inset-bottom));
   }
 }
+

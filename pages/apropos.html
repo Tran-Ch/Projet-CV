@@ -102,36 +102,58 @@
   </div>
 
   <!-- Capsule Button Animation -->
-  <div class="capsule-demo" role="button" tabindex="0" aria-label="Aller à la section suivante">
-    <svg class="capsule-svg" viewBox="0 0 200 340" role="img" aria-label="Animated capsule with inner path">
-      <path id="capsule" class="capsule"
-            d="M 100,10
-               A 70,70 0 0 1 170,80
-               L 170,260
-               A 70,70 0 0 1 100,330
-               A 70,70 0 0 1 30,260
-               L 30,80
-               A 70,70 0 0 1 100,10
-               Z" />
-      <path id="inner" class="inner" transform="translate(-14,0)"
-            d="M 77 20
-               C 157 40 137 70 97 110
-               C 114 113 120 111 113 137
-               C 105 160 104 224 105 280" />
-      <g id="downArrow" class="arrow">
-        <line x1="100" y1="222" x2="100" y2="282" />
-        <line x1="80"  y1="266" x2="100" y2="286" />
-        <line x1="120" y1="266" x2="100" y2="286" />
-      </g>
-    </svg>
-  </div>
+  <!-- Capsule đi xuống -->
+<div class="capsule-demo" role="button" tabindex="0" aria-label="Aller à la section suivante">
+  <svg class="capsule-svg" viewBox="0 0 200 340" role="img" aria-label="Animated capsule with inner path">
+    <path class="capsule"
+          d="M 100,10
+             A 70,70 0 0 1 170,80
+             L 170,260
+             A 70,70 0 0 1 100,330
+             A 70,70 0 0 1 30,260
+             L 30,80
+             A 70,70 0 0 1 100,10
+             Z" />
+    <path class="inner" transform="translate(-14,0)"
+          d="M 77 20
+             C 157 40 137 70 97 110
+             C 114 113 120 111 113 137
+             C 105 160 104 224 105 280" />
+    <g class="arrow">
+      <line x1="100" y1="222" x2="100" y2="282" />
+      <line x1="80"  y1="266" x2="100" y2="286" />
+      <line x1="120" y1="266" x2="100" y2="286" />
+    </g>
+  </svg>
+</div>
+
+<!-- Capsule đi lên ở trang contact -->
+<div class="capsule-demo capsule-demo--up is-hidden" role="button" tabindex="0" aria-label="Retour à la section à propos">
+  <svg class="capsule-svg" viewBox="0 0 200 340" role="img" aria-label="Animated capsule with inner path">
+    <path class="capsule"
+          d="M 100,10
+             A 70,70 0 0 1 170,80
+             L 170,260
+             A 70,70 0 0 1 100,330
+             A 70,70 0 0 1 30,260
+             L 30,80
+             A 70,70 0 0 1 100,10
+             Z" />
+    <path class="inner" transform="translate(-14,0)"
+          d="M 77 20
+             C 157 40 137 70 97 110
+             C 114 113 120 111 113 137
+             C 105 160 104 224 105 280" />
+    <g class="arrow">
+      <line x1="100" y1="222" x2="100" y2="282" />
+      <line x1="80"  y1="266" x2="100" y2="286" />
+      <line x1="120" y1="266" x2="100" y2="286" />
+    </g>
+  </svg>
+</div>
 
   <!-- SNAP CONTAINER + SCROLLSPY -->
-  <div class="snap-container"
-       data-bs-spy="scroll"
-       data-bs-target="#mainNav"
-       data-bs-offset="100"
-       tabindex="0">
+  <div class="snap-container">
 
     <!-- PHẦN ĐẦU TRANG CHÍNH LÀ A PROPOS -->
     <main id="apropos" class="panel hero">
@@ -748,6 +770,7 @@
         </div>
       </div>
     </section>
+  </div>
 
   <!-- Bootstrap JS (Bundle) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
