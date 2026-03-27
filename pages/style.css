@@ -1755,35 +1755,44 @@ body {
     line-height: 1.2;
   }
 
+    #portfolio {
+    justify-content: flex-start;
+  }
+
   #portfolio .container {
-    padding: 0 1.2rem calc(var(--capsule-gap) - 6px);
+    padding: 0 1.1rem calc(var(--capsule-gap) + 10px);
   }
 
   #portfolio .intro-text {
-    max-width: 1180px;
-    font-size: 0.84rem;
-    line-height: 1.35;
-    margin-bottom: 0.4rem;
+    max-width: 1120px;
+    font-size: 0.8rem;
+    line-height: 1.28;
+    margin-bottom: 0.25rem;
   }
 
   #portfolio .portfolio-wrap {
     align-items: center;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
   }
 
   .portfolio-grid {
-    max-width: 1160px;
-    grid-template-columns: repeat(3, minmax(240px, 1fr));
-    gap: 1rem;
+    max-width: 1040px;
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+    gap: 0.85rem;
   }
 
   .portfolio-item {
-    aspect-ratio: 1.55 / 1;
+    aspect-ratio: 1.82 / 1;
+  }
+
+  .project-card img {
+    width: 88%;
+    height: 88%;
   }
 
   .overlay-title {
-    font-size: 1.35rem;
+    font-size: 1.2rem;
   }
 
   .formation-section {

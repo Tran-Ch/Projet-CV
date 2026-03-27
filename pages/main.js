@@ -341,6 +341,18 @@ function updateMobileFloatingUI() {
   upCapsule.classList.toggle('ui-hidden-mobile', shouldHideFloatingUI);
 }
 
+function getCurrentlyActivePanelId() {
+  return document.querySelector('.panel.is-active-panel')?.id || '';
+}
+
+function runLayoutStabilize(callback) {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      if (typeof callback === 'function') callback();
+    });
+  });
+}
+
 // ===== SECTION NAVIGATION + WHEEL LOCK + CONTACT CAPSULE =====
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.querySelector('.snap-container');
@@ -390,7 +402,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return Math.max(0, panel.scrollHeight - viewportHeight);
     }
 
-    // Desktop: chỉ formation được cuộn nội bộ
     if (panel.id !== 'formation') {
       return 0;
     }
@@ -442,7 +453,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentInner = getCurrentInnerScroll();
     const maxInner = getPanelMaxInnerScroll(activePanelIndex);
 
-    // formation: nếu chưa cuộn gần tới cuối thì ẩn capsule xuống để không đè nội dung
     const formationNeedsHide =
       panel.id === 'formation' &&
       maxInner > 24 &&
@@ -479,7 +489,42 @@ document.addEventListener('DOMContentLoaded', () => {
       setActiveNavByIndex(activePanelIndex);
       updateCapsulesVisibility();
       updateMobileFloatingUI();
-    }, behavior === 'smooth' ? 450 : 0);
+    }, behavior === 'smooth' ? 500 : 0);
+  }
+
+  function stabilizeCurrentPanel() {
+    runLayoutStabilize(() => {
+      syncPanelPosition('auto');
+      updateCapsulesVisibility();
+      updateMobileFloatingUI();
+    });
+  }
+
+  function closeMobileMenuThen(callback) {
+    const col = document.getElementById('mainNavCollapse');
+    if (!col) {
+      callback();
+      return;
+    }
+
+    const isMenuOpen = col.classList.contains('show');
+    if (!isMenuOpen || window.innerWidth > 992) {
+      callback();
+      return;
+    }
+
+    const bsCollapse =
+      bootstrap.Collapse.getInstance(col) ||
+      new bootstrap.Collapse(col, { toggle: false });
+
+    const onHidden = () => {
+      col.removeEventListener('hidden.bs.collapse', onHidden);
+      setNavHeightVar();
+      runLayoutStabilize(callback);
+    };
+
+    col.addEventListener('hidden.bs.collapse', onHidden, { once: true });
+    bsCollapse.hide();
   }
 
   function goToPanel(index, updateHash = true) {
@@ -497,14 +542,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     syncPanelPosition('smooth');
 
-    const col = document.getElementById('mainNavCollapse');
-    if (col && col.classList.contains('show')) {
-      const bsCollapse =
-        bootstrap.Collapse.getInstance(col) ||
-        new bootstrap.Collapse(col, { toggle: false });
-
-      bsCollapse.hide();
-    }
+    runLayoutStabilize(() => {
+      syncPanelPosition('auto');
+      updateCapsulesVisibility();
+      updateMobileFloatingUI();
+    });
   }
 
   internalLinks.forEach(link => {
@@ -515,7 +557,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const targetIndex = panels.findIndex(panel => `#${panel.id}` === targetId);
       if (targetIndex === -1) return;
 
-      goToPanel(targetIndex, true);
+      closeMobileMenuThen(() => {
+        goToPanel(targetIndex, true);
+      });
     });
   });
 
@@ -572,9 +616,25 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   window.addEventListener('resize', () => {
-    syncPanelPosition('auto');
-    updateMobileFloatingUI();
-    updateCapsulesVisibility();
+    stabilizeCurrentPanel();
+  });
+
+  window.addEventListener('load', () => {
+    setNavHeightVar();
+    stabilizeCurrentPanel();
+  });
+
+  window.addEventListener('pageshow', () => {
+    setNavHeightVar();
+    stabilizeCurrentPanel();
+  });
+
+  document.querySelectorAll('#apropos img, #portfolio img, #formation img').forEach(img => {
+    if (!img.complete) {
+      img.addEventListener('load', () => {
+        stabilizeCurrentPanel();
+      }, { once: true });
+    }
   });
 
   const initialIndex = location.hash
@@ -590,7 +650,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setActiveNavByIndex(activePanelIndex);
   updateCapsulesVisibility();
   syncPanelPosition('auto');
-  updateMobileFloatingUI();
+  stabilizeCurrentPanel();
 });
 
 // === formation cards ===
@@ -625,18 +685,23 @@ window.addEventListener('load', function () {
   }
 
   function clampFormationScrollIfNeeded() {
-    if (!formationPanel || !container) return;
+  if (!formationPanel || !container) return;
 
-    const navH = getNavHeight();
-    const panelTop = Math.max(0, formationPanel.offsetTop - navH);
-    const viewportHeight = container.clientHeight - navH;
-    const maxInnerScroll = Math.max(0, formationPanel.scrollHeight - viewportHeight);
-    const maxAllowedTop = panelTop + maxInnerScroll;
+  const activePanelId = getCurrentlyActivePanelId();
 
-    if (container.scrollTop >= panelTop - 2 && container.scrollTop > maxAllowedTop) {
-      container.scrollTop = maxAllowedTop;
-    }
+  // Chỉ được phép clamp khi section hiện tại thực sự là formation
+  if (activePanelId !== 'formation') return;
+
+  const navH = getNavHeight();
+  const panelTop = Math.max(0, formationPanel.offsetTop - navH);
+  const viewportHeight = container.clientHeight - navH;
+  const maxInnerScroll = Math.max(0, formationPanel.scrollHeight - viewportHeight);
+  const maxAllowedTop = panelTop + maxInnerScroll;
+
+  if (container.scrollTop >= panelTop - 2 && container.scrollTop > maxAllowedTop) {
+    container.scrollTop = maxAllowedTop;
   }
+}
 
   function measureAllCards() {
     document.querySelectorAll('.flip-card').forEach(function (card) {
