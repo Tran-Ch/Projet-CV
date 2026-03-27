@@ -76,7 +76,7 @@ resizeCanvas();
 drawStars();
 window.addEventListener('resize', resizeCanvas);
 
-// === PARALLAX (giữ nguyên nếu cần dùng cho bg) ===
+// === PARALLAX ===
 window.addEventListener('pointermove', (e) => {
   const x = (e.clientX / window.innerWidth - 0.5) * 40;
   const y = (e.clientY / window.innerHeight - 0.5) * 40;
@@ -89,8 +89,7 @@ window.addEventListener('pointerleave', () => {
   root.style.setProperty('--pointer-y', '0px');
 });
 
-// ===== Capsule Button Animation (scoped) =====
-// Áp dụng cho tất cả capsule trên trang, không chỉ capsule đầu tiên
+// ===== Capsule Button Animation =====
 (() => {
   const wraps = document.querySelectorAll('.capsule-demo');
   if (!wraps.length) return;
@@ -189,55 +188,7 @@ window.addEventListener('pointerleave', () => {
   });
 })();
 
-// === Capsule ở contact: click để quay về À propos ===
-document.addEventListener('DOMContentLoaded', () => {
-  const container = document.querySelector('.snap-container');
-  const nav = document.getElementById('mainNav');
-  const upCapsule = document.querySelector('.capsule-demo--up');
-  const apropos = document.getElementById('apropos');
-  const contact = document.getElementById('contact');
-
-  if (!container || !nav || !upCapsule || !apropos || !contact) return;
-
-  function getNavHeight() {
-    return Math.ceil(nav.getBoundingClientRect().height) || 80;
-  }
-
-  function goToApropos() {
-    const targetTop = apropos.offsetTop - getNavHeight();
-
-    container.scrollTo({
-      top: Math.max(0, targetTop),
-      behavior: 'smooth'
-    });
-
-    history.replaceState(null, '', '#apropos');
-  }
-
-  function updateUpCapsuleVisibility() {
-    const currentTop = container.scrollTop;
-    const contactTop = contact.offsetTop - getNavHeight();
-    const isOnContact = Math.abs(currentTop - contactTop) < window.innerHeight * 0.5;
-
-    upCapsule.classList.toggle('is-hidden', !isOnContact);
-  }
-
-  upCapsule.addEventListener('click', goToApropos);
-
-  upCapsule.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      goToApropos();
-    }
-  });
-
-  container.addEventListener('scroll', updateUpCapsuleVisibility);
-  window.addEventListener('resize', updateUpCapsuleVisibility);
-
-  updateUpCapsuleVisibility();
-});
-
-// === Cập nhật biến --nav-h theo chiều cao thực tế của navbar ===
+// === cập nhật chiều cao navbar thực ===
 function setNavHeightVar() {
   const nav = document.getElementById('mainNav');
   if (!nav) return;
@@ -251,7 +202,57 @@ window.addEventListener('resize', setNavHeightVar);
 document.addEventListener('shown.bs.collapse', setNavHeightVar);
 document.addEventListener('hidden.bs.collapse', setNavHeightVar);
 
-// === Tiêu đề: gõ chữ cho A PROPOS / COMPÉTENCES / FORMATION / PORTFOLIO / CONTACT ===
+// === Timeline line ===
+function updateTimelineLine() {
+  const timeline = document.querySelector('.timeline');
+  if (!timeline) return;
+
+  const dots = Array.from(timeline.querySelectorAll('.timeline-dot'));
+  if (dots.length < 2) return;
+
+  const timelineRect = timeline.getBoundingClientRect();
+  const firstDotRect = dots[0].getBoundingClientRect();
+  const lastDotRect = dots[dots.length - 1].getBoundingClientRect();
+
+  const firstCenterX =
+    firstDotRect.left - timelineRect.left + firstDotRect.width / 2;
+
+  const firstCenterY =
+    firstDotRect.top - timelineRect.top + firstDotRect.height / 2;
+
+  const lastCenterY =
+    lastDotRect.top - timelineRect.top + lastDotRect.height / 2;
+
+  let tail = 180;
+  let topOffset = 60;
+
+  if (window.innerWidth <= 576) {
+    tail = 90;
+    topOffset = 35;
+  } else if (window.innerWidth <= 992) {
+    tail = 110;
+    topOffset = 42;
+  } else if (window.innerWidth <= 1366) {
+    tail = 150;
+    topOffset = 55;
+  } else {
+    tail = 180;
+    topOffset = 60;
+  }
+
+  const lineTop = Math.max(0, firstCenterY - topOffset);
+  const lineHeight = Math.max(120, (lastCenterY - lineTop) + tail);
+
+  timeline.style.setProperty('--timeline-line-left', `${firstCenterX}px`);
+  timeline.style.setProperty('--timeline-line-top', `${lineTop}px`);
+  timeline.style.setProperty('--timeline-line-height', `${lineHeight}px`);
+}
+
+window.addEventListener('load', updateTimelineLine);
+window.addEventListener('resize', updateTimelineLine);
+document.addEventListener('DOMContentLoaded', updateTimelineLine);
+
+// === Typing titles ===
 document.addEventListener('DOMContentLoaded', () => {
   const configs = [
     { selector: '#apropos .typing-text', texts: ['À propos', 'Profil'] },
@@ -305,22 +306,52 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// ===== SECTION NAVIGATION + WHEEL LOCK =====
-// Mục tiêu:
-// - Không cho lăn chuột sang section khác
-// - Nếu section hiện tại dài, chỉ cuộn trong section đó
-// - Chuyển section chỉ bằng capsule hoặc navbar
-// - Giữ capsule cố định và chỉ ẩn ở section cuối
+function updateMobileFloatingUI() {
+  const container = document.querySelector('.snap-container');
+  const social = document.querySelector('.social-buttons');
+  const downCapsule = document.querySelector('.capsule-demo:not(.capsule-demo--up)');
+  const upCapsule = document.querySelector('.capsule-demo--up');
+  const activePanel = document.querySelector('.panel[id].is-active-panel');
+
+  if (!container || !social || !downCapsule || !upCapsule || !activePanel) return;
+
+  if (window.innerWidth > 992) {
+    social.classList.remove('ui-hidden-mobile');
+    downCapsule.classList.remove('ui-hidden-mobile');
+    upCapsule.classList.remove('ui-hidden-mobile');
+    return;
+  }
+
+  const nav = document.getElementById('mainNav');
+  const navH = nav ? Math.ceil(nav.getBoundingClientRect().height) : 80;
+  const viewportHeight = container.clientHeight - navH;
+
+  const maxInnerScroll = Math.max(0, activePanel.scrollHeight - viewportHeight);
+  const currentInnerScroll = Math.max(
+    0,
+    container.scrollTop - Math.max(0, activePanel.offsetTop - navH)
+  );
+
+  const hasInternalOverflow = maxInnerScroll > 40;
+  const notReachedBottomYet = currentInnerScroll < maxInnerScroll - 40;
+  const shouldHideFloatingUI = hasInternalOverflow && notReachedBottomYet;
+
+  social.classList.toggle('ui-hidden-mobile', shouldHideFloatingUI);
+  downCapsule.classList.toggle('ui-hidden-mobile', shouldHideFloatingUI);
+  upCapsule.classList.toggle('ui-hidden-mobile', shouldHideFloatingUI);
+}
+
+// ===== SECTION NAVIGATION + WHEEL LOCK + CONTACT CAPSULE =====
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.querySelector('.snap-container');
   const nav = document.getElementById('mainNav');
-  const capsule = document.querySelector('.capsule-demo');
+  const downCapsule = document.querySelector('.capsule-demo:not(.capsule-demo--up)');
+  const upCapsule = document.querySelector('.capsule-demo--up');
 
-  if (!container || !nav || !capsule) return;
+  if (!container || !nav || !downCapsule || !upCapsule) return;
 
   const panels = Array.from(document.querySelectorAll('.panel'));
   const navLinks = Array.from(document.querySelectorAll('#mainNav .nav-link'));
-
   const internalLinks = navLinks.filter(link => {
     const href = link.getAttribute('href') || '';
     return href.startsWith('#');
@@ -330,9 +361,12 @@ document.addEventListener('DOMContentLoaded', () => {
     internalLinks.map(link => [link.getAttribute('href'), link])
   );
 
-  // Lưu mức cuộn nội bộ cho từng section
   const panelScrollState = new Map();
   panels.forEach(panel => panelScrollState.set(panel.id, 0));
+
+  let activePanelIndex = 0;
+  let isProgrammaticScroll = false;
+  let programmaticTimer = null;
 
   function getNavHeight() {
     return Math.ceil(nav.getBoundingClientRect().height) || 80;
@@ -342,29 +376,44 @@ document.addEventListener('DOMContentLoaded', () => {
     return container.clientHeight - getNavHeight();
   }
 
-  // Tìm section hiện tại
-  function getCurrentPanelIndex() {
-    const currentY = container.scrollTop + getNavHeight() + 20;
-
-    let bestIndex = 0;
-    let bestDistance = Infinity;
-
-    panels.forEach((panel, index) => {
-      const distance = Math.abs(panel.offsetTop - currentY);
-      if (distance < bestDistance) {
-        bestDistance = distance;
-        bestIndex = index;
-      }
-    });
-
-    return bestIndex;
+  function getPanelBaseTop(index) {
+    return Math.max(0, panels[index].offsetTop - getNavHeight());
   }
 
-  function getCurrentPanel() {
-    return panels[getCurrentPanelIndex()];
+  function getPanelMaxInnerScroll(index) {
+    const panel = panels[index];
+    if (!panel) return 0;
+
+    const viewportHeight = getViewportHeightInsideContainer();
+
+    if (window.innerWidth <= 992) {
+      return Math.max(0, panel.scrollHeight - viewportHeight);
+    }
+
+    // Desktop: chỉ formation được cuộn nội bộ
+    if (panel.id !== 'formation') {
+      return 0;
+    }
+
+    return Math.max(0, panel.scrollHeight - viewportHeight);
   }
 
-  function setActiveNavByPanel(panel) {
+  function clampInnerScroll(index, value) {
+    return Math.max(0, Math.min(getPanelMaxInnerScroll(index), value));
+  }
+
+  function getActivePanel() {
+    return panels[activePanelIndex];
+  }
+
+  function getCurrentInnerScroll() {
+    const panel = getActivePanel();
+    if (!panel) return 0;
+    return panelScrollState.get(panel.id) || 0;
+  }
+
+  function setActiveNavByIndex(index) {
+    const panel = panels[index];
     if (!panel) return;
 
     const hash = `#${panel.id}`;
@@ -374,48 +423,90 @@ document.addEventListener('DOMContentLoaded', () => {
       linksMap.get(hash).classList.add('active');
     }
 
+    panels.forEach(p => p.classList.remove('is-active-panel'));
+    panel.classList.add('is-active-panel');
+
     const social = document.querySelector('.social-buttons');
     if (social) {
       social.classList.toggle('is-visible', hash === '#apropos' || hash === '#contact');
     }
+
+    updateMobileFloatingUI();
   }
 
-  function updateCapsuleVisibility() {
-    const currentIndex = getCurrentPanelIndex();
-    capsule.classList.toggle('is-hidden', currentIndex >= panels.length - 1);
-  }
-
-  function resetPanelScroll(panel) {
+  function updateCapsulesVisibility() {
+    const panel = getActivePanel();
     if (!panel) return;
-    panelScrollState.set(panel.id, 0);
+
+    const isLast = activePanelIndex === panels.length - 1;
+    const currentInner = getCurrentInnerScroll();
+    const maxInner = getPanelMaxInnerScroll(activePanelIndex);
+
+    // formation: nếu chưa cuộn gần tới cuối thì ẩn capsule xuống để không đè nội dung
+    const formationNeedsHide =
+      panel.id === 'formation' &&
+      maxInner > 24 &&
+      currentInner < maxInner - 24;
+
+    const hideDown = isLast || formationNeedsHide;
+    const showUp = isLast;
+
+    downCapsule.classList.toggle('is-hidden', hideDown);
+    upCapsule.classList.toggle('is-hidden', !showUp);
   }
 
-  // Chuyển section bằng navbar hoặc capsule
-  function goToPanel(index, updateHash = true) {
-    const clampedIndex = Math.max(0, Math.min(index, panels.length - 1));
-    const target = panels[clampedIndex];
-    if (!target) return;
+  function syncPanelPosition(behavior = 'auto') {
+    const panel = getActivePanel();
+    if (!panel) return;
 
-    resetPanelScroll(target);
+    const panelId = panel.id;
+    const currentInner = panelScrollState.get(panelId) || 0;
+    const clampedInner = clampInnerScroll(activePanelIndex, currentInner);
 
-    const targetTop = target.offsetTop - getNavHeight();
+    panelScrollState.set(panelId, clampedInner);
 
+    const targetTop = getPanelBaseTop(activePanelIndex) + clampedInner;
+
+    isProgrammaticScroll = true;
     container.scrollTo({
-      top: Math.max(0, targetTop),
-      behavior: 'smooth'
+      top: targetTop,
+      behavior
     });
 
-    if (updateHash) {
-      history.replaceState(null, '', `#${target.id}`);
-    }
-
-    setTimeout(() => {
-      setActiveNavByPanel(target);
-      updateCapsuleVisibility();
-    }, 300);
+    clearTimeout(programmaticTimer);
+    programmaticTimer = window.setTimeout(() => {
+      isProgrammaticScroll = false;
+      setActiveNavByIndex(activePanelIndex);
+      updateCapsulesVisibility();
+      updateMobileFloatingUI();
+    }, behavior === 'smooth' ? 450 : 0);
   }
 
-  // Click navbar -> sang đúng section
+  function goToPanel(index, updateHash = true) {
+    const clampedIndex = Math.max(0, Math.min(index, panels.length - 1));
+    activePanelIndex = clampedIndex;
+
+    const panel = panels[activePanelIndex];
+    if (!panel) return;
+
+    panelScrollState.set(panel.id, 0);
+
+    if (updateHash) {
+      history.replaceState(null, '', `#${panel.id}`);
+    }
+
+    syncPanelPosition('smooth');
+
+    const col = document.getElementById('mainNavCollapse');
+    if (col && col.classList.contains('show')) {
+      const bsCollapse =
+        bootstrap.Collapse.getInstance(col) ||
+        new bootstrap.Collapse(col, { toggle: false });
+
+      bsCollapse.hide();
+    }
+  }
+
   internalLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
@@ -425,113 +516,93 @@ document.addEventListener('DOMContentLoaded', () => {
       if (targetIndex === -1) return;
 
       goToPanel(targetIndex, true);
-
-      // Đóng menu mobile nếu đang mở
-      const col = document.getElementById('mainNavCollapse');
-      if (col && col.classList.contains('show')) {
-        const bsCollapse =
-          bootstrap.Collapse.getInstance(col) ||
-          new bootstrap.Collapse(col, { toggle: false });
-
-        bsCollapse.hide();
-      }
     });
   });
 
-  // Click capsule -> sang section kế tiếp
-  capsule.addEventListener('click', () => {
-    const currentIndex = getCurrentPanelIndex();
-    if (currentIndex < panels.length - 1) {
-      goToPanel(currentIndex + 1, true);
+  downCapsule.addEventListener('click', () => {
+    if (activePanelIndex < panels.length - 1) {
+      goToPanel(activePanelIndex + 1, true);
     }
   });
 
-  // Hỗ trợ bàn phím cho capsule
-  capsule.addEventListener('keydown', (e) => {
+  downCapsule.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      const currentIndex = getCurrentPanelIndex();
-      if (currentIndex < panels.length - 1) {
-        goToPanel(currentIndex + 1, true);
+      if (activePanelIndex < panels.length - 1) {
+        goToPanel(activePanelIndex + 1, true);
       }
     }
   });
 
-  // Chặn wheel để không cuộn sang section khác
-  // Chỉ cho cuộn bên trong section hiện tại nếu section đó dài
+  upCapsule.addEventListener('click', () => {
+    goToPanel(0, true);
+  });
+
+  upCapsule.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      goToPanel(0, true);
+    }
+  });
+
   container.addEventListener('wheel', (e) => {
-    const currentPanel = getCurrentPanel();
-    if (!currentPanel) return;
+    const panel = getActivePanel();
+    if (!panel) return;
 
     e.preventDefault();
 
-    const panelId = currentPanel.id;
-    const viewportHeight = getViewportHeightInsideContainer();
-    const panelContentHeight = currentPanel.scrollHeight;
-    const maxInnerScroll = Math.max(0, panelContentHeight - viewportHeight);
+    const panelId = panel.id;
+    const currentInner = panelScrollState.get(panelId) || 0;
+    const nextInner = clampInnerScroll(activePanelIndex, currentInner + e.deltaY);
 
-    // Section ngắn -> lăn chuột không có tác dụng
-    if (maxInnerScroll <= 0) {
+    if (nextInner === currentInner) {
+      updateCapsulesVisibility();
       return;
     }
 
-    const currentInnerScroll = panelScrollState.get(panelId) || 0;
-    const nextInnerScroll = Math.max(
-      0,
-      Math.min(maxInnerScroll, currentInnerScroll + e.deltaY)
-    );
-
-    panelScrollState.set(panelId, nextInnerScroll);
-
-    const panelBaseTop = currentPanel.offsetTop - getNavHeight();
-    container.scrollTop = Math.max(0, panelBaseTop + nextInnerScroll);
-
-    setActiveNavByPanel(currentPanel);
-    updateCapsuleVisibility();
+    panelScrollState.set(panelId, nextInner);
+    syncPanelPosition('auto');
   }, { passive: false });
 
-  // Nếu mở trang với hash sẵn, ví dụ apropos.html#portfolio
-  if (location.hash) {
-    const targetIndex = panels.findIndex(panel => `#${panel.id}` === location.hash);
-    if (targetIndex !== -1) {
-      goToPanel(targetIndex, false);
-    } else {
-      goToPanel(0, false);
-    }
-  } else {
-    goToPanel(0, false);
+  container.addEventListener('scroll', () => {
+    if (isProgrammaticScroll) return;
+    syncPanelPosition('auto');
+    updateMobileFloatingUI();
+    updateCapsulesVisibility();
+  });
+
+  window.addEventListener('resize', () => {
+    syncPanelPosition('auto');
+    updateMobileFloatingUI();
+    updateCapsulesVisibility();
+  });
+
+  const initialIndex = location.hash
+    ? panels.findIndex(panel => `#${panel.id}` === location.hash)
+    : 0;
+
+  activePanelIndex = initialIndex >= 0 ? initialIndex : 0;
+  const initialPanel = panels[activePanelIndex];
+  if (initialPanel) {
+    panelScrollState.set(initialPanel.id, 0);
   }
 
-  // Resize lại vẫn giữ đúng vị trí section hiện tại
-  window.addEventListener('resize', () => {
-    const currentPanel = getCurrentPanel();
-    if (!currentPanel) return;
-
-    const currentInnerScroll = panelScrollState.get(currentPanel.id) || 0;
-    const panelBaseTop = currentPanel.offsetTop - getNavHeight();
-
-    container.scrollTop = Math.max(0, panelBaseTop + currentInnerScroll);
-
-    setActiveNavByPanel(currentPanel);
-    updateCapsuleVisibility();
-  });
-
-  // Đồng bộ active state + capsule khi container thay đổi vị trí
-  container.addEventListener('scroll', () => {
-    const currentPanel = getCurrentPanel();
-    setActiveNavByPanel(currentPanel);
-    updateCapsuleVisibility();
-  });
+  setActiveNavByIndex(activePanelIndex);
+  updateCapsulesVisibility();
+  syncPanelPosition('auto');
+  updateMobileFloatingUI();
 });
 
-// === JS: đo front/back, thay đổi chiều cao thẻ để đẩy các item dưới xuống ===
-// === FIX formation:
-// - tất cả card, kể cả card cuối, đều hover giống nhau
-// - riêng section formation được chừa sẵn khoảng trống ở đáy
-//   để card cuối nở ra không làm lộ portfolio
+// === formation cards ===
 window.addEventListener('load', function () {
-  const root = document.documentElement;
   const formationPanel = document.getElementById('formation');
+  const container = document.querySelector('.snap-container');
+  const nav = document.getElementById('mainNav');
+
+  function getNavHeight() {
+    if (!nav) return 80;
+    return Math.ceil(nav.getBoundingClientRect().height) || 80;
+  }
 
   function updateFormationExtraSpace() {
     if (!formationPanel) return;
@@ -550,8 +621,21 @@ window.addEventListener('load', function () {
     const backH = lastBack.scrollHeight;
     const extra = Math.max(0, backH - frontH);
 
-    // Chừa thêm một chút đệm để an toàn
-    root.style.setProperty('--formation-last-extra-space', `${extra + 16}px`);
+    root.style.setProperty('--formation-last-extra-space', `${extra + 8}px`);
+  }
+
+  function clampFormationScrollIfNeeded() {
+    if (!formationPanel || !container) return;
+
+    const navH = getNavHeight();
+    const panelTop = Math.max(0, formationPanel.offsetTop - navH);
+    const viewportHeight = container.clientHeight - navH;
+    const maxInnerScroll = Math.max(0, formationPanel.scrollHeight - viewportHeight);
+    const maxAllowedTop = panelTop + maxInnerScroll;
+
+    if (container.scrollTop >= panelTop - 2 && container.scrollTop > maxAllowedTop) {
+      container.scrollTop = maxAllowedTop;
+    }
   }
 
   function measureAllCards() {
@@ -566,29 +650,119 @@ window.addEventListener('load', function () {
       const backH = back.scrollHeight;
       const maxH = Math.max(frontH, backH);
 
-      card.style.height = frontH + 'px';
-      inner.style.height = maxH + 'px';
+      card.style.height = `${frontH}px`;
+      inner.style.height = `${maxH}px`;
 
       card.dataset.frontHeight = String(frontH);
       card.dataset.maxHeight = String(maxH);
     });
 
     updateFormationExtraSpace();
+
+    requestAnimationFrame(() => {
+      updateTimelineLine();
+      clampFormationScrollIfNeeded();
+      updateMobileFloatingUI();
+    });
   }
 
   measureAllCards();
 
   document.querySelectorAll('.flip-card').forEach(function (card) {
     card.addEventListener('mouseenter', function () {
+      if (window.innerWidth <= 992) return;
+
       if (card.dataset.maxHeight) {
-        card.style.height = card.dataset.maxHeight + 'px';
+        card.style.height = `${card.dataset.maxHeight}px`;
       }
+
+      requestAnimationFrame(() => {
+        updateFormationExtraSpace();
+        updateTimelineLine();
+        clampFormationScrollIfNeeded();
+        updateMobileFloatingUI();
+      });
     });
 
     card.addEventListener('mouseleave', function () {
+      if (window.innerWidth <= 992) return;
+
       if (card.dataset.frontHeight) {
-        card.style.height = card.dataset.frontHeight + 'px';
+        card.style.height = `${card.dataset.frontHeight}px`;
       }
+
+      requestAnimationFrame(() => {
+        updateFormationExtraSpace();
+        updateTimelineLine();
+        clampFormationScrollIfNeeded();
+      });
+    });
+
+    card.addEventListener('transitionend', function (e) {
+      if (e.propertyName === 'height') {
+        updateFormationExtraSpace();
+        updateTimelineLine();
+        clampFormationScrollIfNeeded();
+        updateMobileFloatingUI();
+      }
+    });
+
+    card.addEventListener('click', function (e) {
+      if (window.innerWidth > 992) return;
+
+      e.stopPropagation();
+
+      const isOpen = card.classList.contains('is-flipped');
+
+      document.querySelectorAll('.flip-card.is-flipped').forEach(otherCard => {
+        if (otherCard !== card) {
+          otherCard.classList.remove('is-flipped');
+          if (otherCard.dataset.frontHeight) {
+            otherCard.style.height = `${otherCard.dataset.frontHeight}px`;
+          }
+        }
+      });
+
+      if (isOpen) {
+        card.classList.remove('is-flipped');
+        if (card.dataset.frontHeight) {
+          card.style.height = `${card.dataset.frontHeight}px`;
+        }
+      } else {
+        card.classList.add('is-flipped');
+        if (card.dataset.maxHeight) {
+          card.style.height = `${card.dataset.maxHeight}px`;
+        }
+      }
+
+      requestAnimationFrame(() => {
+        updateFormationExtraSpace();
+        updateTimelineLine();
+        clampFormationScrollIfNeeded();
+        updateMobileFloatingUI();
+      });
+    });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (window.innerWidth > 992) return;
+
+    const clickedCard = e.target.closest('.flip-card');
+    if (clickedCard) return;
+
+    document.querySelectorAll('.flip-card.is-flipped').forEach(card => {
+      card.classList.remove('is-flipped');
+
+      if (card.dataset.frontHeight) {
+        card.style.height = `${card.dataset.frontHeight}px`;
+      }
+    });
+
+    requestAnimationFrame(() => {
+      updateFormationExtraSpace();
+      updateTimelineLine();
+      clampFormationScrollIfNeeded();
+      updateMobileFloatingUI();
     });
   });
 
@@ -616,10 +790,11 @@ document.addEventListener('click', function (e) {
   }
 });
 
-// === JS: mở/close modal chi tiết dự án ===
+// === modal project ===
 document.addEventListener('DOMContentLoaded', function () {
   const modal = document.getElementById('projectModal');
   const closeBtn = document.querySelector('.close-btn');
+  const cards = document.querySelectorAll('.project-card');
   const seeMoreButtons = document.querySelectorAll('.overlay-link');
   const modalTitle = document.getElementById('modal-title');
   const modalDesc = document.getElementById('modal-desc');
@@ -630,8 +805,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (!modal || !closeBtn) return;
 
-  // Dữ liệu link demo / github / tags / ảnh riêng cho từng project
-  // Có thể thay bằng link thật của từng project sau này
   const projectData = {
     'Découvrir le Vietnam': {
       demo: 'http://wad09.interface3.be/',
@@ -655,7 +828,7 @@ document.addEventListener('DOMContentLoaded', function () {
       description: "J’ai imaginé ce CV interactif comme bien plus qu’une simple présentation professionnelle : une véritable expérience immersive. En combinant JavaScript vanilla et CSS3, avec des effets glitch, j’ai voulu créer une interface vivante, fluide et entièrement responsive, capable de capter l’attention et de marquer durablement les esprits."
     },
     'Digital Ecosystem': {
-      demo: ' https://tran-ch.github.io/Digital-Ecosystem/',
+      demo: 'https://tran-ch.github.io/Digital-Ecosystem/',
       github: 'https://github.com/Tran-Ch/Digital-Ecosystem.git',
       tags: ['Javascript', 'CSS', 'HTML5 Canvas', 'Responsive Design'],
       modalImage: '../photos/photo4-1.png',
@@ -678,9 +851,13 @@ Points Clés :
       github: '#',
       tags: ['Mobile', 'Scanner', 'App'],
       modalImage: '',
-      description: "Comming soon..."
+      description: 'Comming soon...'
     }
   };
+
+  function closeAllProjectOverlays() {
+    cards.forEach(card => card.classList.remove('is-open'));
+  }
 
   function openModal({
     title,
@@ -712,9 +889,27 @@ Points Clés :
     document.body.style.overflow = 'auto';
   }
 
+  cards.forEach(card => {
+    card.addEventListener('click', function (e) {
+      if (window.innerWidth > 992) return;
+
+      const clickedVoirPlus = e.target.closest('.overlay-link');
+      if (clickedVoirPlus) return;
+
+      const isOpen = card.classList.contains('is-open');
+
+      closeAllProjectOverlays();
+
+      if (!isOpen) {
+        card.classList.add('is-open');
+      }
+    });
+  });
+
   seeMoreButtons.forEach(btn => {
     btn.addEventListener('click', function (e) {
       e.preventDefault();
+      e.stopPropagation();
 
       const card = this.closest('.project-card');
       if (!card) return;
@@ -740,17 +935,23 @@ Points Clés :
     });
   });
 
-  // Đóng modal khi click nút X
+  document.addEventListener('click', function (e) {
+    if (window.innerWidth > 992) return;
+
+    const clickedInsideCard = e.target.closest('.project-card');
+    if (!clickedInsideCard) {
+      closeAllProjectOverlays();
+    }
+  });
+
   closeBtn.addEventListener('click', closeModal);
 
-  // Đóng modal khi click ra ngoài modal-content
   modal.addEventListener('click', function (event) {
     if (event.target === modal) {
       closeModal();
     }
   });
 
-  // Đóng modal bằng phím ESC
   document.addEventListener('keydown', function (event) {
     if (event.key === 'Escape' && modal.classList.contains('show')) {
       closeModal();
@@ -758,7 +959,7 @@ Points Clés :
   });
 });
 
-// === CONTACT FORM: gửi bằng Formspree ===
+// === CONTACT FORM ===
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('contactForm');
   const status = document.getElementById('formStatus');
