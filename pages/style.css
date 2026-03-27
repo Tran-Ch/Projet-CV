@@ -197,8 +197,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.8rem;
+  padding-top: 18px;
   padding-bottom: var(--capsule-gap);
 }
 
@@ -807,7 +808,7 @@ body {
   scroll-margin-top: calc(var(--nav-h) + 8px);
   min-height: calc(100vh - var(--nav-h));
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 #apropos .apropos__title {
@@ -888,6 +889,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: calc(var(--nav-h) + 8px);
   padding-bottom: 0;
 }
 
@@ -1682,8 +1684,9 @@ body {
   }
 
   #apropos.hero .hero__content {
-    justify-content: center;
+    justify-content: flex-start;
     gap: 0.45rem;
+    padding-top: 8px;
     padding-bottom: var(--capsule-gap);
   }
 
