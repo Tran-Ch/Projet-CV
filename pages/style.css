@@ -657,6 +657,7 @@ body {
   padding-left: 18px;
   font-size: .9rem;
   line-height: 1.3;
+  text-align: left;
 }
 
 #competences .skill__icon {
@@ -842,12 +843,8 @@ body {
   font-family: "Space Grotesk", sans-serif;
   font-size: clamp(1.2rem, 2.2vw, 1.8rem);
   font-weight: 700;
-  line-height: 1;
+  line-height: 1.2;
   letter-spacing: -0.02em;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.08em;
 }
 
 .hero-code-tag {
@@ -879,6 +876,34 @@ body {
 
 .hero-description p {
   margin-bottom: 0.9rem;
+}
+
+#apropos .hero-section-label {
+  margin: 0 0 0.35rem;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.96rem;
+  line-height: 1.7;
+  font-weight: 700;
+  color: #5CC6FF;
+}
+
+#apropos .hero-section-label span {
+  color: #5CC6FF;
+}
+
+#apropos .hero-code-title {
+  font-size: 0.96rem;
+  line-height: 1.5;
+}
+
+#apropos .hero-code-block p {
+  margin: 0 0 0.18rem;
+}
+
+#apropos .hero-code-block .hero-name-line {
+  font-size: inherit;
+  line-height: inherit;
+  margin: 0;
 }
 
 /* ========================
@@ -1119,14 +1144,8 @@ body {
 }
 
 #portfolio .section-title {
-  font-family: "Space Grotesk", sans-serif;
-  font-weight: 700;
   font-size: 2.6rem;
-  color: var(--accent);
-  text-align: center;
   margin: 0 auto 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
   position: relative;
   padding-bottom: 0.5rem;
 }
@@ -1335,7 +1354,6 @@ body {
   padding: 40px;
   width: 85%;
   max-width: 700px;
-  min-height: 70vh;
   max-height: 90vh;
   overflow-y: auto;
   border-radius: 20px;
@@ -1346,11 +1364,11 @@ body {
   color: white;
   border: 1px solid #1d4d8f;
   box-shadow: 0 10px 50px rgba(0, 0, 0, 0.55);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 25px;
+  display: block;
+}
+
+.modal-body {
+  width: 100%;
 }
 
 .modal-image-container {
@@ -1708,12 +1726,9 @@ body {
     margin-bottom: 0.8rem;
   }
 
-  .hero-code-title {
-    font-size: 1.15rem;
-  }
-
-  .hero-name-line {
-    font-size: 1.28rem;
+  #apropos .hero-code-title {
+    font-size: 0.9rem;
+    line-height: 1.45;
   }
 
   .hero-description {
@@ -1758,7 +1773,7 @@ body {
     line-height: 1.2;
   }
 
-    #portfolio {
+  #portfolio {
     justify-content: flex-start;
   }
 
@@ -1985,34 +2000,25 @@ body {
     text-align: center;
   }
 
-  .hero-code-title {
-    justify-content: center;
-    font-size: clamp(2rem, 8vw, 3.2rem);
+  #apropos .hero-code-title {
+    font-size: 0.94rem;
+    line-height: 1.5;
+    text-align: left;
   }
 
-  .hero-name-line {
-    font-size: clamp(1.4rem, 6vw, 2.4rem);
+  #apropos .hero-text,
+  .hero-description {
+    text-align: left;
   }
 
   .hero-description {
     font-size: 0.94rem;
     line-height: 1.6;
     max-width: 100%;
-    text-align: left;
   }
 }
 
 @media (max-width: 768px) {
-  .social-buttons {
-    right: 0.8rem;
-    gap: 0.6rem;
-  }
-
-  .social-buttons a img {
-    width: 60px;
-    height: 60px;
-  }
-
   #competences {
     padding: 4rem 1rem;
   }
@@ -2043,272 +2049,18 @@ body {
     gap: 16px;
   }
 
-  .modal-content {
-    width: 92%;
-    padding: 28px 20px;
-    min-height: auto;
-  }
-
-  #modal-img {
-    width: 100%;
-    max-height: 240px;
-  }
-
-  .modal-info h2 {
-    font-size: 1.5rem;
-  }
-
-  .modal-info p {
-    font-size: 1rem;
-  }
-}
-
-@media (max-width: 600px) {
-  .nav-logos {
-    display: flex;
-    margin-left: 1rem;
-  }
-
-  .navbar-nav {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .navbar-collapse {
-    background: rgba(10, 15, 30, 0.85);
-    padding: 1rem;
-    border-radius: 8px;
-  }
-
-  .navbar-toggler {
-    display: block;
-  }
-}
-
-@media (max-width: 576px) {
-  .skill {
-    flex-direction: column;
-  }
-
-  #competences .skill__icon {
-    width: calc(var(--skill-icon-size) * 0.66);
-    transform: none !important;
-  }
-
-  .skill__note {
-    position: static;
-    width: 100%;
-    margin-top: 12px;
-    transform: none !important;
-    opacity: 1;
-    text-align: center;
-    pointer-events: auto;
-  }
-}
-
-@media (max-width: 480px) {
-  .portfolio-grid {
-    grid-template-columns: 1fr;
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 767.98px) {
-  .contact-panel {
-    padding: 18px 16px;
-  }
-
-  .contact-text {
-    letter-spacing: 0.05em;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .skill__icon,
-  .skill__note {
-    transition: none;
-  }
-}
-
-@supports (padding: max(0px)) {
-  #competences {
-    padding-bottom: max(var(--capsule-gap), env(safe-area-inset-bottom));
-  }
-}
-
-/* ===== SOCIAL BUTTONS: mobile/tablet nhỏ ===== */
-@media (max-width: 992px) {
-  .social-buttons {
-    top: auto;
-    bottom: 18px;
-    right: 50%;
-    transform: translateX(50%);
-    flex-direction: row;
-    gap: 0.85rem;
-    padding: 0.45rem 0.8rem;
-    border-radius: 999px;
-    background: rgba(10, 15, 30, 0.28);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-  }
-
-  .social-buttons a img {
-    width: 42px;
-    height: 42px;
-  }
-}
-
-@media (max-width: 576px) {
-  .social-buttons {
-    bottom: 14px;
-    gap: 0.65rem;
-    padding: 0.35rem 0.65rem;
-  }
-
-  .social-buttons a img {
-    width: 36px;
-    height: 36px;
-  }
-}
-
-@media (max-width: 992px) {
-  .capsule-demo {
-    bottom: 90px;
-  }
-
-  .capsule-demo--up {
-    bottom: 150px;
-  }
-}
-
-/* Ẩn mềm capsule + social trên mobile khi JS thêm class */
-.ui-hidden-mobile {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-}
-
-@media (max-width: 992px) {
-  .social-buttons {
-    transition: opacity .25s ease, visibility .25s ease;
-  }
-
-  .capsule-demo,
-  .capsule-demo--up {
-    transition: opacity .25s ease, visibility .25s ease;
-  }
-}
-
-/* ========================
-   MOBILE FIX: tránh capsule đè nội dung
-   ======================== */
-@media (max-width: 992px) {
-  :root {
-    --capsule-gap: 150px;
-  }
-
-  #apropos.hero .hero__content,
-  #competences,
-  #portfolio,
-  #contact,
-  .formation-section {
-    padding-bottom: calc(var(--capsule-gap) + 20px) !important;
-  }
-
-  .capsule-demo {
-    bottom: 78px;
-  }
-
-  .capsule-demo--up {
-    bottom: 130px;
-  }
-}
-
-/* ========================
-   MOBILE FIX: thu nhỏ tiêu đề section
-   ======================== */
-@media (max-width: 768px) {
   .competences__title,
   .section-title,
   .apropos__title {
     font-size: 2rem;
     line-height: 1.1;
   }
-}
 
-@media (max-width: 576px) {
-  :root {
-    --capsule-gap: 170px;
-  }
-
-  #apropos.hero .hero__content,
-  #competences,
-  #portfolio,
-  #contact,
-  .formation-section {
-    padding-bottom: calc(var(--capsule-gap) + 25px) !important;
-  }
-
-  .competences__title,
-  .section-title,
-  .apropos__title {
-    font-size: 1.7rem;
-    line-height: 1.1;
-    letter-spacing: 0.5px;
-    margin-bottom: 0.8rem;
-  }
-
-  .typing-wrap {
-    max-width: 100%;
-    justify-content: center;
-  }
-
-  .typing-text,
-  .typing-text-static {
-    max-width: 100%;
-  }
-
-  .capsule-demo {
-    bottom: 88px;
-  }
-
-  .capsule-demo--up {
-    bottom: 140px;
-  }
-
-  #competences .competences__grid {
-    padding-bottom: 20px;
-  }
-}
-
-@media (max-width: 768px) {
   #portfolio .section-title {
     font-size: 2rem !important;
     line-height: 1.1;
   }
-}
 
-@media (max-width: 576px) {
-  #portfolio .section-title {
-    font-size: 1.7rem !important;
-    line-height: 1.1;
-    letter-spacing: 0.5px;
-    margin-bottom: 0.8rem;
-    max-width: 100%;
-    text-align: center;
-  }
-
-  #portfolio .typing-wrap {
-    max-width: 100%;
-    justify-content: center;
-  }
-
-  #portfolio .typing-text {
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 768px) {
   .modal {
     padding: 14px;
   }
@@ -2379,26 +2131,106 @@ body {
   }
 }
 
-/* ========================
-   MOBILE / IPAD: tăng khoảng cách giữa capsule và social buttons
-   ======================== */
-@media (max-width: 992px) {
-  .social-buttons {
-    bottom: 18px;
+@media (max-width: 600px) {
+  .nav-logos {
+    display: flex;
+    margin-left: 1rem;
   }
 
-  .capsule-demo {
-    bottom: 105px;
+  .navbar-nav {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
-  .capsule-demo--up {
-    bottom: 160px;
+  .navbar-collapse {
+    background: rgba(10, 15, 30, 0.85);
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
+  .navbar-toggler {
+    display: block;
   }
 }
 
 @media (max-width: 576px) {
+  :root {
+    --capsule-gap: 170px;
+  }
+
+  .skill {
+    flex-direction: column;
+  }
+
+  #competences .skill__icon {
+    width: calc(var(--skill-icon-size) * 0.66);
+    transform: none !important;
+  }
+
+  .skill__note {
+    position: static;
+    width: 100%;
+    margin-top: 12px;
+    transform: none !important;
+    opacity: 1;
+    text-align: center;
+    pointer-events: auto;
+  }
+
+  #apropos.hero .hero__content,
+  #competences,
+  #portfolio,
+  #contact,
+  .formation-section {
+    padding-bottom: calc(var(--capsule-gap) + 25px) !important;
+  }
+
+  .competences__title,
+  .section-title,
+  .apropos__title {
+    font-size: 1.7rem;
+    line-height: 1.1;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.8rem;
+  }
+
+  .typing-wrap {
+    max-width: 100%;
+    justify-content: center;
+  }
+
+  .typing-text,
+  .typing-text-static {
+    max-width: 100%;
+  }
+
+  #portfolio .section-title {
+    font-size: 1.7rem !important;
+    line-height: 1.1;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.8rem;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  #portfolio .typing-wrap,
+  #portfolio .typing-text {
+    max-width: 100%;
+  }
+
+  #competences .competences__grid {
+    padding-bottom: 20px;
+  }
+
   .social-buttons {
     bottom: 14px;
+    gap: 0.65rem;
+    padding: 0.35rem 0.65rem;
+  }
+
+  .social-buttons a img {
+    width: 62px;
+    height: 62px;
   }
 
   .capsule-demo {
@@ -2408,4 +2240,255 @@ body {
   .capsule-demo--up {
     bottom: 168px;
   }
+
+  #portfolio .overlay-title {
+    font-size: 0.82rem !important;
+    line-height: 1.1 !important;
+  }
+
+  #portfolio .overlay-link {
+    font-size: 0.76rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .contact-panel {
+    padding: 18px 16px;
+  }
+
+  .contact-text {
+    letter-spacing: 0.05em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill__icon,
+  .skill__note {
+    transition: none;
+  }
+}
+
+@supports (padding: max(0px)) {
+  #competences {
+    padding-bottom: max(var(--capsule-gap), env(safe-area-inset-bottom));
+  }
+}
+
+/* ===== SOCIAL BUTTONS: mobile/tablet nhỏ ===== */
+@media (max-width: 992px) {
+  :root {
+    --capsule-gap: 150px;
+  }
+
+  #apropos.hero .hero__content,
+  #competences,
+  #portfolio,
+  #contact,
+  .formation-section {
+    padding-bottom: calc(var(--capsule-gap) + 20px) !important;
+  }
+
+  .social-buttons {
+    top: auto;
+    right: 50%;
+    bottom: 18px;
+    transform: translateX(50%);
+    flex-direction: row;
+    gap: 0.85rem;
+    padding: 0.45rem 0.8rem;
+    border-radius: 999px;
+    background: rgba(10, 15, 30, 0.28);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: opacity .25s ease, visibility .25s ease;
+  }
+
+  .social-buttons a img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .capsule-demo {
+    bottom: 105px;
+    transition: opacity .25s ease, visibility .25s ease;
+  }
+
+  .capsule-demo--up {
+    bottom: 160px;
+    transition: opacity .25s ease, visibility .25s ease;
+  }
+
+  #portfolio .project-overlay {
+    padding: 18px 16px !important;
+    gap: 10px !important;
+  }
+
+  #portfolio .overlay-title {
+    font-size: 0.9rem !important;
+    line-height: 1.15 !important;
+    letter-spacing: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  #portfolio .overlay-link {
+    font-size: 0.8rem !important;
+    margin-top: 4px !important;
+  }
+
+  .top-nav .container-fluid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.7rem;
+  }
+
+  .navbar-toggler {
+    order: 3;
+    margin-left: 0;
+  }
+
+  .nav-tools {
+    order: 2;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: static;
+    transform: none;
+  }
+
+  .nav-tools .nav-theme-toggle {
+    min-width: 46px;
+    height: 36px;
+    padding: 0.25rem 0.65rem;
+    border-radius: 10px;
+  }
+
+  .navbar-collapse.show {
+    top: var(--nav-h);
+  }
+}
+
+/* Ẩn mềm capsule + social trên mobile khi JS thêm class */
+.ui-hidden-mobile {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+  .capsule-demo--up {
+    bottom: 180px !important;
+  }
+}
+
+/* ========================
+   THEME TOGGLE
+   - chỉ đổi nền trang
+   - không đụng hiệu ứng khác
+   ======================== */
+
+.nav-theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  min-width: 48px;
+  padding: 0.25rem 0.7rem;
+}
+
+/* Theme mới: Turquoise / Teal + Violet */
+body.theme-alt {
+  --bg-base: #04110f;
+  --bg-secondary: #0d1630;
+  background:
+    radial-gradient(circle at 16% 20%, rgba(0, 229, 195, 0.14), transparent 34%),
+    radial-gradient(circle at 28% 78%, rgba(20, 184, 166, 0.10), transparent 28%),
+    radial-gradient(circle at 84% 14%, rgba(192, 38, 211, 0.16), transparent 40%),
+    radial-gradient(circle at 72% 70%, rgba(139, 92, 246, 0.12), transparent 34%),
+    linear-gradient(125deg, #04110f 0%, #0b1830 38%, #1a1236 68%, #060912 100%);
+}
+
+/* ========================
+   NAV TOOLS: lang + theme
+   ======================== */
+
+.nav-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-left: auto;
+  position: relative;
+  z-index: 10002;
+}
+
+.nav-tools .nav-theme-toggle {
+  min-width: 48px;
+  height: 36px;
+  padding: 0.25rem 0.7rem;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Desktop: nằm bên phải trên thanh điều hướng */
+@media (min-width: 993px) {
+  .top-nav .container-fluid {
+    position: relative;
+  }
+
+  .nav-tools {
+    position: absolute;
+    top: 50%;
+    right: 1.5rem;
+    transform: translateY(-50%);
+    margin-left: 0;
+  }
+
+  .navbar-toggler {
+    margin-left: auto;
+    visibility: hidden;
+    pointer-events: none;
+    width: 0;
+    padding: 0;
+    border: 0 !important;
+    overflow: hidden;
+  }
+}
+
+/* ========================
+   CHỈ ĐỒNG BỘ CHIỀU CAO
+   lang / theme / hamburger
+   giữ nguyên bề rộng cũ
+   ======================== */
+
+#langToggle,
+#themeToggle {
+  height: auto !important;
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
+  line-height: 1.2;
+  border-radius: 6px;
+}
+
+.navbar-toggler {
+  height: auto !important;
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
